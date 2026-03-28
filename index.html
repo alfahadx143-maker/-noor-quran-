@@ -317,7 +317,7 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
   </footer>
 </div>
 <audio id="audioEl" onended="onEnded()"></audio>
-script>
+<script>
 const athkar={
   morning:[
     {t:"أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ — آيَةُ الكُرْسِيِّ: اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ، لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ، لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ",s:"رواه أبو داود — من قرأها صباحاً كان في حفظ الله حتى المساء",c:"١ مرة"},
@@ -407,49 +407,17 @@ const sahabaData=[
 let currentFilter='all';
 function renderSahaba(filter){
   const list=filter==='all'?sahabaData:sahabaData.filter(s=>s.cat===filter);
-  document.getElementById('sahabaGrid').innerHTML=list.map(s=>`
-    <div class="sahaba-card" onclick="openSahaba(${s.id})">
-      <div style="display:inline-block;padding:3px 10px;font-size:10px;margin-bottom:10px;border:1px solid ${s.badgeColor};color:${s.badgeColor};background:${s.badgeColor}18;">⭐ ${s.badge}</div>
-      <div class="sahaba-name">${s.name}</div>
-      <div class="sahaba-title">${s.title}</div>
-      <div class="sahaba-quote">❝ ${s.quote} ❞</div>
-      <div class="sahaba-info">🕌 ${s.islam.substring(0,80)}...</div>
-    </div>`).join('');
-}
-function filterSahaba(cat,btn){
-  document.querySelectorAll('.sahaba-filter').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');renderSahaba(cat);
-}
+  document.getElementById('sahabaGrid').innerHTML=list.map(s=>`<div class="sahaba-card" onclick="openSahaba(${s.id})"><div style="display:inline-block;padding:3px 10px;font-size:10px;margin-bottom:10px;border:1px solid ${s.badgeColor};color:${s.badgeColor};background:${s.badgeColor}18;">⭐ ${s.badge}</div><div class="sahaba-name">${s.name}</div><div class="sahaba-title">${s.title}</div><div class="sahaba-quote">❝ ${s.quote} ❞</div><div class="sahaba-info">🕌 ${s.islam.substring(0,80)}...</div></div>`).join('');}
+function filterSahaba(cat,btn){document.querySelectorAll('.sahaba-filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderSahaba(cat);}
 function openSahaba(id){
   const s=sahabaData.find(x=>x.id===id);if(!s)return;
-  document.getElementById('sahabaDetailContent').innerHTML=`
-    <div style="text-align:center;margin-bottom:22px;padding-top:18px;">
-      <div style="font-size:44px;margin-bottom:10px;">🌟</div>
-      <div class="detail-name">${s.name}</div>
-      <div class="detail-title">${s.title}</div>
-      <span style="display:inline-block;padding:4px 12px;font-size:11px;border:1px solid ${s.badgeColor};color:${s.badgeColor};background:${s.badgeColor}18;">⭐ ${s.badge}</span>
-    </div>
-    <div class="detail-section"><div class="detail-section-title">📖 قصة إسلامه</div><div class="detail-section-body">${s.islam}</div></div>
-    <div class="detail-section"><div class="detail-section-title">⚔️ أبرز مواقفه</div><div class="detail-section-body">${s.moments}</div></div>
-    <div class="detail-section"><div class="detail-section-title">💬 أشهر أقواله</div>${s.quotes.map(q=>`<div class="detail-quote">❝ ${q} ❞</div>`).join('')}</div>
-    <div class="detail-section"><div class="detail-section-title">❤️ لماذا نحبه</div><div class="detail-section-body">${s.why}</div></div>
-    <div class="detail-section"><div class="detail-section-title">🕌 وفاته</div><div class="detail-section-body">${s.death}</div></div>`;
-  document.getElementById('sahabaDetail').style.display='block';
-  document.body.style.overflow='hidden';
-}
+  document.getElementById('sahabaDetailContent').innerHTML=`<div style="text-align:center;margin-bottom:22px;padding-top:18px;"><div style="font-size:44px;margin-bottom:10px;">🌟</div><div class="detail-name">${s.name}</div><div class="detail-title">${s.title}</div><span style="display:inline-block;padding:4px 12px;font-size:11px;border:1px solid ${s.badgeColor};color:${s.badgeColor};background:${s.badgeColor}18;">⭐ ${s.badge}</span></div><div class="detail-section"><div class="detail-section-title">📖 قصة إسلامه</div><div class="detail-section-body">${s.islam}</div></div><div class="detail-section"><div class="detail-section-title">⚔️ أبرز مواقفه</div><div class="detail-section-body">${s.moments}</div></div><div class="detail-section"><div class="detail-section-title">💬 أشهر أقواله</div>${s.quotes.map(q=>`<div class="detail-quote">❝ ${q} ❞</div>`).join('')}</div><div class="detail-section"><div class="detail-section-title">❤️ لماذا نحبه</div><div class="detail-section-body">${s.why}</div></div><div class="detail-section"><div class="detail-section-title">🕌 وفاته</div><div class="detail-section-body">${s.death}</div></div>`;
+  document.getElementById('sahabaDetail').style.display='block';document.body.style.overflow='hidden';}
 function closeSahaba(){document.getElementById('sahabaDetail').style.display='none';document.body.style.overflow='';}
 async function init(){loadSurahs();loadPrayer();showAthkar('morning',document.querySelector('.athkar-tab'));renderSahaba('all');}
 async function loadSurahs(){
-  for(let i=0;i<3;i++){
-    try{
-      document.getElementById('surahGrid').innerHTML='<div class="loading-wrap" style="grid-column:1/-1"><div class="loading-spinner"></div>جاري تحميل السور...</div>';
-      const r=await fetch('https://api.alquran.cloud/v1/surah',{signal:AbortSignal.timeout(8000)});
-      const d=await r.json();
-      if(d.data&&d.data.length>0){surahs=d.data;renderList(surahs);return;}
-    }catch(e){if(i<2)await new Promise(r=>setTimeout(r,2000));}
-  }
-  document.getElementById('surahGrid').innerHTML=`<div style="color:#c9a84c;padding:40px;text-align:center;grid-column:1/-1;"><div style="font-size:36px;margin-bottom:12px;">🔄</div><div style="font-family:'Amiri',serif;font-size:18px;margin-bottom:12px;">تعذر تحميل السور</div><div style="font-size:13px;color:#8a9ab5;margin-bottom:16px;">تأكد من اتصالك بالإنترنت</div><button onclick="loadSurahs()" style="padding:10px 24px;background:rgba(201,168,76,0.15);border:1px solid #c9a84c;color:#e8c97a;cursor:pointer;font-family:'Cairo',sans-serif;font-size:14px;border-radius:4px;">إعادة المحاولة</button></div>`;
-}
+  for(let i=0;i<3;i++){try{document.getElementById('surahGrid').innerHTML='<div class="loading-wrap" style="grid-column:1/-1"><div class="loading-spinner"></div>جاري تحميل السور...</div>';const r=await fetch('https://api.alquran.cloud/v1/surah',{signal:AbortSignal.timeout(8000)});const d=await r.json();if(d.data&&d.data.length>0){surahs=d.data;renderList(surahs);return;}}catch(e){if(i<2)await new Promise(r=>setTimeout(r,2000));}}
+  document.getElementById('surahGrid').innerHTML=`<div style="color:#c9a84c;padding:40px;text-align:center;grid-column:1/-1;"><div style="font-size:36px;margin-bottom:12px;">🔄</div><div style="font-family:'Amiri',serif;font-size:18px;margin-bottom:12px;">تعذر تحميل السور</div><div style="font-size:13px;color:#8a9ab5;margin-bottom:16px;">تأكد من اتصالك بالإنترنت</div><button onclick="loadSurahs()" style="padding:10px 24px;background:rgba(201,168,76,0.15);border:1px solid #c9a84c;color:#e8c97a;cursor:pointer;font-family:'Cairo',sans-serif;font-size:14px;border-radius:4px;">إعادة المحاولة</button></div>`;}
 function renderList(list){const t={Meccan:'مكية',Medinan:'مدنية'};document.getElementById('surahGrid').innerHTML=list.map(s=>`<div class="surah-card" onclick="openSurah(${s.number})"><div class="surah-num">${s.number}</div><div class="surah-name">${s.name}</div><div class="surah-english">${s.englishNameTranslation}</div><div class="surah-meta"><span>${s.numberOfAyahs} آية</span><span class="surah-type">${t[s.revelationType]||s.revelationType}</span></div></div>`).join('');}
 function filterSurahs(){const q=document.getElementById('surahSearch').value.trim();if(!q){renderList(surahs);return;}renderList(surahs.filter(s=>s.name.includes(q)||s.englishName.toLowerCase().includes(q.toLowerCase())||String(s.number)===q));}
 async function openSurah(num){curSurah=surahs.find(s=>s.number===num);document.getElementById('list-view').style.display='none';document.getElementById('reader-view').style.display='block';const img=document.getElementById('surahImg');img.style.display='block';img.src=`https://www.mp3quran.net/api/v3/surah_image?surah=${String(num).padStart(3,'0')}`;document.getElementById('readerName').textContent=curSurah.name;document.getElementById('readerInfo').textContent=`${curSurah.englishName} • ${curSurah.numberOfAyahs} آية`;document.getElementById('readerBismillah').style.display=num===9?'none':'block';document.getElementById('ayahWrap').innerHTML='<div class="loading-wrap"><div class="loading-spinner"></div>جاري تحميل الآيات...</div>';stopAudio();try{const r=await fetch(`https://api.alquran.cloud/v1/surah/${num}`);const d=await r.json();curAyahs=d.data.ayahs;curIdx=0;renderAyahs();}catch(e){document.getElementById('ayahWrap').innerHTML='<div style="color:#c9a84c;padding:40px;text-align:center">تعذر تحميل الآيات</div>';}}
@@ -468,12 +436,7 @@ function inc(k){cnt[k]=(cnt[k]||0)+1;document.getElementById(`cn-${k}`).textCont
 async function loadPrayer(){try{const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{timeout:6000}));const{latitude:lat,longitude:lng}=pos.coords;const now=new Date();const r=await fetch(`https://api.aladhan.com/v1/timings/${now.getDate()}-${now.getMonth()+1}-${now.getFullYear()}?latitude=${lat}&longitude=${lng}&method=4`);const d=await r.json();setPrayer(d.data.timings);document.getElementById('locationPermBox').style.display='none';}catch(e){document.getElementById('locationPermBox').style.display='block';document.getElementById('nextPrayer').textContent='📍 اختر مدينتك';}}
 async function loadByCity(){const city=document.getElementById('citySelect').value;if(!city)return;document.getElementById('nextPrayer').textContent='⏳ جاري التحميل...';try{const r=await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=SA&method=4`);const d=await r.json();setPrayer(d.data.timings);document.getElementById('locationPermBox').style.display='none';}catch(e){document.getElementById('nextPrayer').textContent='تعذر التحميل';}}
 function setPrayer(t){document.getElementById('p-fajr').textContent=t.Fajr;document.getElementById('p-sunrise').textContent=t.Sunrise;document.getElementById('p-dhuhr').textContent=t.Dhuhr;document.getElementById('p-asr').textContent=t.Asr;document.getElementById('p-maghrib').textContent=t.Maghrib;document.getElementById('p-isha').textContent=t.Isha;const prayers=[{n:'الفجر',v:t.Fajr},{n:'الظهر',v:t.Dhuhr},{n:'العصر',v:t.Asr},{n:'المغرب',v:t.Maghrib},{n:'العشاء',v:t.Isha}];const now=new Date();for(const p of prayers){const[h,m]=p.v.split(':').map(Number);const pt=new Date();pt.setHours(h,m,0,0);if(pt>now){const diff=Math.round((pt-now)/60000);const hrs=Math.floor(diff/60),mins=diff%60;document.getElementById('nextPrayer').textContent=`🕌 ${p.n} بعد ${hrs>0?hrs+'س و':''}${mins} دقيقة`;return;}}document.getElementById('nextPrayer').textContent='🌙 صلاة الفجر غداً';}
-function showPage(id,btn){
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  if(btn)btn.classList.add('active');
-  const el=document.getElementById('page-'+id);
-  if(el){const offset=el.getBoundingClientRect().top+window.scrollY-100;window.scrollTo({top:offset,behavior:'smooth'});}
-}
+function showPage(id,btn){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');const el=document.getElementById('page-'+id);if(el){const offset=el.getBoundingClientRect().top+window.scrollY-100;window.scrollTo({top:offset,behavior:'smooth'});}}
 init();
 </script>
 </body>
