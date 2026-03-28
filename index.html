@@ -186,7 +186,6 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
     </div>
   </aside>
   <main class="main">
-    <!-- هيدر -->
     <div style="position:relative;width:100%;overflow:hidden;background:linear-gradient(180deg,#0e2550 0%,#050d1a 100%);padding:40px 20px 30px;text-align:center;border-bottom:1px solid rgba(201,168,76,0.3);">
       <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
         <div style="position:absolute;width:3px;height:3px;background:#e8c97a;border-radius:50%;top:15%;left:10%;opacity:0.8;animation:twinkle 2s infinite;"></div>
@@ -204,7 +203,6 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
         <div style="height:1px;width:50px;background:linear-gradient(90deg,#c9a84c,transparent);"></div>
       </div>
     </div>
-    <!-- القرآن -->
     <div id="page-quran" class="page">
       <div id="list-view">
         <div class="topbar">
@@ -228,7 +226,20 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
             <div style="font-size:10px;color:#a0b4cc;margin-top:4px;">صباح ومساء</div>
           </div>
         </div>
-        <div class="surah-search-wrap"><input class="search-input" id="surahSearch" placeholder="ابحث عن سورة بالاسم أو الرقم..." oninput="filterSurahs()"/></div>
+        <div class="surah-search-wrap">
+          <input class="search-input" id="surahSearch" placeholder="ابحث عن سورة بالاسم أو الرقم..." oninput="filterSurahs()"/>
+        </div>
+        <div style="padding:10px 24px;border-bottom:1px solid rgba(201,168,76,0.15);display:flex;align-items:center;gap:10px;">
+          <div style="font-size:11px;color:#a0b4cc;white-space:nowrap;">🎙️ القارئ:</div>
+          <select onchange="document.getElementById('readerSelect').value=this.value;changeReader()" style="flex:1;padding:8px 12px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:#e8c97a;font-family:'Cairo',sans-serif;font-size:12px;outline:none;border-radius:4px;">
+            <option value="Alafasy_128kbps">مشاري راشد العفاسي</option>
+            <option value="Abdurrahmaan_As-Sudais_192kbps">عبدالرحمن السديس</option>
+            <option value="Husary_128kbps">محمود خليل الحصري</option>
+            <option value="Minshawy_Murattal_128kbps">محمد صديق المنشاوي</option>
+            <option value="Abdullah_Basfar_192kbps">عبدالله بصفر</option>
+            <option value="Yasser_Ad-Dussary_128kbps">ياسر الدوسري</option>
+          </select>
+        </div>
         <div class="surah-grid" id="surahGrid"><div class="loading-wrap" style="grid-column:1/-1"><div class="loading-spinner"></div>جاري تحميل السور...</div></div>
       </div>
       <div id="reader-view" style="display:none">
@@ -247,7 +258,6 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
         <div class="ayah-wrap" id="ayahWrap"><div class="loading-wrap"><div class="loading-spinner"></div>جاري تحميل الآيات...</div></div>
       </div>
     </div>
-    <!-- الصحابة -->
     <div id="page-sahaba" class="page">
       <div style="display:flex;align-items:center;gap:14px;padding:20px 24px 0;">
         <div style="height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.4));"></div>
@@ -270,7 +280,6 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
         </div>
       </div>
     </div>
-    <!-- الأذكار -->
     <div id="page-athkar" class="page">
       <div style="display:flex;align-items:center;gap:14px;padding:20px 24px 0;">
         <div style="height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.4));"></div>
@@ -284,7 +293,6 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
       <div class="athkar-content" id="athkarContent"></div>
     </div>
   </main>
-  <!-- فوتر المصادر -->
   <footer style="background:#030810;border-top:1px solid rgba(201,168,76,0.2);padding:36px 24px 28px;margin-top:20px;">
     <div style="text-align:center;margin-bottom:24px;">
       <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;">
@@ -295,36 +303,12 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
       <div style="font-size:11px;color:#8a9ab5;">المصادر التي اعتمد عليها تطبيق سكينة</div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;max-width:900px;margin:0 auto 26px;">
-      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;">
-        <div style="font-size:26px;margin-bottom:8px;">📖</div>
-        <div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">نصوص القرآن الكريم</div>
-        <div style="font-size:11px;color:#8a9ab5;line-height:1.8;">alquran.cloud<br>واجهة برمجية مفتوحة للقرآن</div>
-      </div>
-      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;">
-        <div style="font-size:26px;margin-bottom:8px;">🎙️</div>
-        <div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">تلاوات القراء</div>
-        <div style="font-size:11px;color:#8a9ab5;line-height:1.8;">everyayah.com<br>مكتبة تلاوات صوتية</div>
-      </div>
-      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;">
-        <div style="font-size:26px;margin-bottom:8px;">🕌</div>
-        <div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">أوقات الصلاة</div>
-        <div style="font-size:11px;color:#8a9ab5;line-height:1.8;">aladhan.com<br>API أوقات الصلاة العالمية</div>
-      </div>
-      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;">
-        <div style="font-size:26px;margin-bottom:8px;">📿</div>
-        <div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">الأذكار والأدعية</div>
-        <div style="font-size:11px;color:#8a9ab5;line-height:1.8;">صحيح البخاري ومسلم<br>وأبو داود والترمذي</div>
-      </div>
-      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;">
-        <div style="font-size:26px;margin-bottom:8px;">🌟</div>
-        <div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">سِيَر الصحابة</div>
-        <div style="font-size:11px;color:#8a9ab5;line-height:1.8;">كتب السيرة والتراجم<br>وصحيح السنة النبوية</div>
-      </div>
-      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;">
-        <div style="font-size:26px;margin-bottom:8px;">🖼️</div>
-        <div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">صور السور</div>
-        <div style="font-size:11px;color:#8a9ab5;line-height:1.8;">mp3quran.net<br>مكتبة صور وتلاوات القرآن</div>
-      </div>
+      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">📖</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">نصوص القرآن الكريم</div><div style="font-size:11px;color:#8a9ab5;line-height:1.8;">alquran.cloud<br>واجهة برمجية مفتوحة للقرآن</div></div>
+      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">🎙️</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">تلاوات القراء</div><div style="font-size:11px;color:#8a9ab5;line-height:1.8;">everyayah.com<br>مكتبة تلاوات صوتية</div></div>
+      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">🕌</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">أوقات الصلاة</div><div style="font-size:11px;color:#8a9ab5;line-height:1.8;">aladhan.com<br>API أوقات الصلاة العالمية</div></div>
+      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">📿</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">الأذكار والأدعية</div><div style="font-size:11px;color:#8a9ab5;line-height:1.8;">صحيح البخاري ومسلم<br>وأبو داود والترمذي</div></div>
+      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">🌟</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">سِيَر الصحابة</div><div style="font-size:11px;color:#8a9ab5;line-height:1.8;">كتب السيرة والتراجم<br>وصحيح السنة النبوية</div></div>
+      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">🖼️</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">صور السور</div><div style="font-size:11px;color:#8a9ab5;line-height:1.8;">mp3quran.net<br>مكتبة صور وتلاوات القرآن</div></div>
     </div>
     <div style="text-align:center;padding-top:18px;border-top:1px solid rgba(201,168,76,0.1);">
       <div style="font-family:'Amiri',serif;font-size:16px;color:rgba(201,168,76,0.6);margin-bottom:6px;">سكينة</div>
@@ -333,7 +317,7 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
   </footer>
 </div>
 <audio id="audioEl" onended="onEnded()"></audio>
-<script>
+script>
 const athkar={
   morning:[
     {t:"أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ — آيَةُ الكُرْسِيِّ: اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ، لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ، لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ",s:"رواه أبو داود — من قرأها صباحاً كان في حفظ الله حتى المساء",c:"١ مرة"},
