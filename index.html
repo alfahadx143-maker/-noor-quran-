@@ -70,24 +70,6 @@ nav{flex:1;padding:10px 8px;}
 .ayah.playing{background:rgba(201,168,76,0.07);border-right-color:var(--gold);padding-right:12px;}
 .ayah-text{font-family:'Amiri Quran',serif;font-size:28px;color:var(--text);line-height:2.5;text-align:right;direction:rtl;}
 .ayah-num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid var(--gold-dark);color:var(--gold-dark);font-size:11px;border-radius:50%;margin:0 6px;font-family:'Cairo',sans-serif;vertical-align:middle;}
-.mushaf-wrap{display:flex;flex-direction:column;align-items:center;padding:20px 28px;}
-.mushaf-topbar{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:700px;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
-.mushaf-img-wrap{position:relative;width:100%;max-width:700px;background:white;border:2px solid var(--border);box-shadow:0 8px 32px rgba(184,134,11,0.15);margin-bottom:16px;}
-.mushaf-img{width:100%;display:block;}
-.mushaf-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(253,248,240,0.9);font-size:14px;color:var(--muted);}
-.mushaf-controls{display:flex;align-items:center;gap:10px;justify-content:center;width:100%;max-width:700px;margin-bottom:16px;}
-.m-btn{padding:10px 24px;background:rgba(184,134,11,0.1);border:1px solid var(--border);color:var(--gold);cursor:pointer;font-family:'Cairo',sans-serif;font-size:13px;transition:all 0.2s;}
-.m-btn:hover,.m-btn.playing{background:rgba(184,134,11,0.2);border-color:var(--gold);}
-.m-btn:disabled{opacity:0.4;cursor:not-allowed;}
-.page-input-wrap{display:flex;align-items:center;gap:8px;}
-.page-input{width:70px;padding:8px;background:white;border:1px solid var(--border);color:var(--text);font-family:'Cairo',sans-serif;font-size:14px;text-align:center;outline:none;}
-.surah-index{width:100%;max-width:700px;}
-.surah-index-title{font-family:'Amiri',serif;font-size:18px;color:var(--gold);margin-bottom:12px;text-align:center;padding-bottom:8px;border-bottom:1px solid var(--border);}
-.surah-index-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-.surah-index-item{padding:8px 12px;background:var(--card);border:1px solid var(--border);cursor:pointer;transition:all 0.2s;display:flex;justify-content:space-between;align-items:center;}
-.surah-index-item:hover{border-color:var(--gold);}
-.surah-index-name{font-family:'Amiri',serif;font-size:16px;color:var(--text);}
-.surah-index-page{font-size:10px;color:var(--muted);}
 .athkar-tabs{display:flex;gap:8px;padding:20px 28px 0;flex-wrap:wrap;border-bottom:1px solid var(--border);}
 .athkar-tab{padding:9px 20px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer;font-family:'Cairo',sans-serif;font-size:13px;transition:all 0.2s;margin-bottom:-1px;}
 .athkar-tab:hover,.athkar-tab.active{color:var(--gold);}
@@ -107,6 +89,21 @@ nav{flex:1;padding:10px 8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.25);}
+.sahaba-filter{padding:7px 16px;background:transparent;border:1px solid var(--border);color:var(--muted);cursor:pointer;font-family:'Cairo',sans-serif;font-size:12px;transition:all 0.2s;}
+.sahaba-filter:hover,.sahaba-filter.active{background:rgba(184,134,11,0.12);border-color:var(--gold);color:var(--gold);}
+.sahaba-card{padding:20px;background:var(--card);border:1px solid var(--border);cursor:pointer;transition:all 0.2s;}
+.sahaba-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 6px 20px rgba(184,134,11,0.1);}
+.sahaba-badge{display:inline-block;padding:3px 10px;font-size:10px;margin-bottom:10px;border:1px solid;}
+.sahaba-name{font-family:'Amiri',serif;font-size:22px;color:var(--gold);margin-bottom:4px;}
+.sahaba-title{font-size:12px;color:var(--muted);margin-bottom:10px;}
+.sahaba-quote{font-family:'Amiri',serif;font-size:15px;color:var(--text);line-height:1.7;border-right:3px solid var(--gold);padding-right:10px;margin-bottom:10px;}
+.sahaba-info{font-size:12px;color:var(--muted);line-height:1.7;}
+.detail-name{font-family:'Amiri',serif;font-size:32px;color:var(--gold);margin-bottom:6px;text-align:center;}
+.detail-title{font-size:14px;color:var(--muted);text-align:center;margin-bottom:20px;}
+.detail-section{margin-bottom:20px;}
+.detail-section-title{font-size:12px;color:var(--gold);letter-spacing:2px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.detail-section-body{font-family:'Amiri',serif;font-size:17px;color:var(--text);line-height:1.9;}
+.detail-quote{font-family:'Amiri',serif;font-size:18px;color:var(--text);line-height:1.9;border-right:3px solid var(--gold);padding:12px 16px;margin:8px 0;background:rgba(184,134,11,0.04);}
 @media(max-width:768px){
   .sidebar{width:100%;position:relative;min-height:auto;}
   .main{margin-right:0;}
@@ -121,8 +118,6 @@ nav{flex:1;padding:10px 8px;}
   .athkar-content{padding:16px;}
   .surah-search-wrap{padding:14px 16px 8px;}
   .back-btn{margin:12px 16px;}
-  .mushaf-wrap{padding:12px 16px;}
-  .surah-index-grid{grid-template-columns:1fr 1fr;}
 }
 </style>
 </head>
@@ -174,8 +169,7 @@ nav{flex:1;padding:10px 8px;}
     </div>
     <nav>
       <button class="nav-btn active" onclick="showPage('quran',this)"><span class="nav-icon">📖</span> القرآن الكريم</button>
-      <button class="nav-btn" onclick="showPage('mushaf',this)"><span class="nav-icon">🕌</span> صفحات المصحف</button>
-      <button class="nav-btn" onclick="showPage('qibla',this)"><span class="nav-icon">🧭</span> اتجاه القبلة</button>
+      <button class="nav-btn" onclick="showPage('sahaba',this)"><span class="nav-icon">🌟</span> صحابة الرسول ﷺ</button>
       <button class="nav-btn" onclick="showPage('athkar',this)"><span class="nav-icon">📿</span> الأذكار والأدعية</button>
     </nav>
     <div class="reader-box">
@@ -215,69 +209,22 @@ nav{flex:1;padding:10px 8px;}
         <div class="ayah-wrap" id="ayahWrap"><div class="loading-wrap"><div class="loading-spinner"></div>جاري تحميل الآيات...</div></div>
       </div>
     </div>
-    <div id="page-mushaf" class="page">
-      <div class="topbar">
-        <div><div class="page-title">صفحات المصحف</div><div class="page-sub">٦٠٤ صفحة</div></div>
-        <div class="topbar-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+    <div id="page-sahaba" class="page">
+      <div class="topbar"><div><div class="page-title">صحابة الرسول ﷺ</div><div class="page-sub">نجوم الإسلام الأوائل</div></div></div>
+      <div style="padding:16px 28px 8px;display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--border);">
+        <button class="sahaba-filter active" onclick="filterSahaba('all',this)">الكل</button>
+        <button class="sahaba-filter" onclick="filterSahaba('10',this)">العشرة المبشرون</button>
+        <button class="sahaba-filter" onclick="filterSahaba('leader',this)">القادة والفاتحون</button>
+        <button class="sahaba-filter" onclick="filterSahaba('early',this)">السابقون الأولون</button>
+        <button class="sahaba-filter" onclick="filterSahaba('scholar',this)">العلماء والحفاظ</button>
+        <button class="sahaba-filter" onclick="filterSahaba('wives',this)">زوجات النبي ﷺ</button>
       </div>
-      <div class="mushaf-wrap">
-        <div class="mushaf-topbar">
-          <div class="mushaf-controls">
-            <button class="m-btn" id="mPrevBtn" onclick="mushafPrev()">◄ السابقة</button>
-            <div class="page-input-wrap">
-              <span style="font-size:12px;color:var(--muted)">صفحة</span>
-              <input class="page-input" id="pageInput" type="number" min="1" max="604" value="1" onchange="goToPage(this.value)" onkeydown="if(event.key==='Enter')goToPage(this.value)"/>
-              <span style="font-size:12px;color:var(--muted)">من ٦٠٤</span>
-            </div>
-            <button class="m-btn" id="mNextBtn" onclick="mushafNext()">التالية ►</button>
-          </div>
-          <button class="m-btn" id="mPlayBtn" onclick="toggleMushafAudio()">▶ استمع</button>
+      <div style="padding:16px 28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;" id="sahabaGrid"></div>
+      <div id="sahabaDetail" style="display:none;position:fixed;inset:0;background:rgba(45,32,17,0.85);z-index:200;overflow-y:auto;padding:20px;">
+        <div style="max-width:700px;margin:0 auto;background:var(--card);border:1px solid var(--border);padding:28px;position:relative;">
+          <button onclick="closeSahaba()" style="position:absolute;top:16px;left:16px;background:transparent;border:1px solid var(--border);color:var(--muted);cursor:pointer;padding:6px 12px;font-family:'Cairo',sans-serif;font-size:13px;">✕ إغلاق</button>
+          <div id="sahabaDetailContent"></div>
         </div>
-        <div class="mushaf-img-wrap">
-          <img class="mushaf-img" id="mushafImg" src="" alt="صفحة المصحف" onload="onImgLoad()" onerror="onImgError()"/>
-          <div class="mushaf-loading" id="mushafLoading">⏳ جاري التحميل...</div>
-        </div>
-        <div class="surah-index">
-          <div class="surah-index-title">فهرس السور</div>
-          <div class="surah-index-grid" id="surahIndexGrid"></div>
-        </div>
-      </div>
-    </div>
-    <div id="page-qibla" class="page">
-      <div class="topbar"><div><div class="page-title">اتجاه القبلة</div><div class="page-sub">حسب موقعك الحالي</div></div></div>
-      <div style="display:flex;flex-direction:column;align-items:center;padding:40px 20px;gap:24px;">
-        <div style="text-align:center;">
-          <div style="font-family:'Amiri',serif;font-size:18px;color:var(--gold);margin-bottom:8px;">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
-          <div id="qiblaStatus" style="font-size:14px;color:var(--muted);">⏳ جاري تحديد موقعك...</div>
-        </div>
-        <div style="position:relative;width:280px;height:280px;">
-          <svg width="280" height="280" viewBox="0 0 280 280">
-            <circle cx="140" cy="140" r="135" fill="none" stroke="rgba(184,134,11,0.2)" stroke-width="2"/>
-            <circle cx="140" cy="140" r="120" fill="rgba(253,248,240,0.8)" stroke="rgba(184,134,11,0.3)" stroke-width="1"/>
-            <text x="140" y="22" text-anchor="middle" font-family="Cairo" font-size="16" fill="#b8860b" font-weight="bold">ش</text>
-            <text x="258" y="145" text-anchor="middle" font-family="Cairo" font-size="16" fill="#b8860b">ق</text>
-            <text x="140" y="268" text-anchor="middle" font-family="Cairo" font-size="16" fill="#b8860b">ج</text>
-            <text x="22" y="145" text-anchor="middle" font-family="Cairo" font-size="16" fill="#b8860b">غ</text>
-            <line x1="140" y1="10" x2="140" y2="25" stroke="rgba(184,134,11,0.4)" stroke-width="2"/>
-            <line x1="270" y1="140" x2="255" y2="140" stroke="rgba(184,134,11,0.4)" stroke-width="2"/>
-            <line x1="140" y1="270" x2="140" y2="255" stroke="rgba(184,134,11,0.4)" stroke-width="2"/>
-            <line x1="10" y1="140" x2="25" y2="140" stroke="rgba(184,134,11,0.4)" stroke-width="2"/>
-          </svg>
-          <div id="qiblaArrow" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(0deg);transition:transform 0.5s ease;width:100%;height:100%;pointer-events:none;">
-            <svg width="280" height="280" viewBox="0 0 280 280" style="position:absolute;top:0;left:0;">
-              <line x1="140" y1="140" x2="140" y2="30" stroke="#b8860b" stroke-width="3" stroke-linecap="round"/>
-              <polygon points="140,15 130,40 150,40" fill="#b8860b"/>
-              <rect x="128" y="128" width="24" height="24" fill="rgba(184,134,11,0.15)" stroke="#b8860b" stroke-width="2"/>
-              <text x="140" y="144" text-anchor="middle" font-size="12" fill="#b8860b">🕋</text>
-            </svg>
-          </div>
-        </div>
-        <div style="text-align:center;padding:16px 24px;background:rgba(184,134,11,0.08);border:1px solid rgba(184,134,11,0.2);width:100%;max-width:300px;">
-          <div style="font-family:'Amiri',serif;font-size:16px;color:var(--gold);margin-bottom:8px;">القبلة</div>
-          <div id="qiblaDegree" style="font-size:28px;color:var(--gold);font-weight:700;font-family:'Cairo',sans-serif;">--°</div>
-          <div id="qiblaDirection" style="font-size:12px;color:var(--muted);margin-top:4px;">من الشمال</div>
-        </div>
-        <button onclick="findQibla()" style="padding:12px 32px;background:rgba(184,134,11,0.1);border:1px solid var(--gold);color:var(--gold);cursor:pointer;font-family:'Cairo',sans-serif;font-size:14px;">🔄 تحديث الموقع</button>
       </div>
     </div>
     <div id="page-athkar" class="page">
@@ -324,32 +271,104 @@ const athkar={
     {t:"اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ، وَعَافِهِ وَاعْفُ عَنْهُ، وَأَكْرِمْ نُزُلَهُ، وَوَسِّعْ مُدْخَلَهُ، وَاغْسِلْهُ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ",s:"رواه مسلم",c:"دعاء صلاة الجنازة"},
     {t:"اللَّهُمَّ اغْفِرْ لِحَيِّنَا وَمَيِّتِنَا، وَشَاهِدِنَا وَغَائِبِنَا، وَصَغِيرِنَا وَكَبِيرِنَا، وَذَكَرِنَا وَأُنْثَانَا",s:"رواه أبو داود والترمذي",c:"١ مرة"},
     {t:"اللَّهُمَّ إِنَّ فُلَانًا فِي ذِمَّتِكَ وَحَبْلِ جِوَارِكَ، فَقِهِ مِنْ فِتْنَةِ الْقَبْرِ وَعَذَابِ النَّارِ",s:"رواه أبو داود",c:"١ مرة"},
-    {t:"اللَّهُمَّ أَنْتَ رَبُّهَا وَأَنْتَ خَلَقْتَهَا وَأَنْتَ هَدَيْتَهَا لِلْإِسْلَامِ وَأَنْتَ قَبَضْتَ رُوحَهَا وَأَنْتَ أَعْلَمُ بِسِرِّهَا وَعَلَانِيَتِهَا، جِئْنَا شُفَعَاءَ فَاغْفِرْ لَهَا",s:"رواه أبو داود",c:"١ مرة"},
+    {t:"اللَّهُمَّ أَنْتَ رَبُّهَا وَأَنْتَ خَلَقْتَهَا وَأَنْتَ هَدَيْتَهَا لِلْإِسْلَامِ وَأَنْتَ قَبَضْتَ رُوحَهَا، جِئْنَا شُفَعَاءَ فَاغْفِرْ لَهَا",s:"رواه أبو داود",c:"١ مرة"},
     {t:"رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِمَنْ دَخَلَ بَيْتِيَ مُؤْمِنًا وَلِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ",s:"سورة نوح",c:"١ مرة"},
     {t:"اللَّهُمَّ اغْفِرْ لَهُ، اللَّهُمَّ ثَبِّتْهُ",s:"رواه أبو داود",c:"عند الدفن"},
   ]
 };
 let surahs=[],curSurah=null,curAyahs=[],curIdx=0,playing=false,reader='Alafasy_128kbps';
 const audio=document.getElementById('audioEl'),cnt={};
-const surahPages=[1,1,50,77,106,128,151,177,187,208,221,235,249,255,262,267,282,293,305,312,323,332,342,350,359,367,377,385,396,404,411,415,418,428,434,440,446,453,458,467,477,483,489,492,496,499,503,507,511,514,517,520,523,526,528,531,534,537,539,542,544,546,549,551,553,554,556,558,560,562,564,566,568,569,571,572,574,575,577,578,580,582,583,584,585,586,587,587,588,589,590,591,591,592,592,593,593,594,594,595,595,596,596,597,597,598,598,599,599,600,600,601,601,602,603,603,604,604];
-const surahNames=['الفاتحة','البقرة','آل عمران','النساء','المائدة','الأنعام','الأعراف','الأنفال','التوبة','يونس','هود','يوسف','الرعد','إبراهيم','الحجر','النحل','الإسراء','الكهف','مريم','طه','الأنبياء','الحج','المؤمنون','النور','الفرقان','الشعراء','النمل','القصص','العنكبوت','الروم','لقمان','السجدة','الأحزاب','سبأ','فاطر','يس','الصافات','ص','الزمر','غافر','فصلت','الشورى','الزخرف','الدخان','الجاثية','الأحقاف','محمد','الفتح','الحجرات','ق','الذاريات','الطور','النجم','القمر','الرحمن','الواقعة','الحديد','المجادلة','الحشر','الممتحنة','الصف','الجمعة','المنافقون','التغابن','الطلاق','التحريم','الملك','القلم','الحاقة','المعارج','نوح','الجن','المزمل','المدثر','القيامة','الإنسان','المرسلات','النبأ','النازعات','عبس','التكوير','الانفطار','المطففين','الانشقاق','البروج','الطارق','الأعلى','الغاشية','الفجر','البلد','الشمس','الليل','الضحى','الشرح','التين','العلق','القدر','البينة','الزلزلة','العاديات','القارعة','التكاثر','العصر','الهمزة','الفيل','قريش','الماعون','الكوثر','الكافرون','النصر','المسد','الإخلاص','الفلق','الناس'];
-let curPage=1,mushafPlaying=false;
-const mushafAudio=new Audio();
-mushafAudio.onended=()=>mushafStopAudio();
 function n2ar(n){return String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);}
-function renderSurahIndex(){document.getElementById('surahIndexGrid').innerHTML=surahNames.map((n,i)=>`<div class="surah-index-item" onclick="goToPage(${surahPages[i]})"><span class="surah-index-name">${i+1}. ${n}</span><span class="surah-index-page">ص ${surahPages[i]}</span></div>`).join('');}
-function loadMushafPage(p){curPage=Math.max(1,Math.min(604,p));document.getElementById('pageInput').value=curPage;document.getElementById('mushafLoading').style.display='flex';document.getElementById('mushafImg').style.opacity='0';document.getElementById('mushafImg').src=`https://quran.com/images/pages/large/${String(curPage).padStart(3,'0')}.jpg`;document.getElementById('mPrevBtn').disabled=curPage<=1;document.getElementById('mNextBtn').disabled=curPage>=604;mushafStopAudio();}
-function onImgLoad(){document.getElementById('mushafLoading').style.display='none';document.getElementById('mushafImg').style.opacity='1';document.getElementById('mushafImg').style.transition='opacity 0.3s';}
-function onImgError(){document.getElementById('mushafLoading').textContent='تعذر تحميل الصفحة';}
-function mushafNext(){if(curPage<604)loadMushafPage(curPage+1);}
-function mushafPrev(){if(curPage>1)loadMushafPage(curPage-1);}
-function goToPage(p){const n=parseInt(p);if(n>=1&&n<=604)loadMushafPage(n);}
-function toggleMushafAudio(){if(mushafPlaying){mushafStopAudio();return;}mushafAudio.src=`https://www.everyayah.com/data/${reader}/${String(curPage).padStart(3,'0')}001.mp3`;mushafAudio.play();mushafPlaying=true;document.getElementById('mPlayBtn').textContent='⏸ إيقاف';document.getElementById('mPlayBtn').classList.add('playing');}
-function mushafStopAudio(){mushafAudio.pause();mushafAudio.src='';mushafPlaying=false;const b=document.getElementById('mPlayBtn');if(b){b.textContent='▶ استمع';b.classList.remove('playing');}}
-const KAABA_LAT=21.4225,KAABA_LNG=39.8262;
-function calcQibla(lat,lng){const dLng=(KAABA_LNG-lng)*Math.PI/180,lat1=lat*Math.PI/180,lat2=KAABA_LAT*Math.PI/180,y=Math.sin(dLng)*Math.cos(lat2),x=Math.cos(lat1)*Math.sin(lat2)-Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLng);return(Math.atan2(y,x)*180/Math.PI+360)%360;}
-async function findQibla(){document.getElementById('qiblaStatus').textContent='⏳ جاري تحديد موقعك...';try{const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{timeout:8000}));const{latitude:lat,longitude:lng}=pos.coords;const deg=calcQibla(lat,lng);document.getElementById('qiblaArrow').style.transform=`translate(-50%,-50%) rotate(${deg}deg)`;document.getElementById('qiblaDegree').textContent=Math.round(deg)+'°';document.getElementById('qiblaStatus').textContent='✅ تم تحديد اتجاه القبلة';document.getElementById('qiblaStatus').style.color='#b8860b';const dirs=['شمال','شمال شرق','شرق','جنوب شرق','جنوب','جنوب غرب','غرب','شمال غرب'];document.getElementById('qiblaDirection').textContent='اتجاه: '+dirs[Math.round(deg/45)%8];}catch(e){document.getElementById('qiblaStatus').textContent='❌ تعذر تحديد موقعك';document.getElementById('qiblaStatus').style.color='#cc6666';}}
-async function init(){loadSurahs();loadPrayer();showAthkar('morning',document.querySelector('.athkar-tab'));loadMushafPage(1);renderSurahIndex();findQibla();}
+const sahabaData=[
+  {id:1,name:"أبو بكر الصديق",title:"رضي الله عنه — أول الخلفاء الراشدين",badge:"من العشرة المبشرين",badgeColor:"#b8860b",cat:"10",quote:"أينما كنتُ فإن الله معي",islam:"أول من أسلم من الرجال الأحرار دون تردد فور دعوة النبي ﷺ",moments:"رافق النبي ﷺ في الهجرة وكان معه في الغار. خلافته جمعت شمل المسلمين وحارب المرتدين وجمع القرآن",quotes:["لو وضعتم الشمس في يميني والقمر في يساري على أن أترك هذا الأمر ما تركته","أينما كنتُ فإن الله معي"],why:"كان أقرب الناس إلى قلب النبي ﷺ وأكثرهم إنفاقاً في سبيل الله",death:"توفي سنة 13 هـ ودُفن بجوار النبي ﷺ في المدينة المنورة"},
+  {id:2,name:"عمر بن الخطاب",title:"رضي الله عنه — الفاروق",badge:"من العشرة المبشرين",badgeColor:"#b8860b",cat:"10",quote:"من أراد الآخرة فعليه بالعلم",islam:"أسلم بعد أن سمع قراءة القرآن من أخته فاطمة فبكى وأسلم على الفور",moments:"فتح بيت المقدس وبنى إمبراطورية إسلامية عظيمة. عُرف بعدله الشديد",quotes:["لا تعتمد على صلاح آبائك فإن الله لا يقبل إلا عملك أنت","من خافك وأنت ظالم فأنت ظالم"],why:"شخصية غيّرت مسار التاريخ الإسلامي بعدله وقوته وهيبته",death:"استشهد سنة 23 هـ ودُفن بجوار النبي ﷺ"},
+  {id:3,name:"عثمان بن عفان",title:"رضي الله عنه — ذو النورين",badge:"من العشرة المبشرين",badgeColor:"#b8860b",cat:"10",quote:"ما زنيت في جاهلية ولا إسلام",islam:"أسلم على يد أبي بكر وكان من السابقين الأولين",moments:"جمّع القرآن الكريم وأرسل المصاحف. اشترى بئر رومة وجيّش جيش العسرة بماله",quotes:["ما زنيت في جاهلية ولا إسلام","الدنيا دار فناء وعناء وغِيَر وعِبَر"],why:"عُرف بحيائه الشديد وكرمه المنقطع النظير وتضحياته في سبيل الإسلام",death:"استشهد سنة 35 هـ وهو يقرأ القرآن"},
+  {id:4,name:"علي بن أبي طالب",title:"رضي الله عنه — أسد الله",badge:"من العشرة المبشرين",badgeColor:"#b8860b",cat:"10",quote:"قيمة كل امرئ ما يُحسنه",islam:"أسلم وهو صبي صغير ونشأ في بيت النبي ﷺ",moments:"فدى نفسه بنام في فراش النبي ﷺ ليلة الهجرة. أبلى بلاءً حسناً في جميع غزوات النبي ﷺ",quotes:["قيمة كل امرئ ما يُحسنه","لا تُعاشر الأحمق فإنه يريد أن ينفعك فيضرك"],why:"ابن عم النبي ﷺ وزوج ابنته فاطمة وأبو الحسن والحسين",death:"استشهد سنة 40 هـ طعنه ابن ملجم في الكوفة"},
+  {id:5,name:"طلحة بن عبيدالله",title:"رضي الله عنه",badge:"من العشرة المبشرين",badgeColor:"#b8860b",cat:"10",quote:"لا يزهدنك في المعروف كفر من كفره",islam:"أسلم مبكراً وكان من السابقين الأولين الذين عذّبوا في سبيل الله",moments:"في غزوة أحد حمى النبي ﷺ بجسده حتى شُلّت يده فسمّاه النبي ﷺ طلحة الخير",quotes:["لا يزهدنك في المعروف كفر من كفره"],why:"ضرب أروع الأمثلة في الشجاعة والتضحية يوم أحد",death:"استشهد في موقعة الجمل سنة 36 هـ"},
+  {id:6,name:"الزبير بن العوام",title:"رضي الله عنه — حواري النبي",badge:"من العشرة المبشرين",badgeColor:"#b8860b",cat:"10",quote:"ما حملني على الإسلام إلا الحق",islam:"أسلم وهو ابن خمس عشرة سنة وكان من أوائل المسلمين",moments:"أول من سلّ سيفه في سبيل الله وكان لقبه حواري رسول الله",quotes:["ما حملني على الإسلام إلا الحق"],why:"ابن عمة النبي ﷺ وزوج أسماء بنت أبي بكر وأحد فرسان الإسلام الكبار",death:"استشهد سنة 36 هـ"},
+  {id:7,name:"عبدالرحمن بن عوف",title:"رضي الله عنه — تاجر الجنة",badge:"من العشرة المبشرين",badgeColor:"#b8860b",cat:"10",quote:"إني أخشى أن أكون عُجّلت طيباتي",islam:"أسلم مبكراً على يد أبي بكر وهاجر الهجرتين",moments:"ترك ثروته في مكة وبدأ من الصفر في المدينة فأصبح من أثرى الصحابة ثم أنفق معظمها في سبيل الله",quotes:["إني أخشى أن أكون عُجّلت طيباتي"],why:"مثال حي على أن العمل والتجارة عبادة إذا نُويت لله",death:"توفي سنة 32 هـ في المدينة المنورة"},
+  {id:8,name:"سعد بن أبي وقاص",title:"رضي الله عنه — فارس الإسلام",badge:"من العشرة المبشرين",badgeColor:"#b8860b",cat:"10",quote:"رميت بسهم في سبيل الله فكان أول سهم رُمي في الإسلام",islam:"أسلم وعمره سبع عشرة سنة وكان ثالث من أسلم",moments:"قائد موقعة القادسية التي كسرت الإمبراطورية الفارسية",quotes:["رميت بسهم في سبيل الله فكان أول سهم رُمي في الإسلام"],why:"فاتح العراق وكاسر كسرى أحد أعظم القادة العسكريين في الإسلام",death:"توفي سنة 55 هـ"},
+  {id:9,name:"سعيد بن زيد",title:"رضي الله عنه",badge:"من العشرة المبشرين",badgeColor:"#b8860b",cat:"10",quote:"اللهم إن كنت تعلم أني آذيتها ظلماً فأعمِ بصرها",islam:"أسلم هو وزوجته فاطمة بنت الخطاب قبل إسلام عمر أخيها",moments:"شارك في معظم الغزوات وكان من المهاجرين الأولين المخلصين",quotes:["اللهم إن كنت تعلم أني آذيتها ظلماً فأعمِ بصرها"],why:"من الثابتين على الإسلام منذ أيامه الأولى الصعبة",death:"توفي سنة 51 هـ"},
+  {id:10,name:"أبو عبيدة بن الجراح",title:"رضي الله عنه — أمين هذه الأمة",badge:"من العشرة المبشرين",badgeColor:"#b8860b",cat:"10",quote:"وددت أني كنت كبشاً فذبحني أهلي وأكلوني",islam:"أسلم مبكراً وهاجر الهجرتين وشهد بدراً وجميع المشاهد",moments:"لقّبه النبي ﷺ بأمين هذه الأمة وكان قائداً للجيوش الإسلامية في الشام وفتح دمشق",quotes:["وددت أني كنت كبشاً فذبحني أهلي وأكلوني"],why:"مثال الأمانة والإخلاص والزهد في الإسلام",death:"توفي بالطاعون في الأردن سنة 18 هـ"},
+  {id:11,name:"خالد بن الوليد",title:"رضي الله عنه — سيف الله المسلول",badge:"قادة وفاتحون",badgeColor:"#7a6040",cat:"leader",quote:"ما من ليلة يُهدى لي فيها عروس بأحب إليّ من ليلة باردة في سرية",islam:"أسلم عام الهدنة قبل فتح مكة وكان إسلامه انعطافة كبيرة",moments:"لم يُهزم في معركة قط. فتح الشام والعراق وهزم الفرس والروم",quotes:["ما من ليلة يُهدى لي فيها عروس بأحب إليّ من ليلة باردة في سرية","لقد أفنيت عمري في الجهاد وما مت في فراشي"],why:"أعظم قائد عسكري في التاريخ الإسلامي الذي لم يهزم في معركة قط",death:"توفي سنة 21 هـ في حمص"},
+  {id:12,name:"عمرو بن العاص",title:"رضي الله عنه — فاتح مصر",badge:"قادة وفاتحون",badgeColor:"#7a6040",cat:"leader",quote:"العقول أئمة الأفكار والأفكار أئمة القلوب",islam:"أسلم عام صلح الحديبية وكان إسلامه مفاجأة كبيرة لقريش",moments:"فتح مصر بجيش صغير وأسّس الفسطاط أول عاصمة إسلامية في مصر",quotes:["العقول أئمة الأفكار والأفكار أئمة القلوب"],why:"واحد من أذكى القادة في الإسلام جمع الدهاء العسكري والبراعة الدبلوماسية",death:"توفي سنة 43 هـ في مصر"},
+  {id:13,name:"عقبة بن نافع",title:"رضي الله عنه — فاتح المغرب",badge:"قادة وفاتحون",badgeColor:"#7a6040",cat:"leader",quote:"اللهم اشهد أني قد بلغت المجهود",islam:"أسلم صغيراً وكان من الفاتحين الكبار",moments:"فتح شمال أفريقيا كلها ووصل بجيشه حتى المحيط الأطلسي",quotes:["اللهم اشهد أني قد بلغت المجهود","والله لو أعلم أن وراء هذا البحر أرضاً لعبرته"],why:"أعظم فاتح لأفريقيا في التاريخ الإسلامي",death:"استشهد في تهودة بالجزائر سنة 63 هـ"},
+  {id:14,name:"سعد بن معاذ",title:"رضي الله عنه — سيد الأنصار",badge:"قادة وفاتحون",badgeColor:"#7a6040",cat:"leader",quote:"لا حياة بلا كرامة",islam:"أسلم على يد مصعب بن عمير وكان إسلامه سبباً في إسلام قبيلة الأوس كلها",moments:"كان سيد الأوس وأعظم رجل في الأنصار. اهتز عرش الرحمن لوفاته",quotes:["لا حياة بلا كرامة"],why:"قال عنه النبي ﷺ اهتز عرش الرحمن لموت سعد بن معاذ",death:"استشهد بعد غزوة الخندق سنة 5 هـ"},
+  {id:15,name:"أسامة بن زيد",title:"رضي الله عنه — حِبّ رسول الله",badge:"قادة وفاتحون",badgeColor:"#7a6040",cat:"leader",quote:"كنت في حجر النبي ﷺ وأنا أسعد الناس",islam:"وُلد في الإسلام وكان النبي ﷺ يحبه حباً شديداً هو وأبوه زيد",moments:"ولّاه النبي ﷺ قيادة جيش وعمره ١٨ سنة لغزو الروم",quotes:["كنت في حجر النبي ﷺ وأنا أسعد الناس"],why:"لقّبه النبي ﷺ بالحِبّ ابن الحِبّ وكان من أصغر قادة الجيوش",death:"توفي سنة 54 هـ"},
+  {id:16,name:"المثنى بن حارثة",title:"رضي الله عنه — أسد العراق",badge:"قادة وفاتحون",badgeColor:"#7a6040",cat:"leader",quote:"الموت في سبيل الله أشرف الميتات",islam:"أسلم في عهد النبي ﷺ وكان من قبيلة شيبان",moments:"كان أول من فتح أجزاء من العراق وانتصر في معارك كثيرة على الفرس",quotes:["الموت في سبيل الله أشرف الميتات"],why:"رائد فتح العراق الذي مهّد الطريق لسعد بن أبي وقاص",death:"توفي سنة 14 هـ متأثراً بجراحه"},
+  {id:17,name:"عكرمة بن أبي جهل",title:"رضي الله عنه — الفارس التائب",badge:"قادة وفاتحون",badgeColor:"#7a6040",cat:"leader",quote:"كل نفقة أنفقتها في عداوة محمد ﷺ فأنا أضعفها في سبيل الله",islam:"كان من أشد أعداء الإسلام ثم أسلم يوم فتح مكة",moments:"قاتل ببسالة في معارك اليمامة والشام",quotes:["كل نفقة أنفقتها في عداوة محمد ﷺ فأنا أضعفها في سبيل الله"],why:"نموذج التوبة الصادقة والتحول من عدو للإسلام إلى من يفدي روحه في سبيله",death:"استشهد في معركة اليرموك سنة 15 هـ"},
+  {id:18,name:"النعمان بن مقرن",title:"رضي الله عنه — فاتح نهاوند",badge:"قادة وفاتحون",badgeColor:"#7a6040",cat:"leader",quote:"اللهم اجعل أول قتيل في هذه المعركة النعمان",islam:"أسلم هو وإخوته السبعة جميعاً في وقت واحد",moments:"قائد معركة نهاوند الحاسمة التي كسرت عمود الإمبراطورية الفارسية",quotes:["اللهم اجعل أول قتيل في هذه المعركة النعمان"],why:"استشهد في أعظم معاركه بعد أن دعا الله أن يُشهّده",death:"استشهد في معركة نهاوند سنة 21 هـ"},
+  {id:19,name:"بلال بن رباح",title:"رضي الله عنه — مؤذن الإسلام",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"أحد أحد",islam:"كان عبداً مملوكاً عذّبه سيده أمية بن خلف بسبب إسلامه فكان يقول أحد أحد",moments:"اشتراه أبو بكر وأعتقه. كان أول مؤذن في الإسلام وصعد الكعبة يوم الفتح",quotes:["أحد أحد"],why:"رمز للتحرر من العبودية والصمود على الحق رغم العذاب الشديد",death:"توفي في دمشق سنة 20 هـ"},
+  {id:20,name:"عبدالله بن مسعود",title:"رضي الله عنه — حامل سر النبي",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"إن هذا القرآن مأدبة الله فتعلموا من مأدبته",islam:"كان راعياً فأسلم مبكراً وصار من أقرب الناس للنبي ﷺ",moments:"كان أول من جهر بتلاوة القرآن في مكة رغم ضرب قريش له",quotes:["إن هذا القرآن مأدبة الله فتعلموا من مأدبته ما استطعتم"],why:"أحد أعلم الصحابة بالقرآن وكان النبي ﷺ يحبه حباً شديداً",death:"توفي سنة 32 هـ في المدينة"},
+  {id:21,name:"أنس بن مالك",title:"رضي الله عنه — خادم النبي",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"خدمت النبي ﷺ عشر سنين فما قال لي أُفٍّ قط",islam:"أحضرته أمه للنبي ﷺ ليخدمه وكان عمره عشر سنوات",moments:"خادم النبي ﷺ لعشر سنوات. روى آلاف الأحاديث",quotes:["خدمت النبي ﷺ عشر سنين فما قال لي أُفٍّ قط"],why:"أكثر الصحابة رواية للحديث النبوي وشاهد حي على أخلاق النبي ﷺ",death:"توفي سنة 93 هـ في البصرة"},
+  {id:22,name:"معاذ بن جبل",title:"رضي الله عنه — أعلم الحلال والحرام",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"يا طالب العلم لا تعجل",islam:"أسلم وهو شاب صغير وكان من أذكى الصحابة",moments:"أرسله النبي ﷺ إلى اليمن. كان أعلم الصحابة بالحلال والحرام",quotes:["يا طالب العلم لا تعجل","العلم إمام العمل والعمل تابعه"],why:"قال عنه النبي ﷺ أعلم أمتي بالحلال والحرام",death:"توفي بالطاعون في الأردن سنة 18 هـ"},
+  {id:23,name:"سلمان الفارسي",title:"رضي الله عنه — باحث عن الحقيقة",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"طلبت الحق فوجدته في الإسلام",islam:"رحل من فارس باحثاً عن الدين الحق فمرّ بعدة أديان حتى وصل للنبي ﷺ",moments:"صاحب فكرة حفر الخندق. قال عنه النبي ﷺ سلمان منّا أهل البيت",quotes:["طلبت الحق فوجدته في الإسلام"],why:"رمز الباحث عن الحقيقة الذي قطع آلاف الأميال للوصول للإسلام",death:"توفي في المدائن سنة 35 هـ"},
+  {id:24,name:"أبو ذر الغفاري",title:"رضي الله عنه — الصادق الصدوق",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"ما أظلت الخضراء أصدق لهجةً من أبي ذر",islam:"أسلم وحده وعاد لقومه يدعوهم ثم رجع للنبي ﷺ في المدينة",moments:"كان يجهر بالحق ولا يخشى في الله لومة لائم. عاش زاهداً فقيراً مختاراً",quotes:["ما أظلت الخضراء أصدق لهجةً من أبي ذر"],why:"قال عنه النبي ﷺ ما أظلت الخضراء أصدق لهجةً منه",death:"توفي في الربذة سنة 32 هـ"},
+  {id:25,name:"خباب بن الأرت",title:"رضي الله عنه — صابر على الأذى",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"لقد استُضعفنا وعُذّبنا ولم يكن لنا من الله إلا ما أعطانا",islam:"أسلم مبكراً جداً وكان من أكثر الصحابة تعذيباً في سبيل الله",moments:"كانت سيدته تضع الجمر على ظهره فكان يصبر. شكا للنبي ﷺ فأخبره بقرب النصر",quotes:["لقد استُضعفنا وعُذّبنا"],why:"من أوائل المعذّبين في سبيل الله وأصبر الناس على الأذى",death:"توفي في الكوفة سنة 37 هـ"},
+  {id:26,name:"مصعب بن عمير",title:"رضي الله عنه — سفير الإسلام",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"آثرت الله ورسوله على كل شيء",islam:"كان من أجمل شباب مكة وأكثرهم ترفاً فأسلم وترك كل نعمة أهله",moments:"أرسله النبي ﷺ سفيراً إلى المدينة فأسلم على يده الأوس والخزرج",quotes:["آثرت الله ورسوله على كل شيء"],why:"قدّم كل ترف الدنيا فداءً للإسلام وكان أول سفير في الإسلام",death:"استشهد في غزوة أحد سنة 3 هـ"},
+  {id:27,name:"حمزة بن عبدالمطلب",title:"رضي الله عنه — سيد الشهداء",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"هل أنتم إلا أصابع دميت وفي سبيل الله ما لقيتم",islam:"أسلم دفاعاً عن ابن أخيه النبي ﷺ حين رأى أبا جهل يؤذيه",moments:"كان أشجع الصحابة وأكثرهم بأساً. سمّاه النبي ﷺ أسد الله وأسد رسوله",quotes:["هل أنتم إلا أصابع دميت وفي سبيل الله ما لقيتم"],why:"لقبه النبي ﷺ بسيد الشهداء",death:"استشهد في غزوة أحد سنة 3 هـ"},
+  {id:28,name:"جعفر بن أبي طالب",title:"رضي الله عنه — ذو الجناحين",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"لا يُعطى الإنسان أجمل من الإسلام",islam:"أسلم مبكراً وهاجر إلى الحبشة وكان خطيب المسلمين أمام النجاشي",moments:"دافع عن الإسلام أمام النجاشي بخطاب رائع. قال النبي ﷺ رأيته في الجنة له جناحان",quotes:["لا يُعطى الإنسان أجمل من الإسلام"],why:"قال عنه النبي ﷺ رأيته يطير في الجنة مع الملائكة بجناحين",death:"استشهد في معركة مؤتة سنة 8 هـ"},
+  {id:29,name:"عمار بن ياسر",title:"رضي الله عنه — المعذّب في الله",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"صبراً آل ياسر فإن موعدكم الجنة",islam:"أسلم هو وأبوه وأمه من أوائل الناس وكانوا أشد من عُذّب",moments:"مرّ النبي ﷺ بهم وهم يُعذّبون فقال صبراً آل ياسر موعدكم الجنة",quotes:["صبراً صبراً ما أُعذّب إلا في الله"],why:"رمز الصبر على الأذى في سبيل الله وأسرته أول أسرة شهيدة في الإسلام",death:"استشهد في موقعة صفين سنة 37 هـ"},
+  {id:30,name:"فاطمة الزهراء",title:"رضي الله عنها — سيدة نساء أهل الجنة",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"من أذى فاطمة فقد آذاني",islam:"وُلدت للنبي ﷺ وخديجة وتربّت في أحضان الإسلام",moments:"قال عنها النبي ﷺ فاطمة بضعة مني من آذاها فقد آذاني",quotes:["خير للمرأة ألا ترى الرجال ولا يرونها"],why:"ابنة النبي ﷺ وأم الحسن والحسين سيدة نساء أهل الجنة",death:"توفيت بعد النبي ﷺ بستة أشهر سنة 11 هـ"},
+  {id:31,name:"أسماء بنت أبي بكر",title:"رضي الله عنها — ذات النطاقين",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"لا تخشي من ذي سلطان إذا كان الحق معك",islam:"أسلمت مبكراً وكانت من السابقين وأبوها الصديق وزوجها الزبير",moments:"في ليلة الهجرة شقّت نطاقها شقين لتربط زاد النبي ﷺ فسمّاها ذات النطاقين",quotes:["لا تخشي من ذي سلطان إذا كان الحق معك"],why:"لقّبها النبي ﷺ بذات النطاقين وعاشت مئة سنة",death:"توفيت في مكة سنة 73 هـ"},
+  {id:32,name:"سعد بن الربيع",title:"رضي الله عنه — مثال الإيثار",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"أبلغ رسول الله ﷺ عني السلام",islam:"من سادة الأنصار أسلم قبل الهجرة وكان من أهل العقبة",moments:"آخى النبي ﷺ بينه وبين عبدالرحمن بن عوف فعرض عليه نصف ماله",quotes:["أبلغ رسول الله ﷺ عني السلام"],why:"مثال الإيثار الكامل إذ عرض على أخيه المهاجر نصف ماله",death:"استشهد في غزوة أحد سنة 3 هـ"},
+  {id:33,name:"خالد بن سعيد",title:"رضي الله عنه — أول مهاجر",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"رأيت في المنام ناراً والنبي ﷺ يمسكني",islam:"أسلم بعد رؤيا في المنام رأى فيها النبي ﷺ ينقذه من النار",moments:"كان من أوائل المهاجرين وشارك في فتح الشام",quotes:["رأيت في المنام ناراً والنبي ﷺ يمسكني"],why:"نموذج الإسلام الناتج عن يقين داخلي ورؤيا صادقة",death:"استشهد في معركة مرج الصفر سنة 14 هـ"},
+  {id:34,name:"عبدالله بن عباس",title:"رضي الله عنه — حبر الأمة",badge:"علماء وحفاظ",badgeColor:"#4a6a8a",cat:"scholar",quote:"التفكر ساعة خير من عبادة ليلة",islam:"وُلد قبل الهجرة بثلاث سنوات وترعرع في حضن النبي ﷺ",moments:"دعا له النبي ﷺ بالفقه في الدين فأصبح أعلم الناس بالقرآن وتفسيره",quotes:["التفكر ساعة خير من عبادة ليلة","إذا أشكل عليك شيء من القرآن فاطلبه في الشعر"],why:"إمام المفسرين ومرجع الأمة في تفسير القرآن والفقه",death:"توفي في الطائف سنة 68 هـ"},
+  {id:35,name:"عبدالله بن عمر",title:"رضي الله عنه — المتبع للسنة",badge:"علماء وحفاظ",badgeColor:"#4a6a8a",cat:"scholar",quote:"من أراد الدنيا والآخرة فعليه بالعلم",islam:"أسلم مع أبيه عمر وهو صغير وكان يتبع النبي ﷺ في كل خطوة",moments:"كان من أكثر الصحابة اتباعاً للسنة. رفض الخلافة مرتين وآثر العلم على السلطة",quotes:["من أراد الدنيا والآخرة فعليه بالعلم"],why:"مرجع الفقه والسنة روى أكثر من ألفي حديث",death:"توفي في مكة سنة 74 هـ"},
+  {id:36,name:"أبو هريرة",title:"رضي الله عنه — حافظ السنة",badge:"علماء وحفاظ",badgeColor:"#4a6a8a",cat:"scholar",quote:"تعلمون أني أكثر حديثاً عن رسول الله ﷺ",islam:"أسلم عام خيبر وكان من أهل الصفة أفقر الناس",moments:"روى أكثر من ٥٠٠٠ حديث وكان يضع البردة على بطنه من الجوع",quotes:["تعلمون أني أكثر حديثاً عن رسول الله ﷺ من المهاجرين والأنصار؟"],why:"أكثر الصحابة رواية للحديث النبوي على الإطلاق",death:"توفي في المدينة سنة 57 هـ"},
+  {id:37,name:"زيد بن ثابت",title:"رضي الله عنه — كاتب الوحي",badge:"علماء وحفاظ",badgeColor:"#4a6a8a",cat:"scholar",quote:"لكأن النبي ﷺ حيٌّ بيننا حين نقرأ ما جمعناه",islam:"أسلم وهو صغير في المدينة وكان ذكياً جداً",moments:"كاتب وحي النبي ﷺ وأشرف على جمع القرآن في عهد أبي بكر وعثمان",quotes:["لكأن النبي ﷺ حيٌّ بيننا حين نقرأ ما جمعناه"],why:"كاتب الوحي والمشرف الرئيسي على جمع القرآن الكريم",death:"توفي في المدينة سنة 45 هـ"},
+  {id:38,name:"أبو موسى الأشعري",title:"رضي الله عنه — صوت الجنة",badge:"علماء وحفاظ",badgeColor:"#4a6a8a",cat:"scholar",quote:"من قرأ القرآن فكأنما ختم النبوة",islam:"قدم من اليمن مع قومه وأسلموا جميعاً طوعاً",moments:"كان من أحسن الناس صوتاً بالقرآن. قال النبي ﷺ لقد أوتيت مزماراً من مزامير آل داود",quotes:["من قرأ القرآن فكأنما ختم النبوة"],why:"قال عنه النبي ﷺ لقد أوتيت مزماراً من مزامير آل داود لحسن صوته",death:"توفي سنة 44 هـ"},
+  // زوجات النبي ﷺ
+  {id:39,name:"خديجة بنت خويلد",title:"رضي الله عنها — أم المؤمنين الكبرى",badge:"زوجات النبي ﷺ",badgeColor:"#8a4a6a",cat:"wives",quote:"كلّا والله لا يخزيك الله أبداً",islam:"أول من آمن بالنبي ﷺ من البشر حين نزل الوحي وهو مرتعش فطمأنته",moments:"وقفت إلى جانبه في أصعب المراحل وأنفقت مالها كله في سبيل الإسلام",quotes:["كلّا والله لا يخزيك الله أبداً إنك لتصل الرحم وتحمل الكَلّ"],why:"أم المؤمنين الكبرى وأول مؤمن بالرسالة المحمدية",death:"توفيت في مكة سنة 3 قبل الهجرة"},
+  {id:40,name:"عائشة بنت أبي بكر",title:"رضي الله عنها — أم المؤمنين",badge:"زوجات النبي ﷺ",badgeColor:"#8a4a6a",cat:"wives",quote:"كان خلقه القرآن",islam:"تزوجها النبي ﷺ وكانت من بيت الصديق وتربّت على حب الإسلام",moments:"أكثر النساء رواية للحديث النبوي. وصفت أخلاق النبي ﷺ بقولها كان خلقه القرآن",quotes:["كان خلقه القرآن","ما رأيت أحداً كان أكثر تبسماً من رسول الله ﷺ"],why:"أعلم نساء الأمة وأكثرهن رواية للحديث ومرجع الصحابة في الفقه",death:"توفيت في المدينة سنة 57 هـ"},
+  {id:41,name:"حفصة بنت عمر",title:"رضي الله عنها — أم المؤمنين",badge:"زوجات النبي ﷺ",badgeColor:"#8a4a6a",cat:"wives",quote:"الصيام جنة والصدقة تطفئ الخطيئة",islam:"ابنة الفاروق عمر تزوجها النبي ﷺ بعد وفاة زوجها في غزوة بدر",moments:"عندها كانت تُحفظ المصحف الجامع الذي كتبه أبو بكر",quotes:["الصيام جنة والصدقة تطفئ الخطيئة"],why:"حافظة المصحف الأول وابنة أمير المؤمنين عمر بن الخطاب",death:"توفيت في المدينة سنة 41 هـ"},
+  {id:42,name:"أم سلمة",title:"رضي الله عنها — أم المؤمنين",badge:"زوجات النبي ﷺ",badgeColor:"#8a4a6a",cat:"wives",quote:"من لم يكن له صبر فليس له ظفر",islam:"هاجرت مع زوجها أبي سلمة الهجرتين وبعد وفاته تزوجها النبي ﷺ",moments:"في صلح الحديبية حين حزن الصحابة أشارت على النبي ﷺ بالرأي الصواب",quotes:["من لم يكن له صبر فليس له ظفر"],why:"مثال الصبر والحكمة وكانت مستشارة النبي ﷺ",death:"توفيت في المدينة سنة 61 هـ"},
+  {id:43,name:"زينب بنت جحش",title:"رضي الله عنها — أم المؤمنين",badge:"زوجات النبي ﷺ",badgeColor:"#8a4a6a",cat:"wives",quote:"زوّجني الله من فوق سبع سموات",islam:"ابنة عمة النبي ﷺ تزوّجها بأمر من الله",moments:"كانت أكثر زوجات النبي ﷺ صدقةً وعملاً بيدها",quotes:["زوّجني الله من فوق سبع سموات"],why:"كانت أكثر زوجات النبي ﷺ تصدقاً وأكثرهن صلة للرحم",death:"توفيت سنة 20 هـ وكانت أول زوجاته لحوقاً به"},
+  {id:44,name:"جويرية بنت الحارث",title:"رضي الله عنها — أم المؤمنين",badge:"زوجات النبي ﷺ",badgeColor:"#8a4a6a",cat:"wives",quote:"ما علمت أن النبي ﷺ مرّ بي إلا وأنا في الذكر",islam:"كانت من سبايا بني المصطلح فجاءت للنبي ﷺ تطلب فك رقبتها فتزوجها",moments:"كان زواجها سبباً في عتق مئة بيت من بني المصطلق",quotes:["ما علمت أن النبي ﷺ مرّ بي إلا وأنا في الذكر"],why:"كان زواجها من أعظم الأحداث خيراً على قومها",death:"توفيت في المدينة سنة 50 هـ"},
+  {id:45,name:"صفية بنت حيي",title:"رضي الله عنها — أم المؤمنين",badge:"زوجات النبي ﷺ",badgeColor:"#8a4a6a",cat:"wives",quote:"أنا بنت نبيين والنبي ﷺ زوجي",islam:"كانت من اليهود وأسلمت بعد غزوة خيبر وتزوجها النبي ﷺ",moments:"حين عيّرتها إحداهن بأصلها اليهودي قالت بفخر أنا بنت نبيين",quotes:["أنا بنت نبيين والنبي ﷺ زوجي"],why:"نموذج التحول الصادق من يهودية إلى أم للمؤمنين",death:"توفيت في المدينة سنة 50 هـ"},
+  {id:46,name:"ميمونة بنت الحارث",title:"رضي الله عنها — أم المؤمنين",badge:"زوجات النبي ﷺ",badgeColor:"#8a4a6a",cat:"wives",quote:"وهبت نفسي للنبي ﷺ ابتغاء وجه الله",islam:"وهبت نفسها للنبي ﷺ طوعاً وكانت آخر من تزوجها",moments:"كانت من أكثر أمهات المؤمنين صلة للرحم",quotes:["وهبت نفسي للنبي ﷺ ابتغاء وجه الله"],why:"آخر من تزوج النبي ﷺ وكانت من أكثر زوجاته صلة للرحم",death:"توفيت في سرف سنة 51 هـ"},
+  {id:47,name:"أم حبيبة رملة بنت أبي سفيان",title:"رضي الله عنها — أم المؤمنين",badge:"زوجات النبي ﷺ",badgeColor:"#8a4a6a",cat:"wives",quote:"اللهم أمتعني بزوجي رسول الله وبأبي وبأخي",islam:"هاجرت وبعد ارتداد زوجها بقيت وحيدة فتزوجها النبي ﷺ",moments:"حين جاءها أبوها أبو سفيان لزيارة النبي ﷺ طوت الفراش عنه",quotes:["اللهم أمتعني بزوجي رسول الله وبأبي وبأخي"],why:"ضحّت بعلاقتها مع أبيها حين آثرت الإسلام والنبي ﷺ",death:"توفيت في المدينة سنة 44 هـ"},
+  {id:48,name:"زينب بنت خزيمة",title:"رضي الله عنها — أم المساكين",badge:"زوجات النبي ﷺ",badgeColor:"#8a4a6a",cat:"wives",quote:"إطعام الجائع صدقة يحبها الله",islam:"عُرفت في الجاهلية بأم المساكين لكثرة إطعامها الفقراء تزوجها النبي ﷺ",moments:"توفيت بعد أشهر قليلة من زواجها من النبي ﷺ",quotes:["إطعام الجائع صدقة يحبها الله"],why:"تُمثّل نموذج الإنسانية السامية والكرم الذي يتجاوز الأديان",death:"توفيت سنة 3 هـ في حياة النبي ﷺ"},
+  {id:49,name:"سودة بنت زمعة",title:"رضي الله عنها — أم المؤمنين",badge:"زوجات النبي ﷺ",badgeColor:"#8a4a6a",cat:"wives",quote:"يا رسول الله يومي لعائشة",islam:"هاجرت إلى الحبشة وبعد وفاة زوجها تزوجها النبي ﷺ أول من تزوج بعد خديجة",moments:"وهبت يومها للنبي ﷺ لعائشة حين كبرت طلباً لرضاه",quotes:["يا رسول الله يومي لعائشة"],why:"مثال الإيثار والتنازل عن حقها طوعاً محبةً بالنبي ﷺ",death:"توفيت في المدينة سنة 54 هـ"},
+  {id:50,name:"عبدالله بن الزبير",title:"رضي الله عنه — أول مولود في الإسلام بالمدينة",badge:"علماء وحفاظ",badgeColor:"#4a6a8a",cat:"scholar",quote:"والله لأن أموت كريماً أحب إليّ من أن أحيا ذليلاً",islam:"وُلد بعد الهجرة مباشرة وكان أول مولود من المهاجرين في المدينة",moments:"حكم الحجاز والعراق لسنوات وكان من أشجع الناس وأكثرهم صياماً",quotes:["والله لأن أموت كريماً أحب إليّ من أن أحيا ذليلاً"],why:"كان صواماً قواماً شجاعاً ورعاً من أعبد أهل زمانه",death:"استشهد عند الكعبة سنة 73 هـ"},
+];
+let currentFilter='all';
+function renderSahaba(filter){
+  const list=filter==='all'?sahabaData:sahabaData.filter(s=>s.cat===filter);
+  document.getElementById('sahabaGrid').innerHTML=list.map(s=>`
+    <div class="sahaba-card" onclick="openSahaba(${s.id})">
+      <div class="sahaba-badge" style="color:${s.badgeColor};border-color:${s.badgeColor};background:${s.badgeColor}18;">⭐ ${s.badge}</div>
+      <div class="sahaba-name">${s.name}</div>
+      <div class="sahaba-title">${s.title}</div>
+      <div class="sahaba-quote">❝ ${s.quote} ❞</div>
+      <div class="sahaba-info">🕌 ${s.islam.substring(0,80)}...</div>
+    </div>`).join('');
+}
+function filterSahaba(cat,btn){
+  document.querySelectorAll('.sahaba-filter').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSahaba(cat);
+}
+function openSahaba(id){
+  const s=sahabaData.find(x=>x.id===id);
+  if(!s)return;
+  document.getElementById('sahabaDetailContent').innerHTML=`
+    <div style="text-align:center;margin-bottom:24px;">
+      <div style="font-size:48px;margin-bottom:12px;">🌟</div>
+      <div class="detail-name">${s.name}</div>
+      <div class="detail-title">${s.title}</div>
+      <span style="display:inline-block;padding:4px 14px;font-size:11px;border:1px solid ${s.badgeColor};color:${s.badgeColor};background:${s.badgeColor}18;">⭐ ${s.badge}</span>
+    </div>
+    <div class="detail-section"><div class="detail-section-title">📖 قصة إسلامه</div><div class="detail-section-body">${s.islam}</div></div>
+    <div class="detail-section"><div class="detail-section-title">⚔️ أبرز مواقفه</div><div class="detail-section-body">${s.moments}</div></div>
+    <div class="detail-section"><div class="detail-section-title">💬 أشهر أقواله</div>${s.quotes.map(q=>`<div class="detail-quote">❝ ${q} ❞</div>`).join('')}</div>
+    <div class="detail-section"><div class="detail-section-title">❤️ لماذا نحبه</div><div class="detail-section-body">${s.why}</div></div>
+    <div class="detail-section"><div class="detail-section-title">🕌 وفاته</div><div class="detail-section-body">${s.death}</div></div>`;
+  document.getElementById('sahabaDetail').style.display='block';
+  document.body.style.overflow='hidden';
+}
+function closeSahaba(){document.getElementById('sahabaDetail').style.display='none';document.body.style.overflow='';}
+async function init(){loadSurahs();loadPrayer();showAthkar('morning',document.querySelector('.athkar-tab'));renderSahaba('all');}
 async function loadSurahs(){try{const r=await fetch('https://api.alquran.cloud/v1/surah');const d=await r.json();surahs=d.data;renderList(surahs);}catch(e){document.getElementById('surahGrid').innerHTML='<div style="color:#b8860b;padding:40px;text-align:center;grid-column:1/-1">تعذر تحميل السور</div>';}}
 function renderList(list){const t={Meccan:'مكية',Medinan:'مدنية'};document.getElementById('surahGrid').innerHTML=list.map(s=>`<div class="surah-card" onclick="openSurah(${s.number})"><div class="surah-num">${s.number}</div><div class="surah-name">${s.name}</div><div class="surah-english">${s.englishNameTranslation}</div><div class="surah-meta"><span>${s.numberOfAyahs} آية</span><span class="surah-type">${t[s.revelationType]||s.revelationType}</span></div></div>`).join('');}
 function filterSurahs(){const q=document.getElementById('surahSearch').value.trim();if(!q){renderList(surahs);return;}renderList(surahs.filter(s=>s.name.includes(q)||s.englishName.toLowerCase().includes(q.toLowerCase())||String(s.number)===q));}
