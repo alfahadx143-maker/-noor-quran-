@@ -43,7 +43,7 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
 .search-input{width:100%;padding:10px 14px;background:rgba(201,168,76,0.06);border:1px solid var(--border);color:var(--text);font-family:'Cairo',sans-serif;font-size:13px;outline:none;}
 .search-input::placeholder{color:var(--muted);}
 .surah-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;padding:10px 24px 24px;}
-.surah-card{padding:14px;background:#0d1e35;border:1px solid rgba(201,168,76,0.2);cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.surah-card{padding:14px;background:#0d1e35;border:1px solid rgba(201,168,76,0.2);cursor:pointer;transition:all 0.2s;}
 .surah-card:hover{border-color:rgba(201,168,76,0.5);transform:translateY(-2px);}
 .surah-num{width:28px;height:28px;border:1px solid var(--gold-dark);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;margin-bottom:6px;}
 .surah-name{font-family:'Amiri',serif;font-size:20px;color:var(--gold);margin-bottom:2px;}
@@ -212,25 +212,11 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
           <div class="topbar-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:18px 24px;border-bottom:1px solid rgba(201,168,76,0.15);">
-          <div onclick="showPage('quran',document.querySelectorAll('.nav-btn')[0])" style="background:#0d1e35;border:1px solid rgba(201,168,76,0.3);padding:18px 10px;text-align:center;cursor:pointer;border-radius:8px;">
-            <div style="font-size:32px;margin-bottom:8px;">📖</div>
-            <div style="font-family:'Amiri',serif;font-size:14px;color:#e8c97a;">القرآن الكريم</div>
-            <div style="font-size:10px;color:#a0b4cc;margin-top:4px;">١١٤ سورة</div>
-          </div>
-          <div onclick="showPage('sahaba',document.querySelectorAll('.nav-btn')[1])" style="background:#0d1e35;border:1px solid rgba(201,168,76,0.3);padding:18px 10px;text-align:center;cursor:pointer;border-radius:8px;">
-            <div style="font-size:32px;margin-bottom:8px;">🌟</div>
-            <div style="font-family:'Amiri',serif;font-size:14px;color:#e8c97a;">الصحابة الكرام</div>
-            <div style="font-size:10px;color:#a0b4cc;margin-top:4px;">٥٠ شخصية</div>
-          </div>
-          <div onclick="showPage('athkar',document.querySelectorAll('.nav-btn')[2])" style="background:#0d1e35;border:1px solid rgba(201,168,76,0.3);padding:18px 10px;text-align:center;cursor:pointer;border-radius:8px;">
-            <div style="font-size:32px;margin-bottom:8px;">📿</div>
-            <div style="font-family:'Amiri',serif;font-size:14px;color:#e8c97a;">الأذكار</div>
-            <div style="font-size:10px;color:#a0b4cc;margin-top:4px;">صباح ومساء</div>
-          </div>
+          <div onclick="showPage('quran',document.querySelectorAll('.nav-btn')[0])" style="background:#0d1e35;border:1px solid rgba(201,168,76,0.3);padding:18px 10px;text-align:center;cursor:pointer;border-radius:8px;"><div style="font-size:32px;margin-bottom:8px;">📖</div><div style="font-family:'Amiri',serif;font-size:14px;color:#e8c97a;">القرآن الكريم</div><div style="font-size:10px;color:#a0b4cc;margin-top:4px;">١١٤ سورة</div></div>
+          <div onclick="showPage('sahaba',document.querySelectorAll('.nav-btn')[1])" style="background:#0d1e35;border:1px solid rgba(201,168,76,0.3);padding:18px 10px;text-align:center;cursor:pointer;border-radius:8px;"><div style="font-size:32px;margin-bottom:8px;">🌟</div><div style="font-family:'Amiri',serif;font-size:14px;color:#e8c97a;">الصحابة الكرام</div><div style="font-size:10px;color:#a0b4cc;margin-top:4px;">٥٠ شخصية</div></div>
+          <div onclick="showPage('athkar',document.querySelectorAll('.nav-btn')[2])" style="background:#0d1e35;border:1px solid rgba(201,168,76,0.3);padding:18px 10px;text-align:center;cursor:pointer;border-radius:8px;"><div style="font-size:32px;margin-bottom:8px;">📿</div><div style="font-family:'Amiri',serif;font-size:14px;color:#e8c97a;">الأذكار</div><div style="font-size:10px;color:#a0b4cc;margin-top:4px;">صباح ومساء</div></div>
         </div>
-        <div class="surah-search-wrap">
-          <input class="search-input" id="surahSearch" placeholder="ابحث عن سورة بالاسم أو الرقم..." oninput="filterSurahs()"/>
-        </div>
+        <div class="surah-search-wrap"><input class="search-input" id="surahSearch" placeholder="ابحث عن سورة بالاسم أو الرقم..." oninput="filterSurahs()"/></div>
         <div style="padding:10px 24px;border-bottom:1px solid rgba(201,168,76,0.15);display:flex;align-items:center;gap:10px;">
           <div style="font-size:11px;color:#a0b4cc;white-space:nowrap;">🎙️ القارئ:</div>
           <select onchange="document.getElementById('readerSelect').value=this.value;changeReader()" style="flex:1;padding:8px 12px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:#e8c97a;font-family:'Cairo',sans-serif;font-size:12px;outline:none;border-radius:4px;">
@@ -304,12 +290,12 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
       </div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;max-width:900px;margin:0 auto 26px;">
-      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">📖</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">نصوص القرآن الكريم</div><div style="font-size:11px;color:#8a9ab5;line-height:1.8;">alquran.cloud</div></div>
-      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">🎙️</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">تلاوات القراء</div><div style="font-size:11px;color:#8a9ab5;line-height:1.8;">everyayah.com</div></div>
-      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">🕌</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">أوقات الصلاة</div><div style="font-size:11px;color:#8a9ab5;line-height:1.8;">aladhan.com</div></div>
-      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">📿</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">الأذكار والأدعية</div><div style="font-size:11px;color:#8a9ab5;line-height:1.8;">صحيح البخاري ومسلم</div></div>
-      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">🌟</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">سِيَر الصحابة</div><div style="font-size:11px;color:#8a9ab5;line-height:1.8;">كتب السيرة والتراجم</div></div>
-      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">📝</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">تفسير ابن كثير</div><div style="font-size:11px;color:#8a9ab5;line-height:1.8;">quran.com API</div></div>
+      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">📖</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">نصوص القرآن الكريم</div><div style="font-size:11px;color:#8a9ab5;">alquran.cloud</div></div>
+      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">🎙️</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">تلاوات القراء</div><div style="font-size:11px;color:#8a9ab5;">everyayah.com</div></div>
+      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">🕌</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">أوقات الصلاة</div><div style="font-size:11px;color:#8a9ab5;">aladhan.com</div></div>
+      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">📿</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">الأذكار والأدعية</div><div style="font-size:11px;color:#8a9ab5;">صحيح البخاري ومسلم</div></div>
+      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">🌟</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">سِيَر الصحابة</div><div style="font-size:11px;color:#8a9ab5;">كتب السيرة والتراجم</div></div>
+      <div style="background:#0d1e35;border:1px solid rgba(201,168,76,0.2);padding:16px;border-radius:6px;"><div style="font-size:26px;margin-bottom:8px;">📝</div><div style="font-family:'Amiri',serif;font-size:15px;color:#e8c97a;margin-bottom:6px;">التفسير الميسر</div><div style="font-size:11px;color:#8a9ab5;">alquran.cloud</div></div>
     </div>
     <div style="text-align:center;padding-top:18px;border-top:1px solid rgba(201,168,76,0.1);">
       <div style="font-family:'Amiri',serif;font-size:16px;color:rgba(201,168,76,0.6);margin-bottom:6px;">سكينة</div>
@@ -398,12 +384,12 @@ const sahabaData=[
   {id:42,name:"زينب بنت خزيمة",title:"رضي الله عنها — أم المساكين",badge:"زوجات النبي ﷺ",badgeColor:"#8a4a6a",cat:"wives",quote:"إطعام الجائع صدقة يحبها الله",islam:"عُرفت بأم المساكين لكثرة إطعامها الفقراء",moments:"توفيت بعد أشهر قليلة من زواجها من النبي ﷺ",quotes:["إطعام الجائع صدقة يحبها الله"],why:"نموذج الإنسانية السامية والكرم",death:"توفيت سنة 3 هـ في حياة النبي ﷺ"},
   {id:43,name:"سودة بنت زمعة",title:"رضي الله عنها — أم المؤمنين",badge:"زوجات النبي ﷺ",badgeColor:"#8a4a6a",cat:"wives",quote:"يا رسول الله يومي لعائشة",islam:"هاجرت وبعد وفاة زوجها تزوجها النبي ﷺ",moments:"وهبت يومها لعائشة طوعاً",quotes:["يا رسول الله يومي لعائشة"],why:"مثال الإيثار والتنازل عن حقها",death:"توفيت في المدينة سنة 54 هـ"},
   {id:44,name:"عبدالله بن الزبير",laqab:"أَوَّل مولود بالمدينة",title:"رضي الله عنه",badge:"علماء وحفاظ",badgeColor:"#4a6a8a",cat:"scholar",quote:"والله لأن أموت كريماً أحب إليّ من أن أحيا ذليلاً",islam:"وُلد بعد الهجرة مباشرة أول مولود من المهاجرين",moments:"حكم الحجاز والعراق وكان من أشجع الناس",quotes:["والله لأن أموت كريماً أحب إليّ من أن أحيا ذليلاً"],why:"صواماً قواماً شجاعاً ورعاً",death:"استشهد عند الكعبة سنة 73 هـ"},
-  {id:45,name:"خباب بن الأرت",title:"رضي الله عنه — صابر على الأذى",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"لقد استُضعفنا وعُذّبنا",islam:"أسلم مبكراً وكان من أكثر الصحابة تعذيباً",moments:"كانت سيدته تضع الجمر على ظهره فكان يصبر",quotes:["لقد استُضعفنا وعُذّبنا"],why:"من أوائل المعذّبين في سبيل الله",death:"توفي في الكوفة سنة 37 هـ"},
-  {id:46,name:"سعد بن الربيع",title:"رضي الله عنه — مثال الإيثار",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"أبلغ رسول الله ﷺ عني السلام",islam:"من سادة الأنصار وأهل العقبة",moments:"عرض على أخيه المهاجر عبدالرحمن نصف ماله",quotes:["أبلغ رسول الله ﷺ عني السلام"],why:"مثال الإيثار الكامل",death:"استشهد في أحد سنة 3 هـ"},
-  {id:47,name:"النعمان بن مقرن",laqab:"فَاتِح نهاوند",title:"رضي الله عنه — فاتح نهاوند",badge:"قادة وفاتحون",badgeColor:"#7a6040",cat:"leader",quote:"اللهم اجعل أول قتيل في هذه المعركة النعمان",islam:"أسلم هو وإخوته السبعة جميعاً",moments:"قائد معركة نهاوند التي كسرت الإمبراطورية الفارسية",quotes:["اللهم اجعل أول قتيل في هذه المعركة النعمان"],why:"استشهد في أعظم معاركه بعد أن دعا الله",death:"استشهد في نهاوند سنة 21 هـ"},
-  {id:48,name:"أبو الدرداء",laqab:"حَكِيم الأمة",title:"رضي الله عنه — حكيم الأمة",badge:"علماء وحفاظ",badgeColor:"#4a6a8a",cat:"scholar",quote:"تعلموا العلم قبل أن يُرفع ورفعه موت العلماء",islam:"أسلم وكان من أذكى الصحابة",moments:"كان قاضي دمشق ومعلمها وحكيم الأمة",quotes:["تعلموا العلم قبل أن يُرفع ورفعه موت العلماء"],why:"لقّبه الصحابة بحكيم الأمة",death:"توفي في دمشق سنة 32 هـ"},
-  {id:49,name:"عمرو بن عبسة",title:"رضي الله عنه — رابع من أسلم",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"أسلمت ولا أعلم على وجه الأرض مسلماً غير رسول الله ﷺ",islam:"أسلم في مكة قبل الهجرة وكان من السابقين الأولين",moments:"كان رابع من أسلم وظل يحتفظ بإسلامه سراً سنوات",quotes:["أسلمت ولا أعلم على وجه الأرض مسلماً غير رسول الله ﷺ"],why:"من أوائل من آمن بالنبي ﷺ منذ فجر الإسلام",death:"توفي في الشام"},
-  {id:50,name:"عقبة بن عامر",title:"رضي الله عنه — صاحب الرسول ﷺ",badge:"علماء وحفاظ",badgeColor:"#4a6a8a",cat:"scholar",quote:"أهلك الناس ثلاث: شح مطاع وهوى متبع وإعجاب المرء بنفسه",islam:"أسلم وكان من الصحابة الملازمين للنبي ﷺ",moments:"كان والياً على مصر وفارساً شاعراً فقيهاً",quotes:["أهلك الناس ثلاث: شح مطاع وهوى متبع وإعجاب المرء بنفسه"],why:"جمع بين الفقه والشعر والفروسية",death:"توفي في مصر سنة 58 هـ"},
+  {id:45,name:"خباب بن الأرت",title:"رضي الله عنه",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"لقد استُضعفنا وعُذّبنا",islam:"أسلم مبكراً وكان من أكثر الصحابة تعذيباً",moments:"كانت سيدته تضع الجمر على ظهره فكان يصبر",quotes:["لقد استُضعفنا وعُذّبنا"],why:"من أوائل المعذّبين في سبيل الله",death:"توفي في الكوفة سنة 37 هـ"},
+  {id:46,name:"سعد بن الربيع",title:"رضي الله عنه",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"أبلغ رسول الله ﷺ عني السلام",islam:"من سادة الأنصار وأهل العقبة",moments:"عرض على أخيه المهاجر عبدالرحمن نصف ماله",quotes:["أبلغ رسول الله ﷺ عني السلام"],why:"مثال الإيثار الكامل",death:"استشهد في أحد سنة 3 هـ"},
+  {id:47,name:"النعمان بن مقرن",laqab:"فَاتِح نهاوند",title:"رضي الله عنه",badge:"قادة وفاتحون",badgeColor:"#7a6040",cat:"leader",quote:"اللهم اجعل أول قتيل في هذه المعركة النعمان",islam:"أسلم هو وإخوته السبعة جميعاً",moments:"قائد معركة نهاوند التي كسرت الإمبراطورية الفارسية",quotes:["اللهم اجعل أول قتيل في هذه المعركة النعمان"],why:"استشهد في أعظم معاركه بعد أن دعا الله",death:"استشهد في نهاوند سنة 21 هـ"},
+  {id:48,name:"أبو الدرداء",laqab:"حَكِيم الأمة",title:"رضي الله عنه",badge:"علماء وحفاظ",badgeColor:"#4a6a8a",cat:"scholar",quote:"تعلموا العلم قبل أن يُرفع ورفعه موت العلماء",islam:"أسلم وكان من أذكى الصحابة",moments:"كان قاضي دمشق ومعلمها وحكيم الأمة",quotes:["تعلموا العلم قبل أن يُرفع ورفعه موت العلماء"],why:"لقّبه الصحابة بحكيم الأمة",death:"توفي في دمشق سنة 32 هـ"},
+  {id:49,name:"عمرو بن عبسة",title:"رضي الله عنه",badge:"السابقون الأولون",badgeColor:"#4a7a5a",cat:"early",quote:"أسلمت ولا أعلم على وجه الأرض مسلماً غير رسول الله ﷺ",islam:"أسلم في مكة قبل الهجرة وكان من السابقين الأولين",moments:"كان رابع من أسلم وظل يحتفظ بإسلامه سراً سنوات",quotes:["أسلمت ولا أعلم على وجه الأرض مسلماً غير رسول الله ﷺ"],why:"من أوائل من آمن بالنبي ﷺ منذ فجر الإسلام",death:"توفي في الشام"},
+  {id:50,name:"عقبة بن عامر",title:"رضي الله عنه",badge:"علماء وحفاظ",badgeColor:"#4a6a8a",cat:"scholar",quote:"أهلك الناس ثلاث: شح مطاع وهوى متبع وإعجاب المرء بنفسه",islam:"أسلم وكان من الصحابة الملازمين للنبي ﷺ",moments:"كان والياً على مصر وفارساً شاعراً فقيهاً",quotes:["أهلك الناس ثلاث: شح مطاع وهوى متبع وإعجاب المرء بنفسه"],why:"جمع بين الفقه والشعر والفروسية",death:"توفي في مصر سنة 58 هـ"},
 ];
 function renderSahaba(filter){
   const list=filter==='all'?sahabaData:sahabaData.filter(s=>s.cat===filter);
@@ -448,28 +434,35 @@ async function openSurah(num){curSurah=surahs.find(s=>s.number===num);document.g
 function renderAyahs(){document.getElementById('ayahWrap').innerHTML=curAyahs.map((a,i)=>`
   <div class="ayah" id="ay-${i}">
     <div class="ayah-text" onclick="playAyah(${i})">${a.text}<span class="ayah-num">${n2ar(a.numberInSurah)}</span></div>
-    <button class="tafsir-btn" onclick="toggleTafsir(event,${curSurah.number},${a.numberInSurah},${i})" id="tafsir-btn-${i}">📖 تفسير ابن كثير</button>
-    <div class="tafsir-box" id="tafsir-box-${i}"><div style="text-align:center;color:var(--muted);font-size:12px;padding:10px;">جاري تحميل التفسير...</div></div>
+    <button class="tafsir-btn" onclick="toggleTafsir(event,${curSurah.number},${a.numberInSurah},${i})" id="tafsir-btn-${i}">📖 التفسير الميسر</button>
+    <div class="tafsir-box" id="tafsir-box-${i}"></div>
   </div>`).join('');}
 async function toggleTafsir(e,surah,ayah,idx){
   e.stopPropagation();
   const box=document.getElementById('tafsir-box-'+idx);
   const btn=document.getElementById('tafsir-btn-'+idx);
-  if(box.classList.contains('open')){box.classList.remove('open');btn.textContent='📖 تفسير ابن كثير';return;}
+  if(box.classList.contains('open')){box.classList.remove('open');btn.textContent='📖 التفسير الميسر';return;}
   box.classList.add('open');btn.textContent='▲ إخفاء التفسير';
   if(box.getAttribute('data-loaded')==='1')return;
-  try{
-    const r=await fetch(`https://api.quran.com/api/v4/tafsirs/169/by_ayah/${surah}:${ayah}?language=ar`);
-    const d=await r.json();
-    const text=d.tafsir&&d.tafsir.text?d.tafsir.text.replace(/<[^>]*>/g,'').substring(0,800)+'...':'التفسير غير متوفر';
-    box.innerHTML=`<div class="tafsir-text">${text}</div><div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:left;">📚 تفسير ابن كثير</div>`;
-    box.setAttribute('data-loaded','1');
-  }catch(err){box.innerHTML=`<div class="tafsir-text" style="color:var(--muted);">تعذر تحميل التفسير</div>`;}
+  box.innerHTML='<div style="text-align:center;color:var(--muted);padding:12px;font-size:12px;">⏳ جاري تحميل التفسير...</div>';
+  const editions=['ar.muyassar','ar.jalalayn'];
+  for(const ed of editions){
+    try{
+      const r=await fetch(`https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/${ed}`,{signal:AbortSignal.timeout(6000)});
+      const d=await r.json();
+      if(d.status==='OK'&&d.data&&d.data.text){
+        const edName=ed==='ar.muyassar'?'التفسير الميسر':'تفسير الجلالين';
+        box.innerHTML=`<div class="tafsir-text">${d.data.text}</div><div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:left;">📚 ${edName}</div>`;
+        box.setAttribute('data-loaded','1');
+        return;
+      }
+    }catch(err){}
+  }
+  box.innerHTML='<div class="tafsir-text" style="color:var(--muted);font-size:14px;">تعذر تحميل التفسير</div>';
 }
 function backToList(){stopAudio();document.getElementById('list-view').style.display='block';document.getElementById('reader-view').style.display='none';}
 function prevSurah(){if(curSurah&&curSurah.number>1)openSurah(curSurah.number-1);}
 function nextSurah(){if(curSurah&&curSurah.number<114)openSurah(curSurah.number+1);}
-function n2ar(n){return String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);}
 function audioUrl(s,a){return`https://everyayah.com/data/${reader}/${String(s).padStart(3,'0')}${String(a).padStart(3,'0')}.mp3`;}
 function playAyah(i){document.querySelectorAll('.ayah').forEach(a=>a.classList.remove('playing'));const el=document.getElementById('ay-'+i);if(el){el.classList.add('playing');el.scrollIntoView({behavior:'smooth',block:'center'});}curIdx=i;audio.src=audioUrl(curSurah.number,curAyahs[i].numberInSurah);audio.play();playing=true;document.getElementById('playBtn').textContent='⏸ إيقاف';document.getElementById('playBtn').classList.add('active-btn');}
 function togglePlay(){if(playing){audio.pause();playing=false;document.getElementById('playBtn').textContent='▶ استمع';document.getElementById('playBtn').classList.remove('active-btn');}else if(curAyahs.length)playAyah(curIdx);}
@@ -481,12 +474,7 @@ function inc(k){cnt[k]=(cnt[k]||0)+1;document.getElementById('cn-'+k).textConten
 async function loadPrayer(){try{const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{timeout:6000}));const{latitude:lat,longitude:lng}=pos.coords;const now=new Date();const r=await fetch(`https://api.aladhan.com/v1/timings/${now.getDate()}-${now.getMonth()+1}-${now.getFullYear()}?latitude=${lat}&longitude=${lng}&method=4`);const d=await r.json();setPrayer(d.data.timings);document.getElementById('locationPermBox').style.display='none';}catch(e){document.getElementById('locationPermBox').style.display='block';document.getElementById('nextPrayer').textContent='📍 اختر مدينتك';}}
 async function loadByCity(){const city=document.getElementById('citySelect').value;if(!city)return;document.getElementById('nextPrayer').textContent='⏳ جاري التحميل...';try{const r=await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=SA&method=4`);const d=await r.json();setPrayer(d.data.timings);document.getElementById('locationPermBox').style.display='none';}catch(e){document.getElementById('nextPrayer').textContent='تعذر التحميل';}}
 function setPrayer(t){document.getElementById('p-fajr').textContent=t.Fajr;document.getElementById('p-sunrise').textContent=t.Sunrise;document.getElementById('p-dhuhr').textContent=t.Dhuhr;document.getElementById('p-asr').textContent=t.Asr;document.getElementById('p-maghrib').textContent=t.Maghrib;document.getElementById('p-isha').textContent=t.Isha;const prayers=[{n:'الفجر',v:t.Fajr},{n:'الظهر',v:t.Dhuhr},{n:'العصر',v:t.Asr},{n:'المغرب',v:t.Maghrib},{n:'العشاء',v:t.Isha}];const now=new Date();for(const p of prayers){const[h,m]=p.v.split(':').map(Number);const pt=new Date();pt.setHours(h,m,0,0);if(pt>now){const diff=Math.round((pt-now)/60000);const hrs=Math.floor(diff/60),mins=diff%60;document.getElementById('nextPrayer').textContent=`🕌 ${p.n} بعد ${hrs>0?hrs+'س و':''}${mins} دقيقة`;return;}}document.getElementById('nextPrayer').textContent='🌙 صلاة الفجر غداً';}
-function showPage(id,btn){
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  if(btn)btn.classList.add('active');
-  const el=document.getElementById('page-'+id);
-  if(el){setTimeout(()=>{const offset=el.getBoundingClientRect().top+window.scrollY-120;window.scrollTo({top:offset,behavior:'smooth'});},50);}
-}
+function showPage(id,btn){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');const el=document.getElementById('page-'+id);if(el){setTimeout(()=>{const offset=el.getBoundingClientRect().top+window.scrollY-120;window.scrollTo({top:offset,behavior:'smooth'});},50);}}
 init();
 </script>
 </body>
