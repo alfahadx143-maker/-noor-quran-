@@ -57,7 +57,7 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
 .reader-surah-name{font-family:'Amiri',serif;font-size:36px;color:var(--gold);margin-bottom:6px;}
 .reader-surah-info{font-size:12px;color:var(--muted);margin-bottom:14px;}
 .reader-bismillah{font-family:'Amiri Quran',serif;font-size:24px;color:var(--gold-light);margin:14px 0;line-height:2;text-align:center;padding:14px;border-top:1px solid rgba(201,168,76,0.2);border-bottom:1px solid rgba(201,168,76,0.2);background:rgba(201,168,76,0.04);}
-.reader-controls{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:14px;}
+.reader-controls{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:16px;}
 .ctrl-btn{padding:8px 20px;background:rgba(201,168,76,0.1);border:1px solid var(--border);color:var(--gold);cursor:pointer;font-family:'Cairo',sans-serif;font-size:12px;transition:all 0.2s;}
 .ctrl-btn:hover,.ctrl-btn.active-btn{background:rgba(201,168,76,0.25);border-color:var(--gold);}
 .ayah-wrap{max-width:860px;margin:0 auto;padding:20px 28px;}
@@ -70,7 +70,7 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
 .tafsir-btn:hover{background:rgba(201,168,76,0.1);color:#e8c97a;border-color:var(--gold);}
 .tafsir-box{margin-top:10px;padding:14px 16px;background:rgba(13,30,53,0.8);border-right:3px solid var(--gold);border-radius:0 4px 4px 0;display:none;}
 .tafsir-box.open{display:block;}
-.tafsir-text{font-family:'Amiri',serif;font-size:16px;color:#d4c9a8;line-height:2;text-align:right;direction:rtl;}
+.tafsir-text{font-family:'Amiri',serif;font-size:17px;color:#d4c9a8;line-height:2.2;text-align:right;direction:rtl;}
 .athkar-tabs{display:flex;gap:8px;padding:14px 24px 0;flex-wrap:wrap;border-bottom:1px solid var(--border);}
 .athkar-tab{padding:8px 18px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-bottom:2px solid transparent;color:#c8d8e8;cursor:pointer;font-family:'Cairo',sans-serif;font-size:13px;transition:all 0.2s;margin-bottom:-1px;border-radius:4px 4px 0 0;}
 .athkar-tab:hover{color:#e8c97a;background:rgba(201,168,76,0.15);}
@@ -146,6 +146,7 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
           <option value="Minshawy_Murattal_128kbps">المنشاوي</option>
           <option value="Abdullah_Basfar_192kbps">بصفر</option>
           <option value="Yasser_Ad-Dussary_128kbps">ياسر الدوسري</option>
+          <option value="Ghamadi_40kbps">سعد الغامدي</option>
         </select>
       </div>
     </div>
@@ -226,6 +227,7 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
             <option value="Minshawy_Murattal_128kbps">محمد صديق المنشاوي</option>
             <option value="Abdullah_Basfar_192kbps">عبدالله بصفر</option>
             <option value="Yasser_Ad-Dussary_128kbps">ياسر الدوسري</option>
+            <option value="Ghamadi_40kbps">سعد الغامدي</option>
           </select>
         </div>
         <div class="surah-grid" id="surahGrid"><div class="loading-wrap" style="grid-column:1/-1"><div class="loading-spinner"></div>جاري تحميل السور...</div></div>
@@ -241,6 +243,18 @@ nav{display:flex;flex-direction:row;padding:6px 8px;gap:4px;flex:1;}
             <button class="ctrl-btn" onclick="prevSurah()">◄ السابقة</button>
             <button class="ctrl-btn" id="playBtn" onclick="togglePlay()">▶ استمع</button>
             <button class="ctrl-btn" onclick="nextSurah()">التالية ►</button>
+          </div>
+          <div style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:10px;">
+            <div style="font-size:11px;color:#a0b4cc;">🎙️ القارئ:</div>
+            <select id="readerSelectInner" onchange="document.getElementById('readerSelect').value=this.value;changeReader()" style="padding:7px 12px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);color:#e8c97a;font-family:'Cairo',sans-serif;font-size:12px;outline:none;border-radius:4px;min-width:160px;">
+              <option value="Alafasy_128kbps">مشاري راشد العفاسي</option>
+              <option value="Abdurrahmaan_As-Sudais_192kbps">عبدالرحمن السديس</option>
+              <option value="Husary_128kbps">محمود خليل الحصري</option>
+              <option value="Minshawy_Murattal_128kbps">محمد صديق المنشاوي</option>
+              <option value="Abdullah_Basfar_192kbps">عبدالله بصفر</option>
+              <option value="Yasser_Ad-Dussary_128kbps">ياسر الدوسري</option>
+              <option value="Ghamadi_40kbps">سعد الغامدي</option>
+            </select>
           </div>
         </div>
         <div class="ayah-wrap" id="ayahWrap"><div class="loading-wrap"><div class="loading-spinner"></div>جاري تحميل الآيات...</div></div>
@@ -445,20 +459,23 @@ async function toggleTafsir(e,surah,ayah,idx){
   box.classList.add('open');btn.textContent='▲ إخفاء التفسير';
   if(box.getAttribute('data-loaded')==='1')return;
   box.innerHTML='<div style="text-align:center;color:var(--muted);padding:12px;font-size:12px;">⏳ جاري تحميل التفسير...</div>';
-  const editions=['ar.muyassar','ar.jalalayn'];
-  for(const ed of editions){
-    try{
-      const r=await fetch(`https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/${ed}`,{signal:AbortSignal.timeout(6000)});
-      const d=await r.json();
-      if(d.status==='OK'&&d.data&&d.data.text){
-        const edName=ed==='ar.muyassar'?'التفسير الميسر':'تفسير الجلالين';
-        box.innerHTML=`<div class="tafsir-text">${d.data.text}</div><div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:left;">📚 ${edName}</div>`;
-        box.setAttribute('data-loaded','1');
-        return;
-      }
-    }catch(err){}
-  }
-  box.innerHTML='<div class="tafsir-text" style="color:var(--muted);font-size:14px;">تعذر تحميل التفسير</div>';
+  try{
+    const r=await fetch(`https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/ar.muyassar`,{signal:AbortSignal.timeout(8000)});
+    const d=await r.json();
+    if(d.status==='OK'&&d.data&&d.data.text){
+      box.innerHTML=`<div class="tafsir-text">${d.data.text}</div><div style="font-size:10px;color:var(--muted);margin-top:10px;text-align:left;">📚 التفسير الميسر</div>`;
+      box.setAttribute('data-loaded','1');return;
+    }
+  }catch(err){}
+  try{
+    const r2=await fetch(`https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/ar.jalalayn`,{signal:AbortSignal.timeout(8000)});
+    const d2=await r2.json();
+    if(d2.status==='OK'&&d2.data&&d2.data.text){
+      box.innerHTML=`<div class="tafsir-text">${d2.data.text}</div><div style="font-size:10px;color:var(--muted);margin-top:10px;text-align:left;">📚 تفسير الجلالين</div>`;
+      box.setAttribute('data-loaded','1');return;
+    }
+  }catch(err2){}
+  box.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:10px;">تعذر تحميل التفسير</div>';
 }
 function backToList(){stopAudio();document.getElementById('list-view').style.display='block';document.getElementById('reader-view').style.display='none';}
 function prevSurah(){if(curSurah&&curSurah.number>1)openSurah(curSurah.number-1);}
@@ -468,7 +485,7 @@ function playAyah(i){document.querySelectorAll('.ayah').forEach(a=>a.classList.r
 function togglePlay(){if(playing){audio.pause();playing=false;document.getElementById('playBtn').textContent='▶ استمع';document.getElementById('playBtn').classList.remove('active-btn');}else if(curAyahs.length)playAyah(curIdx);}
 function onEnded(){if(curIdx<curAyahs.length-1){curIdx++;document.querySelectorAll('.ayah').forEach(a=>a.classList.remove('playing'));const el=document.getElementById('ay-'+curIdx);if(el){el.classList.add('playing');el.scrollIntoView({behavior:'smooth',block:'center'});}audio.src=audioUrl(curSurah.number,curAyahs[curIdx].numberInSurah);const p=audio.play();if(p!==undefined){p.catch(()=>{playing=false;document.getElementById('playBtn').textContent='▶ استمع';document.getElementById('playBtn').classList.remove('active-btn');});}}else{playing=false;document.getElementById('playBtn').textContent='▶ استمع';document.getElementById('playBtn').classList.remove('active-btn');document.querySelectorAll('.ayah').forEach(a=>a.classList.remove('playing'));}}
 function stopAudio(){audio.pause();audio.src='';playing=false;const b=document.getElementById('playBtn');if(b){b.textContent='▶ استمع';b.classList.remove('active-btn');}document.querySelectorAll('.ayah').forEach(a=>a.classList.remove('playing'));}
-function changeReader(){reader=document.getElementById('readerSelect').value;if(playing)playAyah(curIdx);}
+function changeReader(){reader=document.getElementById('readerSelect').value;const inner=document.getElementById('readerSelectInner');if(inner)inner.value=reader;if(playing)playAyah(curIdx);}
 function showAthkar(cat,btn){document.querySelectorAll('.athkar-tab').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');document.getElementById('athkarContent').innerHTML=(athkar[cat]||[]).map((item,i)=>{const k=cat+i;if(!cnt[k])cnt[k]=0;return`<div class="thikr-card"><div class="thikr-badge">${item.c}</div><div class="thikr-text">${item.t}</div><div class="thikr-divider"></div><div class="thikr-source">📚 ${item.s}</div><div class="counter-wrap"><div class="counter-num" id="cn-${k}">${n2ar(cnt[k])}</div><button class="counter-btn" onclick="inc('${k}')">+</button></div></div>`;}).join('');}
 function inc(k){cnt[k]=(cnt[k]||0)+1;document.getElementById('cn-'+k).textContent=n2ar(cnt[k]);}
 async function loadPrayer(){try{const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{timeout:6000}));const{latitude:lat,longitude:lng}=pos.coords;const now=new Date();const r=await fetch(`https://api.aladhan.com/v1/timings/${now.getDate()}-${now.getMonth()+1}-${now.getFullYear()}?latitude=${lat}&longitude=${lng}&method=4`);const d=await r.json();setPrayer(d.data.timings);document.getElementById('locationPermBox').style.display='none';}catch(e){document.getElementById('locationPermBox').style.display='block';document.getElementById('nextPrayer').textContent='📍 اختر مدينتك';}}
