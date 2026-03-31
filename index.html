@@ -1125,6 +1125,26 @@ function showPage(id,btn){
 }
 
 init();
+  <script>
+function hideTopPrayerGrid() {
+  // نحدد أول نسخة من أوقات الصلاة (العلوية)
+  const topPrayerGrid = document.querySelectorAll('.prayer-grid')[0];
+  
+  // إذا موجودة، نخفيها
+  if(topPrayerGrid) {
+    topPrayerGrid.style.display = 'none';
+    return true;
+  }
+  return false;
+}
+
+// نفحص كل 100ms حتى يظهر العنصر ثم نخفيه
+const interval = setInterval(() => {
+  if(hideTopPrayerGrid()) {
+    clearInterval(interval); // إذا تم الإخفاء، توقف عن التكرار
+  }
+}, 100);
+</script>
 </script>
 </body>
 </html>
