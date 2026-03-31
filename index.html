@@ -117,12 +117,16 @@ button,select{
   color:var(--gold);
   font-weight:700;
 }
-.prayer-time.next{color:var(--gold-light);text-shadow:0 0 8px rgba(201,168,76,0.5);}
-  prayer-grid:first-of-type {display: none;
- document.addEventListener("DOMContentLoaded", function() {
+// custom.js - Hide top prayer grid only
+document.addEventListener("DOMContentLoaded", function() {
+  // حدد أول نسخة من أوقات الصلاة (العلوية)
   const topPrayerGrid = document.querySelectorAll('.prayer-grid')[0];
+  
+  // إذا موجودة، نخفيها
   if(topPrayerGrid) {
     topPrayerGrid.style.display = 'none';
+  }
+});  
   }
 });             
 
