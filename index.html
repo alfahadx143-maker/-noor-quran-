@@ -125,6 +125,17 @@ document.addEventListener("DOMContentLoaded", function() {
   // إذا موجودة، نخفيها
   if(topPrayerGrid) {
     topPrayerGrid.style.display = 'none';
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+  // نحدد أول نسخة من أوقات الصلاة (العلوية)
+  const topPrayerGrid = document.querySelectorAll('.prayer-grid')[0];
+  
+  // إذا موجودة، نخفيها
+  if(topPrayerGrid) {
+    topPrayerGrid.style.display = 'none';
+  }
+});
+</script>
   }
 });  
   }
