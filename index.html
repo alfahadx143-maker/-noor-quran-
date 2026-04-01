@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -114,6 +114,12 @@
 [data-theme="light"] .nav-btn-top.active {
   color: #c97e0a !important;
   background: rgba(201,126,10,0.12) !important;
+}
+
+/* تغيير لون "اختر القارئ" في الوضع النهاري فقط */
+[data-theme="light"] .reader-label {
+  color: #c97e0a !important;
+  font-weight: 700;
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -294,6 +300,37 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
 .modal-content{background:var(--bg2);border:1px solid var(--gold);border-radius:20px;padding:24px;max-width:90%;width:400px;max-height:80vh;overflow-y:auto;}
 .modal-close{background:var(--gold);border:none;padding:8px 16px;border-radius:20px;cursor:pointer;margin-top:16px;color:#000;font-weight:bold;}
 
+/* قسم المصادر */
+.sources-section {
+  margin-top: 40px;
+  padding: 20px;
+  background: rgba(201,168,76,0.05);
+  border-top: 2px solid var(--gold);
+  text-align: center;
+}
+.sources-title {
+  font-family: 'Amiri', serif;
+  font-size: 20px;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+.sources-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.sources-list a {
+  color: var(--gold);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.sources-list a:hover {
+  opacity: 0.8;
+}
+
 @media(max-width:768px){
   .surah-grid{grid-template-columns:1fr;padding:12px 16px;}
   .ayah-text{font-size:22px;}
@@ -363,7 +400,7 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
     </nav>
 
     <div class="reader-box" style="padding:8px 14px;display:flex;align-items:center;gap:8px;">
-      <div class="reader-label">اختر القارئ</div>
+      <div class="reader-label" style="font-weight:500;">اختر القارئ</div>
       <select class="reader-select" id="readerSelect" onchange="changeReader()" style="padding:6px 10px;background:rgba(201,168,76,0.1);border:1px solid var(--border);color:#e8c97a;border-radius:8px;">
         <option value="Alafasy_128kbps">مشاري راشد العفاسي</option>
         <option value="Abdurrahmaan_As-Sudais_192kbps">عبدالرحمن السديس</option>
@@ -423,6 +460,23 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
       <div style="padding:16px 20px;"><div style="font-family:'Amiri',serif;font-size:24px;color:var(--gold);">🕋 الرقية الشرعية</div></div>
       <div id="ruqyahContent" style="padding:20px;"></div>
     </div>
+
+    <!-- قسم المصادر الجديد -->
+    <div class="sources-section">
+      <div class="sources-title">📚 المصادر والمراجع</div>
+      <div class="sources-list">
+        <span>📖 القرآن الكريم</span>
+        <span>📚 صحيح البخاري</span>
+        <span>📚 صحيح مسلم</span>
+        <span>📚 سنن أبي داود</span>
+        <span>📚 سنن الترمذي</span>
+        <span>📚 سنن ابن ماجه</span>
+        <span>📚 مسند أحمد</span>
+        <span>📚 تفسير ابن كثير</span>
+        <span>🎙️ موقع القرآن الكريم (quran.ksu.edu.sa)</span>
+      </div>
+      <div style="font-size:10px;color:var(--muted);margin-top:12px;">جميع الأدعية والأذكار مأخوذة من كتب السنة النبوية المعتمدة</div>
+    </div>
   </main>
 </div>
 
@@ -437,16 +491,210 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
 <audio id="audioEl"></audio>
 
 <script>
-// ===== بيانات السور =====
-const surahDetails = [
-  {id:1,name:"الفاتحة",ayahCount:7,juz:1},{id:2,name:"البقرة",ayahCount:286,juz:1},
-  {id:3,name:"آل عمران",ayahCount:200,juz:3},{id:4,name:"النساء",ayahCount:176,juz:4},
-  {id:5,name:"المائدة",ayahCount:120,juz:6},{id:6,name:"الأنعام",ayahCount:165,juz:7}
+// ===== قائمة السور الكاملة 114 سورة =====
+const surahNamesFull = [
+  "الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"
 ];
-for(let i=7;i<=114;i++) surahDetails.push({id:i,name:"سورة "+i,ayahCount:100,juz:Math.ceil(i/7)});
-const surahNames = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
 
-// ===== 50 صحابي كامل + جميع زوجات النبي =====
+// معلومات السور (مكان النزول وعدد الآيات)
+const surahInfoDetails = {
+  1: { name: "الفاتحة", ayahCount: 7, juz: 1, type: "مكية", order: 5 },
+  2: { name: "البقرة", ayahCount: 286, juz: 1, type: "مدنية", order: 87 },
+  3: { name: "آل عمران", ayahCount: 200, juz: 3, type: "مدنية", order: 89 },
+  4: { name: "النساء", ayahCount: 176, juz: 4, type: "مدنية", order: 92 },
+  5: { name: "المائدة", ayahCount: 120, juz: 6, type: "مدنية", order: 112 },
+  6: { name: "الأنعام", ayahCount: 165, juz: 7, type: "مكية", order: 55 },
+  7: { name: "الأعراف", ayahCount: 206, juz: 8, type: "مكية", order: 39 },
+  8: { name: "الأنفال", ayahCount: 75, juz: 9, type: "مدنية", order: 88 },
+  9: { name: "التوبة", ayahCount: 129, juz: 10, type: "مدنية", order: 113 },
+  10: { name: "يونس", ayahCount: 109, juz: 11, type: "مكية", order: 51 },
+  11: { name: "هود", ayahCount: 123, juz: 11, type: "مكية", order: 52 },
+  12: { name: "يوسف", ayahCount: 111, juz: 12, type: "مكية", order: 53 },
+  13: { name: "الرعد", ayahCount: 43, juz: 13, type: "مدنية", order: 96 },
+  14: { name: "إبراهيم", ayahCount: 52, juz: 13, type: "مكية", order: 72 },
+  15: { name: "الحجر", ayahCount: 99, juz: 14, type: "مكية", order: 54 },
+  16: { name: "النحل", ayahCount: 128, juz: 14, type: "مكية", order: 70 },
+  17: { name: "الإسراء", ayahCount: 111, juz: 15, type: "مكية", order: 50 },
+  18: { name: "الكهف", ayahCount: 110, juz: 15, type: "مكية", order: 69 },
+  19: { name: "مريم", ayahCount: 98, juz: 16, type: "مكية", order: 44 },
+  20: { name: "طه", ayahCount: 135, juz: 16, type: "مكية", order: 45 },
+  21: { name: "الأنبياء", ayahCount: 112, juz: 17, type: "مكية", order: 73 },
+  22: { name: "الحج", ayahCount: 78, juz: 17, type: "مدنية", order: 103 },
+  23: { name: "المؤمنون", ayahCount: 118, juz: 18, type: "مكية", order: 74 },
+  24: { name: "النور", ayahCount: 64, juz: 18, type: "مدنية", order: 102 },
+  25: { name: "الفرقان", ayahCount: 77, juz: 18, type: "مكية", order: 42 },
+  26: { name: "الشعراء", ayahCount: 227, juz: 19, type: "مكية", order: 47 },
+  27: { name: "النمل", ayahCount: 93, juz: 19, type: "مكية", order: 48 },
+  28: { name: "القصص", ayahCount: 88, juz: 20, type: "مكية", order: 49 },
+  29: { name: "العنكبوت", ayahCount: 69, juz: 20, type: "مكية", order: 85 },
+  30: { name: "الروم", ayahCount: 60, juz: 21, type: "مكية", order: 84 },
+  31: { name: "لقمان", ayahCount: 34, juz: 21, type: "مكية", order: 57 },
+  32: { name: "السجدة", ayahCount: 30, juz: 21, type: "مكية", order: 75 },
+  33: { name: "الأحزاب", ayahCount: 73, juz: 21, type: "مدنية", order: 90 },
+  34: { name: "سبأ", ayahCount: 54, juz: 22, type: "مكية", order: 58 },
+  35: { name: "فاطر", ayahCount: 45, juz: 22, type: "مكية", order: 43 },
+  36: { name: "يس", ayahCount: 83, juz: 22, type: "مكية", order: 41 },
+  37: { name: "الصافات", ayahCount: 182, juz: 23, type: "مكية", order: 56 },
+  38: { name: "ص", ayahCount: 88, juz: 23, type: "مكية", order: 38 },
+  39: { name: "الزمر", ayahCount: 75, juz: 23, type: "مكية", order: 59 },
+  40: { name: "غافر", ayahCount: 85, juz: 24, type: "مكية", order: 60 },
+  41: { name: "فصلت", ayahCount: 54, juz: 24, type: "مكية", order: 61 },
+  42: { name: "الشورى", ayahCount: 53, juz: 25, type: "مكية", order: 62 },
+  43: { name: "الزخرف", ayahCount: 89, juz: 25, type: "مكية", order: 63 },
+  44: { name: "الدخان", ayahCount: 59, juz: 25, type: "مكية", order: 64 },
+  45: { name: "الجاثية", ayahCount: 37, juz: 25, type: "مكية", order: 65 },
+  46: { name: "الأحقاف", ayahCount: 35, juz: 26, type: "مكية", order: 66 },
+  47: { name: "محمد", ayahCount: 38, juz: 26, type: "مدنية", order: 95 },
+  48: { name: "الفتح", ayahCount: 29, juz: 26, type: "مدنية", order: 111 },
+  49: { name: "الحجرات", ayahCount: 18, juz: 26, type: "مدنية", order: 106 },
+  50: { name: "ق", ayahCount: 45, juz: 26, type: "مكية", order: 34 },
+  51: { name: "الذاريات", ayahCount: 60, juz: 26, type: "مكية", order: 67 },
+  52: { name: "الطور", ayahCount: 49, juz: 27, type: "مكية", order: 76 },
+  53: { name: "النجم", ayahCount: 62, juz: 27, type: "مكية", order: 23 },
+  54: { name: "القمر", ayahCount: 55, juz: 27, type: "مكية", order: 37 },
+  55: { name: "الرحمن", ayahCount: 78, juz: 27, type: "مدنية", order: 97 },
+  56: { name: "الواقعة", ayahCount: 96, juz: 27, type: "مكية", order: 46 },
+  57: { name: "الحديد", ayahCount: 29, juz: 27, type: "مدنية", order: 94 },
+  58: { name: "المجادلة", ayahCount: 22, juz: 28, type: "مدنية", order: 105 },
+  59: { name: "الحشر", ayahCount: 24, juz: 28, type: "مدنية", order: 101 },
+  60: { name: "الممتحنة", ayahCount: 13, juz: 28, type: "مدنية", order: 91 },
+  61: { name: "الصف", ayahCount: 14, juz: 28, type: "مدنية", order: 109 },
+  62: { name: "الجمعة", ayahCount: 11, juz: 28, type: "مدنية", order: 110 },
+  63: { name: "المنافقون", ayahCount: 11, juz: 28, type: "مدنية", order: 104 },
+  64: { name: "التغابن", ayahCount: 18, juz: 28, type: "مدنية", order: 108 },
+  65: { name: "الطلاق", ayahCount: 12, juz: 28, type: "مدنية", order: 99 },
+  66: { name: "التحريم", ayahCount: 12, juz: 28, type: "مدنية", order: 107 },
+  67: { name: "الملك", ayahCount: 30, juz: 29, type: "مكية", order: 77 },
+  68: { name: "القلم", ayahCount: 52, juz: 29, type: "مكية", order: 2 },
+  69: { name: "الحاقة", ayahCount: 52, juz: 29, type: "مكية", order: 78 },
+  70: { name: "المعارج", ayahCount: 44, juz: 29, type: "مكية", order: 79 },
+  71: { name: "نوح", ayahCount: 28, juz: 29, type: "مكية", order: 71 },
+  72: { name: "الجن", ayahCount: 28, juz: 29, type: "مكية", order: 40 },
+  73: { name: "المزمل", ayahCount: 20, juz: 29, type: "مكية", order: 3 },
+  74: { name: "المدثر", ayahCount: 56, juz: 29, type: "مكية", order: 4 },
+  75: { name: "القيامة", ayahCount: 40, juz: 29, type: "مكية", order: 31 },
+  76: { name: "الإنسان", ayahCount: 31, juz: 29, type: "مدنية", order: 98 },
+  77: { name: "المرسلات", ayahCount: 50, juz: 29, type: "مكية", order: 33 },
+  78: { name: "النبأ", ayahCount: 40, juz: 30, type: "مكية", order: 80 },
+  79: { name: "النازعات", ayahCount: 46, juz: 30, type: "مكية", order: 81 },
+  80: { name: "عبس", ayahCount: 42, juz: 30, type: "مكية", order: 24 },
+  81: { name: "التكوير", ayahCount: 29, juz: 30, type: "مكية", order: 7 },
+  82: { name: "الانفطار", ayahCount: 19, juz: 30, type: "مكية", order: 82 },
+  83: { name: "المطففين", ayahCount: 36, juz: 30, type: "مكية", order: 86 },
+  84: { name: "الانشقاق", ayahCount: 25, juz: 30, type: "مكية", order: 83 },
+  85: { name: "البروج", ayahCount: 22, juz: 30, type: "مكية", order: 27 },
+  86: { name: "الطارق", ayahCount: 17, juz: 30, type: "مكية", order: 36 },
+  87: { name: "الأعلى", ayahCount: 19, juz: 30, type: "مكية", order: 8 },
+  88: { name: "الغاشية", ayahCount: 26, juz: 30, type: "مكية", order: 68 },
+  89: { name: "الفجر", ayahCount: 30, juz: 30, type: "مكية", order: 10 },
+  90: { name: "البلد", ayahCount: 20, juz: 30, type: "مكية", order: 35 },
+  91: { name: "الشمس", ayahCount: 15, juz: 30, type: "مكية", order: 26 },
+  92: { name: "الليل", ayahCount: 21, juz: 30, type: "مكية", order: 9 },
+  93: { name: "الضحى", ayahCount: 11, juz: 30, type: "مكية", order: 11 },
+  94: { name: "الشرح", ayahCount: 8, juz: 30, type: "مكية", order: 12 },
+  95: { name: "التين", ayahCount: 8, juz: 30, type: "مكية", order: 28 },
+  96: { name: "العلق", ayahCount: 19, juz: 30, type: "مكية", order: 1 },
+  97: { name: "القدر", ayahCount: 5, juz: 30, type: "مكية", order: 25 },
+  98: { name: "البينة", ayahCount: 8, juz: 30, type: "مدنية", order: 100 },
+  99: { name: "الزلزلة", ayahCount: 8, juz: 30, type: "مدنية", order: 93 },
+  100: { name: "العاديات", ayahCount: 11, juz: 30, type: "مكية", order: 14 },
+  101: { name: "القارعة", ayahCount: 11, juz: 30, type: "مكية", order: 30 },
+  102: { name: "التكاثر", ayahCount: 8, juz: 30, type: "مكية", order: 16 },
+  103: { name: "العصر", ayahCount: 3, juz: 30, type: "مكية", order: 13 },
+  104: { name: "الهمزة", ayahCount: 9, juz: 30, type: "مكية", order: 32 },
+  105: { name: "الفيل", ayahCount: 5, juz: 30, type: "مكية", order: 19 },
+  106: { name: "قريش", ayahCount: 4, juz: 30, type: "مكية", order: 29 },
+  107: { name: "الماعون", ayahCount: 7, juz: 30, type: "مكية", order: 17 },
+  108: { name: "الكوثر", ayahCount: 3, juz: 30, type: "مكية", order: 15 },
+  109: { name: "الكافرون", ayahCount: 6, juz: 30, type: "مكية", order: 18 },
+  110: { name: "النصر", ayahCount: 3, juz: 30, type: "مدنية", order: 114 },
+  111: { name: "المسد", ayahCount: 5, juz: 30, type: "مكية", order: 6 },
+  112: { name: "الإخلاص", ayahCount: 4, juz: 30, type: "مكية", order: 22 },
+  113: { name: "الفلق", ayahCount: 5, juz: 30, type: "مكية", order: 20 },
+  114: { name: "الناس", ayahCount: 6, juz: 30, type: "مكية", order: 21 }
+};
+
+// ===== قائمة الأدعية الكاملة (50 دعاء) =====
+const duasList = [
+  "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+  "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً ۚ إِنَّكَ أَنتَ الْوَهَّابُ",
+  "رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
+  "اللَّهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي، وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي، وَأَصْلِحْ لِي آخِرَتِي الَّتِي فِيهَا مَعَادِي",
+  "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَغَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ",
+  "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاءِ",
+  "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ",
+  "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ",
+  "اللَّهُمَّ اقْسِمْ لَنَا مِنْ خَشْيَتِكَ مَا تَحُولُ بِهِ بَيْنَنَا وَبَيْنَ مَعَاصِيكَ",
+  "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ، وَتَحَوُّلِ عَافِيَتِكَ، وَفُجَاءَةِ نِقْمَتِكَ، وَجَمِيعِ سَخَطِكَ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا",
+  "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي",
+  "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ وَعَذَابِ الْقَبْرِ",
+  "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ سَمْعِي، وَمِنْ شَرِّ بَصَرِي، وَمِنْ شَرِّ لِسَانِي، وَمِنْ شَرِّ قَلْبِي، وَمِنْ شَرِّ مَنِيِّي",
+  "اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا",
+  "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ، وَالْهَرَمِ وَالْبُخْلِ، وَعَذَابِ الْقَبْرِ",
+  "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ جَهَنَّمَ، وَمِنْ عَذَابِ الْقَبْرِ، وَمِنْ فِتْنَةِ الْمَحْيَا وَالْمَمَاتِ، وَمِنْ شَرِّ فِتْنَةِ الْمَسِيحِ الدَّجَّالِ",
+  "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ حُبَّكَ وَحُبَّ مَنْ يُحِبُّكَ وَحُبَّ عَمَلٍ يُقَرِّبُنِي إِلَى حُبِّكَ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ",
+  "اللَّهُمَّ اغْفِرْ لِي خَطِيئَتِي وَجَهْلِي وَإِسْرَافِي فِي أَمْرِي وَمَا أَنْتَ أَعْلَمُ بِهِ مِنِّي",
+  "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
+  "رَبَّنَا تَقَبَّلْ مِنَّا ۖ إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ",
+  "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْفِتَنِ مَا ظَهَرَ مِنْهَا وَمَا بَطَنَ",
+  "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَجْأَةِ الْخَيْرِ وَأَعُوذُ بِكَ مِنْ فَجْأَةِ الشَّرِّ",
+  "رَبِّ أَعُوذُ بِكَ مِنْ هَمَزَاتِ الشَّيَاطِينِ وَأَعُوذُ بِكَ رَبِّ أَن يَحْضُرُونِ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ الثَّبَاتَ فِي الْأَمْرِ وَالْعَزِيمَةَ عَلَى الرُّشْدِ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ",
+  "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا وَأَصْلِحْ ذَاتَ بَيْنِنَا",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعِزَّةَ وَالْكَرَامَةَ فِي الدُّنْيَا وَالْآخِرَةِ",
+  "رَبَّنَا آمَنَّا بِمَا أَنزَلْتَ وَاتَّبَعْنَا الرَّسُولَ فَاكْتُبْنَا مَعَ الشَّاهِدِينَ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ كُلِّ خَيْرٍ خَزَائِنُهُ بِيَدِكَ",
+  "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ جَهْدِ الْبَلَاءِ وَدَرَكِ الشَّقَاءِ وَسُوءِ الْقَضَاءِ وَشَمَاتَةِ الْأَعْدَاءِ",
+  "اللَّهُمَّ اجْعَلْنَا مِنْ عِبَادِكَ الَّذِينَ إِذَا أُحْسِنُوا اسْتَبْشَرُوا وَإِذَا أَسَاءُوا اسْتَغْفَرُوا",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ",
+  "رَبِّ اجْعَلْنِي شَكُورًا وَاجْعَلْنِي صَبُورًا وَاجْعَلْنِي فِي عَيْنِي صَغِيرًا وَفِي أَعْيُنِ النَّاسِ كَبِيرًا",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْغِنَى وَالْعَفَافَ وَالْهُدَى",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ",
+  "اللَّهُمَّ أَحْسِنْ عَاقِبَتَنَا فِي الْأُمُورِ كُلِّهَا وَأَجِرْنَا مِنْ خِزْيِ الدُّنْيَا وَعَذَابِ الْآخِرَةِ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ",
+  "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ",
+  "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسَلِ وَالْهَرَمِ وَالْمَأْثَمِ وَالْمَغْرَمِ",
+  "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْبُخْلِ وَأَعُوذُ بِكَ مِنَ الْجُبْنِ",
+  "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ"
+];
+
+let currentDuaIndex = 0;
+let duaInterval = null;
+
+// دالة تحديث الدعاء كل ربع ساعة
+function updateDailyDua() {
+  const duaText = document.getElementById("dailyDuaText");
+  const duaTime = document.getElementById("dailyDuaTime");
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const formattedTime = `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}`;
+  
+  // اختيار دعاء عشوائي
+  const randomIndex = Math.floor(Math.random() * duasList.length);
+  currentDuaIndex = randomIndex;
+  duaText.innerHTML = duasList[randomIndex];
+  duaTime.innerHTML = `🕰️ تم التحديث الساعة ${formattedTime}`;
+}
+
+// بدء المؤقت لتحديث الدعاء كل 15 دقيقة
+function startDuaTimer() {
+  updateDailyDua(); // تحديث فوري عند التحميل
+  if (duaInterval) clearInterval(duaInterval);
+  duaInterval = setInterval(updateDailyDua, 15 * 60 * 1000); // 15 دقيقة
+}
+
+// دوال الصحابة
 const sahabaData = [
   {id:1,name:"أبو بكر الصديق",title:"أول الخلفاء الراشدين",badge:"العشرة المبشرون",cat:"10",quote:"أينما كنتُ فإن الله معي",story:"أول من آمن بالنبي ﷺ وصاحبه في الهجرة، تولى الخلافة بعد النبي ﷺ وجمع القرآن الكريم"},
   {id:2,name:"عمر بن الخطاب",title:"الفاروق",badge:"العشرة المبشرون",cat:"10",quote:"نحن قوم أعزنا الله بالإسلام",story:"ثاني الخلفاء الراشدين، فتح الأمصار ونشر العدل"},
@@ -500,7 +748,7 @@ const sahabaData = [
   {id:50,name:"الحسين بن علي",title:"سيد الشهداء",badge:"السابقون",cat:"early",quote:"من أحبني فقد أحب الله",story:"سبط رسول الله ﷺ"}
 ];
 
-// ===== أدعية كثيرة للأذكار =====
+// الأذكار
 const athkar = {
   morning: [
     {t:"اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ",s:"رواه الترمذي",c:"١ مرة"},
@@ -529,7 +777,7 @@ const athkar = {
   ]
 };
 
-// ===== الرقية الشرعية الموسعة =====
+// الرقية الشرعية
 const ruqyahItems = [
   {text:"﴿اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ﴾",source:"آية الكرسي - البقرة 255"},
   {text:"﴿قُلْ هُوَ اللَّهُ أَحَدٌ * اللَّهُ الصَّمَدُ * لَمْ يَلِدْ وَلَمْ يُولَدْ * وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ﴾",source:"سورة الإخلاص"},
@@ -541,36 +789,312 @@ const ruqyahItems = [
   {text:"بِسْمِ اللَّهِ أَرْقِيكَ، مِنْ كُلِّ شَيْءٍ يُؤْذِيكَ، مِنْ شَرِّ كُلِّ نَفْسٍ أَوْ عَيْنِ حَاسِدٍ، اللَّهُ يَشْفِيكَ، بِسْمِ اللَّهِ أَرْقِيكَ",source:"رواه مسلم"}
 ];
 
-// دوال أخرى محذوفة للاختصار مع الحفاظ على الوظائف الأساسية...
-function updateDailyDua(){}
-function startDuaTimer(){}
-function formatTo12Hour(t){if(!t)return"--:--";let[h,m]=t.split(":");let H=parseInt(h);let p=H>=12?"مساءً":"صباحاً";let h12=H%12||12;return`${h12.toString().padStart(2,"0")}:${m} ${p}`;}
-function updatePrayerTimes(city){}
-function loadPrayer(){}
-function loadByCity(){}
-function showMainPage(p,b){document.querySelectorAll(".page").forEach(pg=>pg.classList.remove("active"));document.getElementById(`page-${p}`).classList.add("active");document.querySelectorAll(".nav-btn-top").forEach(btn=>btn.classList.remove("active"));if(b)b.classList.add("active");}
-function showPage(p,b){document.querySelectorAll(".page").forEach(pg=>pg.classList.remove("active"));document.getElementById(`page-${p}`).classList.add("active");document.querySelectorAll(".nav-btn").forEach(btn=>btn.classList.remove("active"));if(b)b.classList.add("active");}
-function renderSurahList(){}
-function renderSurahsInfo(){}
-function filterSurahsInfo(){}
-function filterSurahs(){}
-let selectedSurah=null,curAyahs=[],reader="Alafasy_128kbps",audio=document.getElementById("audioEl"),curIdx=0;
-async function openSurah(num){}
-function renderAyahs(){}
-async function toggleTafsir(e,s,a,i){}
-function backToList(){}
-function playAyah(i){}
-function changeReader(){}
-function renderSahaba(f){const list=f==="all"?sahabaData:sahabaData.filter(s=>s.cat===f);document.getElementById("sahabaGrid").innerHTML=list.map(s=>`<div class="sahaba-card"><div class="sahaba-name">${s.name}</div><div class="sahaba-title" style="font-size:12px;color:var(--muted);">${s.title}</div><div class="sahaba-quote">❝ ${s.quote} ❞</div><div style="font-size:11px;color:var(--gold);margin-top:8px;">⭐ ${s.badge}</div><button class="more-info-btn" onclick="showMoreInfo('${s.name}','${s.story}','${s.quote}')">📖 عرض المزيد</button></div>`).join("");}
-function showMoreInfo(n,s,q){document.getElementById("modalTitle").innerHTML=n;document.getElementById("modalContent").innerHTML=`<strong>📝 القصة:</strong><br>${s}<br><br><strong>💬 من أقواله:</strong><br>"${q}"`;document.getElementById("infoModal").style.display="flex";}
-function closeModal(e){if(e&&e.target!==e.currentTarget&&e.target.className!=="modal-close")return;document.getElementById("infoModal").style.display="none";}
-function filterSahaba(c,b){document.querySelectorAll(".sahaba-filter").forEach(btn=>btn.classList.remove("active"));b.classList.add("active");renderSahaba(c);}
-let cnt={};
-function showAthkar(c,b){document.querySelectorAll(".athkar-tab").forEach(t=>t.classList.remove("active"));if(b)b.classList.add("active");const items=athkar[c]||[];document.getElementById("athkarContent").innerHTML=items.map((item,i)=>{const key=`${c}_${i}`;if(!cnt[key])cnt[key]=0;return`<div class="thikr-card"><div class="thikr-text">${item.t}</div><div class="thikr-source" style="font-size:11px;color:var(--muted);margin-top:8px;">📚 ${item.s} — ${item.c}</div><div class="counter-wrap"><div class="counter-num" id="cn-${key}">${cnt[key]}</div><button class="counter-btn" onclick="inc('${key}')">+</button></div></div>`;}).join("");}
-function inc(k){cnt[k]=(cnt[k]||0)+1;const el=document.getElementById(`cn-${k}`);if(el)el.textContent=cnt[k];}
-function showRuqyah(){document.getElementById("ruqyahContent").innerHTML=ruqyahItems.map((item,i)=>{const key=`ruqyah_${i}`;if(!cnt[key])cnt[key]=0;return`<div class="ruqyah-card"><div class="thikr-text" style="font-family:'Amiri Quran',serif;font-size:20px;">${item.text}</div><div class="thikr-source" style="font-size:11px;color:var(--muted);margin-top:8px;">📚 ${item.source}</div><div class="counter-wrap"><div class="counter-num" id="cn-${key}">${cnt[key]}</div><button class="counter-btn" onclick="inc('${key}')">+</button></div></div>`;}).join("");}
-function toggleTheme(){const html=document.documentElement;const isLight=html.getAttribute("data-theme")==="light";html.setAttribute("data-theme",isLight?"dark":"light");const btn=document.getElementById("themeBtn");if(btn)btn.innerHTML=isLight?"🌙 ليلي":"☀️ نهاري";localStorage.setItem("sakeena-theme",isLight?"dark":"light");}
-function init(){renderSurahList();renderSurahsInfo();loadPrayer();showAthkar("morning",document.querySelector(".athkar-tab"));renderSahaba("all");showRuqyah();startDuaTimer();const savedTheme=localStorage.getItem("sakeena-theme");if(savedTheme==="light")document.documentElement.setAttribute("data-theme","light");const themeBtn=document.createElement("button");themeBtn.id="themeBtn";themeBtn.innerHTML=document.documentElement.getAttribute("data-theme")==="light"?"☀️ نهاري":"🌙 ليلي";themeBtn.className="theme-fixed-btn";themeBtn.onclick=toggleTheme;document.body.appendChild(themeBtn);audio.onended=()=>{if(curIdx<curAyahs.length-1){playAyah(curIdx+1);}};}
+// عرض قائمة السور
+function renderSurahList() {
+  const grid = document.getElementById("surahGrid");
+  if (!grid) return;
+  grid.innerHTML = surahNamesFull.map((name, idx) => `
+    <div class="surah-card" onclick="openSurah(${idx+1})">
+      <div class="surah-num">${idx+1}</div>
+      <div class="surah-name">${name}</div>
+      <div class="surah-info">${surahInfoDetails[idx+1]?.ayahCount || "?"} آية • ${surahInfoDetails[idx+1]?.type || ""}</div>
+    </div>
+  `).join("");
+}
+
+// عرض معلومات السور
+function renderSurahsInfo() {
+  const grid = document.getElementById("surahsInfoGrid");
+  if (!grid) return;
+  grid.innerHTML = surahNamesFull.map((name, idx) => {
+    const info = surahInfoDetails[idx+1];
+    return `
+      <div class="surah-card">
+        <div class="surah-num">${idx+1}</div>
+        <div class="surah-name">${name}</div>
+        <div class="surah-info">📖 عدد الآيات: ${info?.ayahCount || "?"}</div>
+        <div class="surah-info">📌 الجزء: ${info?.juz || "?"}</div>
+        <div class="surah-info">📍 مكان النزول: ${info?.type || "مكية"}</div>
+        <div class="surah-info">📅 ترتيب النزول: ${info?.order || "?"}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+function filterSurahsInfo() {
+  const search = document.getElementById("surahInfoSearch")?.value.toLowerCase() || "";
+  const grid = document.getElementById("surahsInfoGrid");
+  if (!grid) return;
+  const filtered = surahNamesFull.filter((name, idx) => name.includes(search) || (idx+1).toString().includes(search));
+  grid.innerHTML = filtered.map((name, idx) => {
+    const originalIdx = surahNamesFull.indexOf(name) + 1;
+    const info = surahInfoDetails[originalIdx];
+    return `
+      <div class="surah-card">
+        <div class="surah-num">${originalIdx}</div>
+        <div class="surah-name">${name}</div>
+        <div class="surah-info">📖 عدد الآيات: ${info?.ayahCount || "?"}</div>
+        <div class="surah-info">📌 الجزء: ${info?.juz || "?"}</div>
+        <div class="surah-info">📍 مكان النزول: ${info?.type || "مكية"}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+function filterSurahs() {
+  const search = document.getElementById("surahSearch")?.value.toLowerCase() || "";
+  const grid = document.getElementById("surahGrid");
+  if (!grid) return;
+  const filtered = surahNamesFull.filter((name, idx) => name.includes(search) || (idx+1).toString().includes(search));
+  grid.innerHTML = filtered.map((name, idx) => {
+    const originalIdx = surahNamesFull.indexOf(name) + 1;
+    const info = surahInfoDetails[originalIdx];
+    return `
+      <div class="surah-card" onclick="openSurah(${originalIdx})">
+        <div class="surah-num">${originalIdx}</div>
+        <div class="surah-name">${name}</div>
+        <div class="surah-info">${info?.ayahCount || "?"} آية • ${info?.type || ""}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+function openSurah(num) {
+  selectedSurah = num;
+  document.getElementById("list-view").style.display = "none";
+  document.getElementById("reader-view").style.display = "block";
+  document.getElementById("readerName").innerHTML = surahNamesFull[num-1];
+  renderAyahs();
+}
+
+async function renderAyahs() {
+  const wrap = document.getElementById("ayahWrap");
+  if (!wrap) return;
+  wrap.innerHTML = '<div style="text-align:center;">جاري تحميل الآيات...</div>';
+  try {
+    const response = await fetch(`https://api.alquran.cloud/v1/surah/${selectedSurah}/ar.alafasy`);
+    const data = await response.json();
+    if (data.code === 200 && data.data) {
+      curAyahs = data.data.ayahs;
+      wrap.innerHTML = curAyahs.map((ayah, i) => `
+        <div class="ayah" id="ayah-${i}" onclick="playAyah(${i})">
+          <div class="ayah-text">${ayah.text}</div>
+          <div style="display:flex;justify-content:space-between;margin-top:5px;">
+            <span style="font-size:12px;color:var(--muted);">${i+1}</span>
+            <button class="tafsir-btn" onclick="event.stopPropagation();toggleTafsir(event, ${i}, ${selectedSurah}, ${i+1})">📖 تفسير</button>
+          </div>
+          <div class="tafsir-box" id="tafsir-${i}"></div>
+        </div>
+      `).join("");
+    } else {
+      wrap.innerHTML = '<div>حدث خطأ في تحميل الآيات</div>';
+    }
+  } catch(e) {
+    wrap.innerHTML = '<div>خطأ في الاتصال</div>';
+  }
+}
+
+async function toggleTafsir(event, idx, surahNum, ayahNum) {
+  const box = document.getElementById(`tafsir-${idx}`);
+  if (box.classList.contains("open")) {
+    box.classList.remove("open");
+    return;
+  }
+  box.classList.add("open");
+  if (box.innerHTML.trim() === "") {
+    box.innerHTML = "جاري تحميل التفسير...";
+    try {
+      const response = await fetch(`https://api.alquran.cloud/v1/ayah/${surahNum}:${ayahNum}/ar.ibnkathir`);
+      const data = await response.json();
+      if (data.code === 200 && data.data && data.data.text) {
+        box.innerHTML = data.data.text.substring(0, 500) + "...";
+      } else {
+        box.innerHTML = "لا يوجد تفسير متاح لهذه الآية";
+      }
+    } catch(e) {
+      box.innerHTML = "حدث خطأ في تحميل التفسير";
+    }
+  }
+}
+
+function backToList() {
+  document.getElementById("list-view").style.display = "block";
+  document.getElementById("reader-view").style.display = "none";
+}
+
+let reader = "Alafasy_128kbps";
+const audio = document.getElementById("audioEl");
+let curIdx = 0;
+
+function playAyah(i) {
+  curIdx = i;
+  document.querySelectorAll(".ayah").forEach((el, idx) => {
+    if (idx === i) el.classList.add("playing");
+    else el.classList.remove("playing");
+  });
+  const url = `https://cdn.islamic.network/quran/audio/128/${reader}/${selectedSurah}_${i+1}.mp3`;
+  audio.src = url;
+  audio.play();
+  audio.onended = () => {
+    if (curIdx < curAyahs.length - 1) {
+      playAyah(curIdx + 1);
+    }
+  };
+}
+
+function changeReader() {
+  reader = document.getElementById("readerSelect").value;
+}
+
+// عرض الصحابة
+function renderSahaba(filter = "all") {
+  const list = filter === "all" ? sahabaData : sahabaData.filter(s => s.cat === filter);
+  const grid = document.getElementById("sahabaGrid");
+  if (!grid) return;
+  grid.innerHTML = list.map(s => `
+    <div class="sahaba-card">
+      <div class="sahaba-name">${s.name}</div>
+      <div class="sahaba-title" style="font-size:12px;color:var(--muted);">${s.title}</div>
+      <div class="sahaba-quote">❝ ${s.quote} ❞</div>
+      <div style="font-size:11px;color:var(--gold);margin-top:8px;">⭐ ${s.badge}</div>
+      <button class="more-info-btn" onclick="showMoreInfo('${s.name}','${s.story}','${s.quote}')">📖 عرض المزيد</button>
+    </div>
+  `).join("");
+}
+
+function filterSahaba(cat, btn) {
+  document.querySelectorAll(".sahaba-filter").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  renderSahaba(cat);
+}
+
+function showMoreInfo(name, story, quote) {
+  document.getElementById("modalTitle").innerHTML = name;
+  document.getElementById("modalContent").innerHTML = `<strong>📝 القصة:</strong><br>${story}<br><br><strong>💬 من أقواله:</strong><br>"${quote}"`;
+  document.getElementById("infoModal").style.display = "flex";
+}
+
+function closeModal(e) {
+  if (e && e.target !== e.currentTarget && e.target.className !== "modal-close") return;
+  document.getElementById("infoModal").style.display = "none";
+}
+
+// الأذكار
+let counters = {};
+
+function showAthkar(type, btn) {
+  document.querySelectorAll(".athkar-tab").forEach(t => t.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  const items = athkar[type] || [];
+  const container = document.getElementById("athkarContent");
+  if (!container) return;
+  container.innerHTML = items.map((item, i) => {
+    const key = `${type}_${i}`;
+    if (!counters[key]) counters[key] = 0;
+    return `
+      <div class="thikr-card">
+        <div class="thikr-text">${item.t}</div>
+        <div class="thikr-source" style="font-size:11px;color:var(--muted);margin-top:8px;">📚 ${item.s} — ${item.c}</div>
+        <div class="counter-wrap">
+          <div class="counter-num" id="cn-${key}">${counters[key]}</div>
+          <button class="counter-btn" onclick="incrementCounter('${key}')">+</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function incrementCounter(key) {
+  counters[key] = (counters[key] || 0) + 1;
+  const el = document.getElementById(`cn-${key}`);
+  if (el) el.textContent = counters[key];
+}
+
+// الرقية
+function showRuqyah() {
+  const container = document.getElementById("ruqyahContent");
+  if (!container) return;
+  container.innerHTML = ruqyahItems.map((item, i) => {
+    const key = `ruqyah_${i}`;
+    if (!counters[key]) counters[key] = 0;
+    return `
+      <div class="ruqyah-card">
+        <div class="thikr-text" style="font-family:'Amiri Quran',serif;font-size:20px;">${item.text}</div>
+        <div class="thikr-source" style="font-size:11px;color:var(--muted);margin-top:8px;">📚 ${item.source}</div>
+        <div class="counter-wrap">
+          <div class="counter-num" id="cn-${key}">${counters[key]}</div>
+          <button class="counter-btn" onclick="incrementCounter('${key}')">+</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// أوقات الصلاة
+function loadPrayer() {
+  const now = new Date();
+  const times = {
+    fajr: "04:38",
+    dhuhr: "11:48",
+    asr: "15:08",
+    maghrib: "17:42",
+    isha: "19:12"
+  };
+  document.getElementById("p-fajr").innerHTML = times.fajr;
+  document.getElementById("p-dhuhr").innerHTML = times.dhuhr;
+  document.getElementById("p-asr").innerHTML = times.asr;
+  document.getElementById("p-maghrib").innerHTML = times.maghrib;
+  document.getElementById("p-isha").innerHTML = times.isha;
+}
+
+function loadByCity() {
+  loadPrayer();
+}
+
+function showMainPage(page, btn) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(`page-${page}`).classList.add("active");
+  document.querySelectorAll(".nav-btn-top").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+}
+
+function showPage(page, btn) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(`page-${page}`).classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const isLight = html.getAttribute("data-theme") === "light";
+  html.setAttribute("data-theme", isLight ? "dark" : "light");
+  const btn = document.getElementById("themeBtn");
+  if (btn) btn.innerHTML = isLight ? "🌙 ليلي" : "☀️ نهاري";
+  localStorage.setItem("sakeena-theme", isLight ? "dark" : "light");
+}
+
+// تهيئة الصفحة
+function init() {
+  renderSurahList();
+  renderSurahsInfo();
+  loadPrayer();
+  showAthkar("morning", document.querySelector(".athkar-tab"));
+  renderSahaba("all");
+  showRuqyah();
+  startDuaTimer(); // بدء الدعاء كل ربع ساعة
+  
+  const savedTheme = localStorage.getItem("sakeena-theme");
+  if (savedTheme === "light") document.documentElement.setAttribute("data-theme", "light");
+  
+  const themeBtn = document.createElement("button");
+  themeBtn.id = "themeBtn";
+  themeBtn.innerHTML = document.documentElement.getAttribute("data-theme") === "light" ? "☀️ نهاري" : "🌙 ليلي";
+  themeBtn.className = "theme-fixed-btn";
+  themeBtn.onclick = toggleTheme;
+  document.body.appendChild(themeBtn);
+}
+
 init();
 </script>
 </body>
