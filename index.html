@@ -766,7 +766,7 @@ const athkar = {
     {t:"﴿قُلْ هُوَ اللَّهُ أَحَدٌ﴾",s:"تعدل ثلث القرآن",c:"٣ مرات"},
     {t:"﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ﴾",s:"سورة الفلق",c:"٣ مرات"},
     {t:"﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ﴾",s:"سورة الناس",c:"٣ مرات"},
-    {t:"اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْماً نَافِعاً، وَرِزْقاً طَيِّباً، وَعَمَلاً مُتَقَبَّلاً",s:"رواه ابن ماجه",c:"١ مرة"},
+    {t:"اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْماً نَافِعاً، وَرِزْقاً طَيِّباً، وَعَمَلًا مُتَقَبَّلاً",s:"رواه ابن ماجه",c:"١ مرة"},
     {t:"رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِيناً، وَبِمُحَمَّدٍ نَبِيّاً",s:"رواه أبو داود",c:"٣ مرات"}
   ],
   evening: [
@@ -997,29 +997,59 @@ async function toggleTafsir(event, idx, surahNum, ayahNum) {
 function backToList() {
   document.getElementById("list-view").style.display = "block";
   document.getElementById("reader-view").style.display = "none";
-  if (audio) audio.pause();
+  if (audio) {
+    audio.pause();
+    audio.src = "";
+  }
+  curIdx = 0;
 }
 
+// ========== التعديل الأساسي: دالة playAyah المعدلة للتشغيل المستمر ==========
 function playAyah(i) {
+  if (!curAyahs || curAyahs.length === 0) return;
+  
   curIdx = i;
+  
+  // إزالة التمييز عن جميع الآيات ثم تمييز الآية الحالية
   document.querySelectorAll(".ayah").forEach((el, idx) => {
     if (idx === i) el.classList.add("playing");
     else el.classList.remove("playing");
   });
+  
+  // بناء رابط الصوت للآية المحددة
   const url = `https://cdn.islamic.network/quran/audio/128/${reader}/${selectedSurah}_${i+1}.mp3`;
   audio.src = url;
-  audio.play();
+  
+  // إزالة المستمع القديم لمنع التكرار
+  audio.onended = null;
+  
+  // إضافة مستمع جديد لتشغيل الآية التالية تلقائياً
   audio.onended = () => {
+    // الانتقال للآية التالية إذا لم تكن الأخيرة
     if (curIdx < curAyahs.length - 1) {
       playAyah(curIdx + 1);
     } else {
+      // إزالة التمييز عند الانتهاء من السورة
       document.querySelectorAll(".ayah").forEach(el => el.classList.remove("playing"));
     }
   };
+  
+  // تشغيل الصوت
+  audio.play().catch(e => console.log("تشغيل الصوت فشل:", e));
 }
 
+// ========== دالة changeReader المعدلة لتحديث التلاوة الحالية ==========
 function changeReader() {
-  reader = document.getElementById("readerSelect").value;
+  const newReader = document.getElementById("readerSelect").value;
+  reader = newReader;
+  
+  // إذا كان هناك تلاوة نشطة، نعيد تشغيل الآية الحالية بالقارئ الجديد
+  if (curAyahs && curAyahs.length > 0 && audio.src) {
+    // نوقف الصوت الحالي
+    audio.pause();
+    // نعيد تشغيل الآية الحالية بالقارئ الجديد
+    playAyah(curIdx);
+  }
 }
 
 // عرض الصحابة
