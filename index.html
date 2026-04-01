@@ -371,23 +371,32 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
     <div class="prayer-box">
       <div class="section-label">أوقات الصلاة</div>
       <div class="prayer-grid">
-        <div class="prayer-item"><div class="prayer-name">الفجر</div><div class="prayer-time" id="p-fajr">04:38</div></div>
-        <div class="prayer-item"><div class="prayer-name">الظهر</div><div class="prayer-time" id="p-dhuhr">11:48</div></div>
-        <div class="prayer-item"><div class="prayer-name">العصر</div><div class="prayer-time" id="p-asr">15:08</div></div>
-        <div class="prayer-item"><div class="prayer-name">المغرب</div><div class="prayer-time" id="p-maghrib">17:42</div></div>
-        <div class="prayer-item"><div class="prayer-name">العشاء</div><div class="prayer-time" id="p-isha">19:12</div></div>
+        <div class="prayer-item"><div class="prayer-name">الفجر</div><div class="prayer-time" id="p-fajr">--:--</div></div>
+        <div class="prayer-item"><div class="prayer-name">الظهر</div><div class="prayer-time" id="p-dhuhr">--:--</div></div>
+        <div class="prayer-item"><div class="prayer-name">العصر</div><div class="prayer-time" id="p-asr">--:--</div></div>
+        <div class="prayer-item"><div class="prayer-name">المغرب</div><div class="prayer-time" id="p-maghrib">--:--</div></div>
+        <div class="prayer-item"><div class="prayer-name">العشاء</div><div class="prayer-time" id="p-isha">--:--</div></div>
       </div>
-      <div class="next-prayer-banner" id="nextPrayer">⏳ الصلاة القادمة: <span id="nextPrayerName">--:--</span></div>
-      <div id="locationPermBox" style="display:none;margin-top:8px;padding:10px;background:rgba(201,168,76,0.1);text-align:center;">
-        <div style="font-size:11px;margin-bottom:8px;">📍 اختر مدينتك</div>
+      <div class="next-prayer-banner" id="nextPrayer">⏳ الصلاة القادمة: <span id="nextPrayerName">جاري التحميل...</span></div>
+      <div id="locationPermBox" style="margin-top:8px;padding:10px;background:rgba(201,168,76,0.1);text-align:center;">
+        <div style="font-size:11px;margin-bottom:8px;">📍 اختر منطقتك لتحديث أوقات الصلاة</div>
         <select id="citySelect" style="width:100%;padding:8px;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:8px;">
           <option value="Riyadh">الرياض</option>
           <option value="Mecca">مكة المكرمة</option>
           <option value="Medina">المدينة المنورة</option>
           <option value="Jeddah">جدة</option>
           <option value="Dammam">الدمام</option>
+          <option value="Abha">أبها</option>
+          <option value="Tabuk">تبوك</option>
+          <option value="Buraidah">بريدة</option>
+          <option value="Hail">حائل</option>
+          <option value="Najran">نجران</option>
+          <option value="Jubail">الجبيل</option>
+          <option value="Yanbu">ينبع</option>
+          <option value="AlKhobar">الخبر</option>
+          <option value="Taif">الطائف</option>
         </select>
-        <button onclick="loadByCity()" style="width:100%;padding:8px;margin-top:8px;background:rgba(184,134,11,0.15);border:1px solid var(--gold);color:var(--gold);cursor:pointer;border-radius:8px;">تأكيد</button>
+        <button onclick="loadPrayerByCity()" style="width:100%;padding:8px;margin-top:8px;background:rgba(184,134,11,0.15);border:1px solid var(--gold);color:var(--gold);cursor:pointer;border-radius:8px;">تحديث الأوقات</button>
       </div>
     </div>
 
@@ -789,6 +798,68 @@ const ruqyahItems = [
   {text:"بِسْمِ اللَّهِ أَرْقِيكَ، مِنْ كُلِّ شَيْءٍ يُؤْذِيكَ، مِنْ شَرِّ كُلِّ نَفْسٍ أَوْ عَيْنِ حَاسِدٍ، اللَّهُ يَشْفِيكَ، بِسْمِ اللَّهِ أَرْقِيكَ",source:"رواه مسلم"}
 ];
 
+// ===== دوال أوقات الصلاة باستخدام API =====
+async function loadPrayerByCity() {
+  const citySelect = document.getElementById("citySelect");
+  const city = citySelect.value;
+  const country = "SA"; // السعودية
+  
+  try {
+    const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=4`);
+    const data = await response.json();
+    
+    if (data.code === 200) {
+      const timings = data.data.timings;
+      document.getElementById("p-fajr").innerHTML = timings.Fajr.substring(0,5);
+      document.getElementById("p-dhuhr").innerHTML = timings.Dhuhr.substring(0,5);
+      document.getElementById("p-asr").innerHTML = timings.Asr.substring(0,5);
+      document.getElementById("p-maghrib").innerHTML = timings.Maghrib.substring(0,5);
+      document.getElementById("p-isha").innerHTML = timings.Isha.substring(0,5);
+      
+      // تحديث الصلاة القادمة
+      updateNextPrayer(timings);
+      
+      // حفظ المدينة المختارة
+      localStorage.setItem("selectedCity", city);
+    } else {
+      console.log("خطأ في جلب الأوقات");
+    }
+  } catch(e) {
+    console.log("خطأ في الاتصال", e);
+  }
+}
+
+function updateNextPrayer(timings) {
+  const now = new Date();
+  const currentTime = now.getHours() * 60 + now.getMinutes();
+  
+  const prayers = [
+    { name: "الفجر", time: timings.Fajr.substring(0,5) },
+    { name: "الظهر", time: timings.Dhuhr.substring(0,5) },
+    { name: "العصر", time: timings.Asr.substring(0,5) },
+    { name: "المغرب", time: timings.Maghrib.substring(0,5) },
+    { name: "العشاء", time: timings.Isha.substring(0,5) }
+  ];
+  
+  let nextPrayer = null;
+  let minDiff = Infinity;
+  
+  for (let prayer of prayers) {
+    const [hours, minutes] = prayer.time.split(":");
+    const prayerMinutes = parseInt(hours) * 60 + parseInt(minutes);
+    let diff = prayerMinutes - currentTime;
+    if (diff < 0) diff += 24 * 60;
+    if (diff < minDiff) {
+      minDiff = diff;
+      nextPrayer = prayer;
+    }
+  }
+  
+  if (nextPrayer) {
+    document.getElementById("nextPrayerName").innerHTML = `${nextPrayer.name} ${nextPrayer.time}`;
+  }
+}
+
 // عرض قائمة السور
 function renderSurahList() {
   const grid = document.getElementById("surahGrid");
@@ -859,6 +930,12 @@ function filterSurahs() {
   }).join("");
 }
 
+let selectedSurah = null;
+let curAyahs = [];
+let reader = "Alafasy_128kbps";
+const audio = document.getElementById("audioEl");
+let curIdx = 0;
+
 function openSurah(num) {
   selectedSurah = num;
   document.getElementById("list-view").style.display = "none";
@@ -920,11 +997,8 @@ async function toggleTafsir(event, idx, surahNum, ayahNum) {
 function backToList() {
   document.getElementById("list-view").style.display = "block";
   document.getElementById("reader-view").style.display = "none";
+  if (audio) audio.pause();
 }
-
-let reader = "Alafasy_128kbps";
-const audio = document.getElementById("audioEl");
-let curIdx = 0;
 
 function playAyah(i) {
   curIdx = i;
@@ -938,6 +1012,8 @@ function playAyah(i) {
   audio.onended = () => {
     if (curIdx < curAyahs.length - 1) {
       playAyah(curIdx + 1);
+    } else {
+      document.querySelectorAll(".ayah").forEach(el => el.classList.remove("playing"));
     }
   };
 }
@@ -1030,27 +1106,6 @@ function showRuqyah() {
   }).join("");
 }
 
-// أوقات الصلاة
-function loadPrayer() {
-  const now = new Date();
-  const times = {
-    fajr: "04:38",
-    dhuhr: "11:48",
-    asr: "15:08",
-    maghrib: "17:42",
-    isha: "19:12"
-  };
-  document.getElementById("p-fajr").innerHTML = times.fajr;
-  document.getElementById("p-dhuhr").innerHTML = times.dhuhr;
-  document.getElementById("p-asr").innerHTML = times.asr;
-  document.getElementById("p-maghrib").innerHTML = times.maghrib;
-  document.getElementById("p-isha").innerHTML = times.isha;
-}
-
-function loadByCity() {
-  loadPrayer();
-}
-
 function showMainPage(page, btn) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.getElementById(`page-${page}`).classList.add("active");
@@ -1075,14 +1130,21 @@ function toggleTheme() {
 }
 
 // تهيئة الصفحة
-function init() {
+async function init() {
   renderSurahList();
   renderSurahsInfo();
-  loadPrayer();
+  
+  // تحميل أوقات الصلاة للمدينة المحفوظة أو الافتراضية
+  const savedCity = localStorage.getItem("selectedCity");
+  if (savedCity) {
+    document.getElementById("citySelect").value = savedCity;
+  }
+  await loadPrayerByCity();
+  
   showAthkar("morning", document.querySelector(".athkar-tab"));
   renderSahaba("all");
   showRuqyah();
-  startDuaTimer(); // بدء الدعاء كل ربع ساعة
+  startDuaTimer();
   
   const savedTheme = localStorage.getItem("sakeena-theme");
   if (savedTheme === "light") document.documentElement.setAttribute("data-theme", "light");
