@@ -39,16 +39,19 @@ body{background-color:#050d1a !important;background-image:none !important;}
   background: rgba(201,168,76,0.25);
   border-color: var(--gold);
 }
+
 /* تحسين الآيات في الوضع النهاري */
 [data-theme="light"] .ayah-text{
   color: #000000 !important;
   font-weight: 500;
 }
+
 [data-theme="light"] .ayah-num{
   color: #8b6914;
   background: rgba(139,105,20,0.1);
   border-color: #8b6914;
 }
+
 /* تحسين صفحة تفاصيل الصحابة */
 #sahabaDetail{
   position:fixed;
@@ -78,6 +81,7 @@ body{background-color:#050d1a !important;background-image:none !important;}
   cursor:pointer;
   margin-bottom:16px;
 }
+
 .app{display:flex;flex-direction:column;min-height:100vh;}
 .sidebar{width:100%;background:#060e1e;border-bottom:1px solid rgba(201,168,76,0.25);position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,0.5);display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;padding:0;}
 .main{flex:1;}
@@ -333,4 +337,395 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
         <button class="sahaba-filter" onclick="filterSahaba('wives',this)">زوجات النبي ﷺ</button>
       </div>
       <div style="padding:16px 28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;" id="sahabaGrid"></div>
-      <div id="sahabaDetail"
+      <div id="sahabaDetail" style="display:none;">
+        <div class="detail-card">
+          <button class="close-detail" onclick="closeSahaba()">✕ إغلاق</button>
+          <div id="sahabaDetailContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- الأذكار -->
+    <div id="page-athkar" class="page">
+      <div style="display:flex;align-items:center;gap:16px;padding:24px 28px 0;margin-top:8px;">
+        <div style="height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.4));"></div>
+        <div style="font-family:'Amiri',serif;font-size:22px;color:#e8c97a;">📿 الأذكار والأدعية</div>
+        <div style="height:1px;flex:1;background:linear-gradient(90deg,rgba(201,168,76,0.4),transparent);"></div>
+      </div>
+      <div class="athkar-tabs">
+        <button class="athkar-tab active" onclick="showAthkar('morning',this)">🌅 أذكار الصباح</button>
+        <button class="athkar-tab" onclick="showAthkar('evening',this)">🌙 أذكار المساء</button>
+      </div>
+      <div class="athkar-content" id="athkarContent"></div>
+    </div>
+  </main>
+
+  <footer style="background:#030810;border-top:1px solid rgba(201,168,76,0.2);padding:40px 28px 30px;margin-top:20px;">
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:10px;">
+        <div style="height:1px;width:50px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.5));"></div>
+        <div style="font-family:'Amiri',serif;font-size:20px;color:#e8c97a;">المصادر والمراجع</div>
+        <div style="height:1px;width:50px;background:linear-gradient(90deg,rgba(201,168,76,0.5),transparent);"></div>
+      </div>
+    </div>
+    <div style="text-align:center;padding-top:20px;border-top:1px solid rgba(201,168,76,0.1);">
+      <div style="font-family:'Amiri',serif;font-size:18px;color:rgba(201,168,76,0.6);margin-bottom:6px;">سكينة</div>
+      <div style="font-size:11px;color:#8a9ab5;">صُنع بـ ❤️ — جميع الحقوق محفوظة</div>
+    </div>
+  </footer>
+</div>
+
+<audio id="audioEl" onended="onEnded()"></audio>
+
+<script>
+// ===== البيانات المعدلة =====
+const athkar={
+  morning:[
+    {t:"أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ — بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ — اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ",s:"آية الكرسي — البقرة 255",c:"١ مرة"},
+    {t:"أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ",s:"رواه مسلم",c:"١ مرة"},
+    {t:"اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ",s:"رواه الترمذي",c:"١ مرة"},
+    {t:"رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",s:"رواه مسلم — كان أكثر دعاء النبي ﷺ",c:"٣ مرات"},
+    {t:"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",s:"رواه البخاري — سيد الاستغفار",c:"١ مرة"},
+    {t:"حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",s:"رواه أبو داود",c:"٧ مرات"},
+    {t:"بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",s:"رواه أبو داود والترمذي",c:"٣ مرات"},
+    {t:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",s:"رواه مسلم",c:"١٠٠ مرة"},
+    {t:"﴿قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾",s:"رواه الترمذي — تعدل ثلث القرآن",c:"٣ مرات"},
+    {t:"﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ﴾",s:"رواه أبو داود",c:"٣ مرات"},
+    {t:"﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَهِ النَّاسِ ۝ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ﴾",s:"رواه أبو داود",c:"٣ مرات"}
+  ],
+  evening:[
+    {t:"أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ — بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ — اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ، لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ، لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ",s:"رواه أبو داود",c:"١ مرة"},
+    {t:"أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا",s:"رواه مسلم",c:"١ مرة"},
+    {t:"اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ",s:"رواه الترمذي",c:"١ مرة"},
+    {t:"رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",s:"رواه مسلم — كان أكثر دعاء النبي ﷺ",c:"٣ مرات"},
+    {t:"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي",s:"رواه البخاري",c:"١ مرة"},
+    {t:"حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",s:"رواه أبو داود",c:"٧ مرات"},
+    {t:"بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",s:"رواه أبو داود",c:"٣ مرات"},
+    {t:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",s:"رواه مسلم",c:"٣ مرات"},
+    {t:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",s:"رواه مسلم",c:"١٠٠ مرة"},
+    {t:"﴿قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾",s:"تعدل ثلث القرآن",c:"٣ مرات"},
+    {t:"﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ﴾",s:"المعوذتين",c:"٣ مرات"},
+    {t:"﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ﴾",s:"المعوذتين",c:"٣ مرات"}
+  ]
+};
+
+// ===== المتغيرات =====
+let surahs=[],curSurah=null,curAyahs=[],curIdx=0,playing=false;
+let reader='Alafasy_128kbps';
+const audio=document.getElementById('audioEl');
+const cnt={};
+
+// ===== دالة تنسيق الوقت بالعربي =====
+function formatTimeArabic(date){
+  let hours=date.getHours();
+  let minutes=date.getMinutes();
+  let seconds=date.getSeconds();
+  let period=hours>=12?'م':'ص';
+  let hours12=hours%12;
+  hours12=hours12===0?12:hours12;
+  const toAr=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+  return `${toAr(hours12)}:${toAr(minutes)}:${toAr(seconds)} ${period}`;
+}
+
+// ===== دالة الساعة والتاريخ =====
+function startClock(){
+  function tick(){
+    const now=new Date();
+    document.getElementById('clockDisplay').textContent=formatTimeArabic(now);
+    const days=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+    const months=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+    document.getElementById('dateGregorian').textContent=`${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}م`;
+  }
+  tick();setInterval(tick,1000);
+  fetch('https://api.aladhan.com/v1/gToH')
+    .then(r=>r.json()).then(d=>{
+      if(d.data&&d.data.hijri){
+        const h=d.data.hijri;
+        document.getElementById('dateHijri').textContent=`${h.day} ${h.month.ar} ${h.year} هـ`;
+      }
+    }).catch(()=>{});
+}
+
+// ===== تحميل السور =====
+async function loadSurahs(){
+  try{
+    const r=await fetch('https://api.alquran.cloud/v1/surah',{signal:AbortSignal.timeout(8000)});
+    const d=await r.json();
+    if(d.data&&d.data.length>0){
+      surahs=d.data;
+      renderList(surahs);
+    }
+  }catch(e){
+    document.getElementById('surahGrid').innerHTML='<div style="color:#c9a84c;padding:40px;text-align:center;">تعذر تحميل السور<br><button onclick="loadSurahs()" style="margin-top:12px;padding:8px 20px;background:rgba(201,168,76,0.2);border:1px solid #c9a84c;color:#e8c97a;cursor:pointer;">إعادة المحاولة</button></div>';
+  }
+}
+
+// ===== عرض قائمة السور (مصلحة) =====
+function renderList(list){
+  const types={Meccan:'مكية',Medinan:'مدنية'};
+  document.getElementById('surahGrid').innerHTML=list.map(s=>`
+    <div class="surah-card" onclick="openSurah(${s.number})">
+      <div class="surah-num">${s.number}</div>
+      <div class="surah-name">${s.name}</div>
+      <div class="surah-english">${s.englishName}</div>
+      <div class="surah-meta">
+        <span>${s.numberOfAyahs} آية</span>
+        <span class="surah-type">${types[s.revelationType]||s.revelationType}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterSurahs(){
+  const q=document.getElementById('surahSearch').value.trim();
+  if(!q){renderList(surahs);return;}
+  renderList(surahs.filter(s=>s.name.includes(q)||s.englishName.toLowerCase().includes(q.toLowerCase())||String(s.number)===q));
+}
+
+// ===== فتح السورة =====
+async function openSurah(num){
+  curSurah=surahs.find(s=>s.number===num);
+  document.getElementById('list-view').style.display='none';
+  document.getElementById('reader-view').style.display='block';
+  document.getElementById('readerName').textContent=curSurah.name;
+  document.getElementById('readerInfo').textContent=`${curSurah.englishName} • ${curSurah.numberOfAyahs} آية`;
+  document.getElementById('readerBismillah').style.display=num===9?'none':'block';
+  document.getElementById('ayahWrap').innerHTML='<div class="loading-wrap"><div class="loading-spinner"></div>جاري تحميل الآيات...</div>';
+  stopAudio();
+  try{
+    const r=await fetch(`https://api.alquran.cloud/v1/surah/${num}`);
+    const d=await r.json();
+    curAyahs=d.data.ayahs;curIdx=0;
+    renderAyahs();
+  }catch(e){
+    document.getElementById('ayahWrap').innerHTML='<div style="color:#ff6b6b;padding:40px;text-align:center">تعذر تحميل الآيات</div>';
+  }
+}
+
+function renderAyahs(){
+  document.getElementById('ayahWrap').innerHTML=curAyahs.map((a,i)=>`
+    <div class="ayah" id="ay-${i}" onclick="playAyah(${i})">
+      <div class="ayah-text">${a.text}<span class="ayah-num">${a.numberInSurah}</span></div>
+    </div>
+  `).join('');
+}
+
+// ===== الصوت =====
+function audioUrl(sNum,aNum){
+  return`https://everyayah.com/data/${reader}/${String(sNum).padStart(3,'0')}${String(aNum).padStart(3,'0')}.mp3`;
+}
+
+function playAyah(i){
+  document.querySelectorAll('.ayah').forEach(a=>a.classList.remove('playing'));
+  const el=document.getElementById(`ay-${i}`);
+  if(el){el.classList.add('playing');el.scrollIntoView({behavior:'smooth',block:'center'});}
+  curIdx=i;
+  audio.src=audioUrl(curSurah.number,curAyahs[i].numberInSurah);
+  audio.play();playing=true;
+  document.getElementById('playBtn').textContent='⏸ إيقاف';
+  document.getElementById('playBtn').classList.add('active-btn');
+}
+
+function togglePlay(){
+  if(playing){audio.pause();playing=false;document.getElementById('playBtn').textContent='▶ استمع للسورة';document.getElementById('playBtn').classList.remove('active-btn');}
+  else if(curAyahs.length)playAyah(curIdx);
+}
+
+function onEnded(){
+  if(curIdx<curAyahs.length-1){
+    curIdx++;
+    document.querySelectorAll('.ayah').forEach(a=>a.classList.remove('playing'));
+    const el=document.getElementById('ay-'+curIdx);
+    if(el){el.classList.add('playing');el.scrollIntoView({behavior:'smooth',block:'center'});}
+    audio.src=audioUrl(curSurah.number,curAyahs[curIdx].numberInSurah);
+    audio.play();
+  } else {
+    playing=false;
+    document.getElementById('playBtn').textContent='▶ استمع للسورة';
+    document.getElementById('playBtn').classList.remove('active-btn');
+  }
+}
+
+function stopAudio(){audio.pause();audio.src='';playing=false;const b=document.getElementById('playBtn');if(b){b.textContent='▶ استمع للسورة';b.classList.remove('active-btn');}document.querySelectorAll('.ayah').forEach(a=>a.classList.remove('playing'));}
+function backToList(){stopAudio();document.getElementById('list-view').style.display='block';document.getElementById('reader-view').style.display='none';}
+function prevSurah(){if(curSurah&&curSurah.number>1)openSurah(curSurah.number-1);}
+function nextSurah(){if(curSurah&&curSurah.number<114)openSurah(curSurah.number+1);}
+function changeReader(){reader=document.getElementById('readerSelect').value;if(playing)playAyah(curIdx);}
+
+// ===== أوقات الصلاة =====
+async function loadPrayer(){
+  try{
+    const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{timeout:6000}));
+    const{latitude:lat,longitude:lng}=pos.coords;
+    const now=new Date();
+    const ds=`${now.getDate()}-${now.getMonth()+1}-${now.getFullYear()}`;
+    const r=await fetch(`https://api.aladhan.com/v1/timings/${ds}?latitude=${lat}&longitude=${lng}&method=4`);
+    const d=await r.json();
+    setPrayer(d.data.timings);
+    document.getElementById('locationPermBox').style.display='none';
+  }catch(e){
+    document.getElementById('locationPermBox').style.display='block';
+    document.getElementById('nextPrayer').textContent='📍 أدخل مدينتك لعرض أوقات الصلاة';
+  }
+}
+
+async function loadByCity(){
+  const sel=document.getElementById('citySelect');
+  const city=sel.value;
+  if(!city)return;
+  const lat=parseFloat(sel.options[sel.selectedIndex].getAttribute('data-lat'));
+  const lng=parseFloat(sel.options[sel.selectedIndex].getAttribute('data-lng'));
+  document.getElementById('nextPrayer').textContent='⏳ جاري التحميل...';
+  try{
+    const now=new Date();
+    const ds=`${now.getDate()}-${now.getMonth()+1}-${now.getFullYear()}`;
+    const r=await fetch(`https://api.aladhan.com/v1/timings/${ds}?latitude=${lat}&longitude=${lng}&method=4`);
+    const d=await r.json();
+    setPrayer(d.data.timings);
+    document.getElementById('locationPermBox').style.display='none';
+  }catch(e){
+    document.getElementById('nextPrayer').textContent='تعذر التحميل، جرب مرة ثانية';
+  }
+}
+
+function setPrayer(t){
+  document.getElementById('p-fajr').textContent=t.Fajr;
+  document.getElementById('p-sunrise').textContent=t.Sunrise;
+  document.getElementById('p-dhuhr').textContent=t.Dhuhr;
+  document.getElementById('p-asr').textContent=t.Asr;
+  document.getElementById('p-maghrib').textContent=t.Maghrib;
+  document.getElementById('p-isha').textContent=t.Isha;
+  const prayers=[{n:'الفجر',v:t.Fajr,id:'p-fajr'},{n:'الظهر',v:t.Dhuhr,id:'p-dhuhr'},{n:'العصر',v:t.Asr,id:'p-asr'},{n:'المغرب',v:t.Maghrib,id:'p-maghrib'},{n:'العشاء',v:t.Isha,id:'p-isha'}];
+  const now=new Date();
+  for(const p of prayers){
+    const[h,m]=p.v.split(':').map(Number);
+    const pt=new Date();pt.setHours(h,m,0,0);
+    if(pt>now){
+      const diff=Math.round((pt-now)/60000);
+      const hrs=Math.floor(diff/60),mins=diff%60;
+      document.getElementById('nextPrayer').innerHTML=`🕌 ${p.n} بعد ${hrs>0?hrs+'س و':''}${mins} دقيقة`;
+      prayers.forEach(pray=>{const el=document.getElementById(pray.id);if(el)el.classList.remove('next');});
+      document.getElementById(p.id).classList.add('next');
+      return;
+    }
+  }
+  document.getElementById('nextPrayer').innerHTML='🌙 صلاة الفجر غداً';
+}
+
+// ===== بيانات الصحابة =====
+const sahabaData=[
+  {id:1,name:"أبو بكر الصديق",title:"رضي الله عنه — أول الخلفاء الراشدين",badge:"العشرة المبشرون",cat:"10",quote:"أينما كنتُ فإن الله معي",story:"أول من أسلم من الرجال الأحرار، رافق النبي ﷺ في الهجرة وكان معه في الغار.",death:"توفي سنة 13 هـ"},
+  {id:2,name:"عمر بن الخطاب",title:"رضي الله عنه — الفاروق",badge:"العشرة المبشرون",cat:"10",quote:"من أراد أن ينظر إلى شهيد يمشي على الأرض فلينظر إلى طلحة",story:"أسلم بعد أن سمع قراءة القرآن من فم أخته. عُرف بعدله الشديد.",death:"استشهد سنة 23 هـ"},
+  {id:3,name:"عثمان بن عفان",title:"رضي الله عنه — ذو النورين",badge:"العشرة المبشرون",cat:"10",quote:"ما زنيت في جاهلية ولا إسلام",story:"جمّع القرآن الكريم وأرسل المصاحف. اشترى بئر رومة.",death:"استشهد سنة 35 هـ"},
+  {id:4,name:"علي بن أبي طالب",title:"رضي الله عنه — أسد الله",badge:"العشرة المبشرون",cat:"10",quote:"قيمة كل امرئ ما يُحسنه",story:"ابن عم النبي ﷺ وزوج ابنته فاطمة. نشأ في بيت النبي.",death:"استشهد سنة 40 هـ"},
+  {id:5,name:"خالد بن الوليد",title:"رضي الله عنه — سيف الله المسلول",badge:"القادة",cat:"leader",quote:"ما من ليلة يُهدى لي فيها عروس أحب إليّ من ليلة باردة في سرية",story:"لم يُهزم في معركة قط. فتح الشام والعراق.",death:"توفي سنة 21 هـ"},
+  {id:6,name:"بلال بن رباح",title:"رضي الله عنه — مؤذن الإسلام",badge:"السابقون الأولون",cat:"early",quote:"أحد أحد",story:"كان عبداً عذّبه سيده بسبب إسلامه. اشتراه أبو بكر وأعتقه.",death:"توفي سنة 20 هـ"},
+  {id:7,name:"خديجة بنت خويلد",title:"رضي الله عنها — أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"كلّا والله لا يخزيك الله أبداً",story:"أول من آمن بالنبي ﷺ. وقفت إلى جانبه وأنفقت مالها.",death:"توفيت سنة 3 قبل الهجرة"},
+  {id:8,name:"عائشة بنت أبي بكر",title:"رضي الله عنها — أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"كان خلقه القرآن",story:"أكثر النساء رواية للحديث. علمت الأمة دينها.",death:"توفيت سنة 57 هـ"}
+];
+
+let currentFilter='all';
+
+function renderSahaba(filter){
+  const list=filter==='all'?sahabaData:sahabaData.filter(s=>s.cat===filter);
+  document.getElementById('sahabaGrid').innerHTML=list.map(s=>`
+    <div class="sahaba-card" onclick="openSahaba(${s.id})">
+      <div class="sahaba-badge" style="display:inline-block;padding:2px 8px;font-size:10px;background:rgba(201,168,76,0.2);border-radius:4px;">⭐ ${s.badge}</div>
+      <div class="sahaba-name" style="font-size:20px;margin:8px 0 4px;">${s.name}</div>
+      <div class="sahaba-title" style="font-size:12px;color:var(--muted);">${s.title}</div>
+      <div class="sahaba-quote" style="margin-top:8px;font-style:italic;">❝ ${s.quote} ❞</div>
+    </div>
+  `).join('');
+}
+
+function filterSahaba(cat,btn){
+  document.querySelectorAll('.sahaba-filter').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter=cat;
+  renderSahaba(cat);
+}
+
+function openSahaba(id){
+  const s=sahabaData.find(x=>x.id===id);
+  if(!s)return;
+  document.getElementById('sahabaDetailContent').innerHTML=`
+    <div style="text-align:center;">
+      <div style="font-size:48px;">🌟</div>
+      <div style="font-size:24px;color:var(--gold);margin:8px 0;">${s.name}</div>
+      <div style="font-size:14px;color:var(--muted);">${s.title}</div>
+    </div>
+    <div style="margin-top:20px;">
+      <div style="font-weight:bold;color:var(--gold);">📖 قصة إسلامه</div>
+      <div style="margin-top:8px;line-height:1.8;">${s.story}</div>
+    </div>
+    <div style="margin-top:16px;">
+      <div style="font-weight:bold;color:var(--gold);">💬 من أقواله</div>
+      <div style="margin-top:8px;padding:12px;background:rgba(201,168,76,0.1);border-radius:8px;">❝ ${s.quote} ❞</div>
+    </div>
+    <div style="margin-top:16px;">
+      <div style="font-weight:bold;color:var(--gold);">🕌 وفاته</div>
+      <div style="margin-top:8px;">${s.death}</div>
+    </div>
+  `;
+  document.getElementById('sahabaDetail').style.display='block';
+  document.body.style.overflow='hidden';
+}
+
+function closeSahaba(){
+  document.getElementById('sahabaDetail').style.display='none';
+  document.body.style.overflow='';
+}
+
+// ===== الأذكار =====
+function showAthkar(cat,btn){
+  document.querySelectorAll('.athkar-tab').forEach(t=>t.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const data=athkar[cat]||[];
+  document.getElementById('athkarContent').innerHTML=data.map((item,i)=>{
+    const k=cat+i;if(!cnt[k])cnt[k]=0;
+    return`<div class="thikr-card">
+      <div class="thikr-badge">${item.c}</div>
+      <div class="thikr-text">${item.t}</div>
+      <div class="thikr-divider"></div>
+      <div class="thikr-source">📚 ${item.s}</div>
+      <div class="counter-wrap">
+        <div class="counter-num" id="cn-${k}">${cnt[k]}</div>
+        <button class="counter-btn" onclick="inc('${k}')">+</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function inc(k){cnt[k]=(cnt[k]||0)+1;document.getElementById(`cn-${k}`).textContent=cnt[k];}
+
+// ===== دوال عامة =====
+function toggleTheme(){
+  const root=document.documentElement;
+  const isLight=root.getAttribute('data-theme')==='light';
+  const newTheme=isLight?'dark':'light';
+  root.setAttribute('data-theme',newTheme);
+  localStorage.setItem('sakeena-theme',newTheme);
+  const btn=document.getElementById('themeBtn');
+  btn.textContent=newTheme==='light'?'☀️ نهاري':'🌙 ليلي';
+}
+
+function showPage(id,btn){
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(`page-${id}`).classList.add('active');
+}
+
+// ===== التهيئة =====
+const savedTheme=localStorage.getItem('sakeena-theme');
+if(savedTheme==='light'){
+  document.documentElement.setAttribute('data-theme','light');
+  document.getElementById('themeBtn').textContent='☀️ نهاري';
+}
+startClock();
+loadSurahs();
+loadPrayer();
+renderSahaba('all');
+showAthkar('morning',document.querySelector('.athkar-tab'));
+</script>
+</body>
+</html>
