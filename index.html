@@ -1030,54 +1030,23 @@ function playAyah(i) {
   };
 }
 
-// ===== التلاوة: تشغيل مستمر للآيات بدون توقف =====
-let curIdx = 0;
-let reader = "Alafasy_128kbps";
-const audio = document.getElementById("audioEl");
-// تشغيل آية معينة والتقدم بعدها تلقائياً
-function playAyah(i) {
-  if (!curAyahs || curAyahs.length === 0) return;
-  curIdx = i;
-  // تمييز الآية الحالية
-  document.querySelectorAll(".ayah").forEach((el, idx) => {
-    el.classList.toggle("playing", idx === i);
-  });
-  // إنشاء رابط الصوت حسب القارئ المختار
-  const url = `[everyayah.com](https://everyayah.com/data/${reader}/${String(selectedSurah).padStart(3)'0')}${String(i+1).padStart(3,'0')}.mp3`;
-  audio.src = url;
-  // تشغيل الآية
-  audio.play().catch(err => console.warn("Audio play error:", err));
-  // عند الانتهاء انتقل للآية التالية
-  audio.onended = () => {
-    if (curIdx < curAyahs.length - 1) {
-      playAyah(curIdx + 1); // تشغيل التالية
-    } else {
-      document.querySelectorAll(".ayah").forEach(a => a.classList.remove("playing"));
-      audio.pause();
-    }
-  };
-}
-// إيقاف التلاوة
-function stopPlayback() {
-  if (audio) {
-    audio.pause();
-    audio.src = "";
-  }
-  document.querySelectorAll(".ayah").forEach(el => el.classList.remove("playing"));
-}
-// تغيير القارئ — يطبّق على السورة الحالية فوراً
+// دالة تغيير القارئ - تطبق فوراً على الآية الحالية
 function changeReader() {
   reader = document.getElementById("readerSelect").value;
-  if (selectedSurah && curAyahs.length > 0 && typeof curIdx === "number") {
-    // تحديث الرابط الحالي
-    const url = `[everyayah.com](https://everyayah.com/data/${reader}/${String(selectedSurah).padStart(3)'0')}${String(curIdx+1).padStart(3,'0')}.mp3`;
-    const wasPlaying = !audio.paused;
-    audio.src = url;
-    if (wasPlaying) {
-      audio.play().catch(err => console.warn("changeReader play:", err));
+  // إذا كانت هناك آية قيد التشغيل أو متوقفة، نحدث مصدر الصوت
+  if (audio && audio.src && curAyahs.length > 0 && selectedSurah) {
+    const currentPlayingAyah = curIdx;
+    if (currentPlayingAyah !== undefined) {
+      const newUrl = `https://cdn.islamic.network/quran/audio/128/${reader}/${selectedSurah}_${currentPlayingAyah + 1}.mp3`;
+      const wasPlaying = !audio.paused;
+      audio.src = newUrl;
+      if (wasPlaying) {
+        audio.play().catch(e => console.log("تغيير القارئ:", e));
+      }
     }
   }
 }
+
 // عرض الصحابة
 function renderSahaba(filter = "all") {
   const list = filter === "all" ? sahabaData : sahabaData.filter(s => s.cat === filter);
