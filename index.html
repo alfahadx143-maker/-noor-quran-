@@ -195,6 +195,7 @@ body{background-color:#050d1a !important;transition:all 0.3s ease;}
 .prayer-name{font-size:9px;color:#a0b4cc;margin-bottom:4px;font-weight:600;}
 .prayer-time{font-size:13px;color:var(--gold);font-weight:700;}
 .next-prayer-banner{margin-top:8px;padding:7px 12px;background:linear-gradient(90deg,rgba(201,168,76,0.2),rgba(201,168,76,0.08));border:1px solid rgba(201,168,76,0.4);text-align:center;font-size:12px;color:#e8c97a;font-weight:600;border-radius:4px;}
+.next-prayer-banner i{font-style:normal;margin-left:5px;}
 
 nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
 .nav-btn{width:100%;padding:11px 14px;background:transparent;border:none;border-right:3px solid transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:10px;font-size:13px;text-align:right;transition:all 0.2s;}
@@ -210,6 +211,7 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
 [data-theme="light"] .surah-card{background:#fff9f0;}
 .surah-name{font-family:'Amiri',serif;font-size:22px;color:var(--gold);margin-bottom:2px;}
 .surah-num{width:32px;height:32px;border:1px solid var(--gold-dark);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;margin-bottom:8px;}
+.surah-info{font-size:10px;color:var(--muted);margin-top:4px;}
 
 .ayah-wrap{max-width:860px;margin:0 auto;padding:24px 32px;}
 .ayah{padding:18px 0;border-bottom:1px solid rgba(201,168,76,0.07);cursor:pointer;transition:all 0.2s;}
@@ -231,6 +233,7 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
 [data-theme="light"] .sahaba-card{background:#fff9f0;}
 .sahaba-name{font-family:'Amiri',serif;font-size:22px;color:var(--gold);margin-bottom:4px;}
 .sahaba-quote{font-family:'Amiri',serif;font-size:15px;color:var(--text);line-height:1.7;border-right:3px solid var(--gold);padding-right:10px;margin-bottom:10px;}
+.more-info-btn{background:rgba(201,168,76,0.2);border:1px solid var(--gold);color:var(--gold);padding:5px 12px;border-radius:20px;font-size:11px;cursor:pointer;margin-top:8px;}
 
 .athkar-tabs{display:flex;gap:8px;padding:20px 28px 0;flex-wrap:wrap;}
 .athkar-tab{padding:9px 20px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);color:#c8d8e8;cursor:pointer;font-size:13px;transition:all 0.2s;border-radius:20px;}
@@ -243,6 +246,10 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
 .counter-btn{width:60px;height:60px;border-radius:50%;background:rgba(201,168,76,0.1);border:2px solid var(--gold-dark);color:var(--gold);font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:8px;}
 
 .theme-fixed-btn{position:fixed;bottom:20px;left:20px;padding:10px 16px;background:rgba(201,168,76,0.2);border:1px solid var(--gold);color:var(--gold);border-radius:40px;cursor:pointer;z-index:999;font-family:'Cairo',sans-serif;backdrop-filter:blur(8px);}
+
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1000;justify-content:center;align-items:center;}
+.modal-content{background:var(--bg2);border:1px solid var(--gold);border-radius:20px;padding:24px;max-width:90%;width:400px;max-height:80vh;overflow-y:auto;}
+.modal-close{background:var(--gold);border:none;padding:8px 16px;border-radius:20px;cursor:pointer;margin-top:16px;color:#000;font-weight:bold;}
 
 @media(max-width:768px){
   .surah-grid{grid-template-columns:1fr;padding:12px 16px;}
@@ -261,6 +268,7 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
     <button class="nav-btn-top" onclick="showMainPage('sahaba',this)">🌟 الصحابة</button>
     <button class="nav-btn-top" onclick="showMainPage('athkar',this)">📿 الأذكار</button>
     <button class="nav-btn-top" onclick="showMainPage('ruqyah',this)">🕋 الرقية الشرعية</button>
+    <button class="nav-btn-top" onclick="showMainPage('surahsInfo',this)">📚 معلومات السور</button>
   </div>
 
   <aside class="sidebar">
@@ -283,13 +291,13 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
     <div class="prayer-box">
       <div class="section-label">أوقات الصلاة</div>
       <div class="prayer-grid">
-        <div class="prayer-item"><div class="prayer-name">الفجر</div><div class="prayer-time" id="p-fajr">--:--</div></div>
-        <div class="prayer-item"><div class="prayer-name">الظهر</div><div class="prayer-time" id="p-dhuhr">--:--</div></div>
-        <div class="prayer-item"><div class="prayer-name">العصر</div><div class="prayer-time" id="p-asr">--:--</div></div>
-        <div class="prayer-item"><div class="prayer-name">المغرب</div><div class="prayer-time" id="p-maghrib">--:--</div></div>
-        <div class="prayer-item"><div class="prayer-name">العشاء</div><div class="prayer-time" id="p-isha">--:--</div></div>
+        <div class="prayer-item"><div class="prayer-name">الفجر</div><div class="prayer-time" id="p-fajr">04:38</div></div>
+        <div class="prayer-item"><div class="prayer-name">الظهر</div><div class="prayer-time" id="p-dhuhr">11:48</div></div>
+        <div class="prayer-item"><div class="prayer-name">العصر</div><div class="prayer-time" id="p-asr">15:08</div></div>
+        <div class="prayer-item"><div class="prayer-name">المغرب</div><div class="prayer-time" id="p-maghrib">17:42</div></div>
+        <div class="prayer-item"><div class="prayer-name">العشاء</div><div class="prayer-time" id="p-isha">19:12</div></div>
       </div>
-      <div class="next-prayer-banner" id="nextPrayer">⏳ جاري تحديد موقعك...</div>
+      <div class="next-prayer-banner" id="nextPrayer">⏳ الصلاة القادمة: <span id="nextPrayerName">--:--</span></div>
       <div id="locationPermBox" style="display:none;margin-top:8px;padding:10px;background:rgba(201,168,76,0.1);text-align:center;">
         <div style="font-size:11px;margin-bottom:8px;">📍 اختر مدينتك</div>
         <select id="citySelect" style="width:100%;padding:8px;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:8px;">
@@ -308,6 +316,7 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
       <button class="nav-btn" onclick="showPage('sahaba',this)"><span class="nav-icon">🌟</span> صحابة الرسول ﷺ</button>
       <button class="nav-btn" onclick="showPage('athkar',this)"><span class="nav-icon">📿</span> الأذكار</button>
       <button class="nav-btn" onclick="showPage('ruqyah',this)"><span class="nav-icon">🕋</span> الرقية الشرعية</button>
+      <button class="nav-btn" onclick="showPage('surahsInfo',this)"><span class="nav-icon">📚</span> معلومات السور</button>
     </nav>
 
     <div class="reader-box" style="padding:8px 14px;display:flex;align-items:center;gap:8px;">
@@ -336,6 +345,15 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
         <div class="reader-hero" style="padding:16px;text-align:center;"><div class="reader-surah-name" style="font-family:'Amiri';font-size:28px;color:var(--gold);" id="readerName"></div></div>
         <div class="ayah-wrap" id="ayahWrap"></div>
       </div>
+    </div>
+
+    <!-- صفحة معلومات السور (جديدة) -->
+    <div id="page-surahsInfo" class="page">
+      <div style="padding:16px 20px;"><div style="font-family:'Amiri',serif;font-size:24px;color:var(--gold);">📚 معلومات السور</div></div>
+      <div style="padding:0 20px 12px;">
+        <input class="search-input" id="surahInfoSearch" placeholder="ابحث عن سورة..." oninput="filterSurahsInfo()" style="width:100%;padding:12px;background:rgba(201,168,76,0.05);border:1px solid var(--border);border-radius:8px;"/>
+      </div>
+      <div id="surahsInfoGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding:16px 20px;"></div>
     </div>
 
     <!-- صفحة الصحابة -->
@@ -369,9 +387,136 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
     </div>
   </main>
 </div>
+
+<!-- مودال عرض معلومات إضافية -->
+<div id="infoModal" class="modal" onclick="closeModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h3 id="modalTitle" style="color:var(--gold);margin-bottom:12px;"></h3>
+    <p id="modalContent" style="line-height:1.8;"></p>
+    <button class="modal-close" onclick="closeModal()">إغلاق</button>
+  </div>
+</div>
+
 <audio id="audioEl"></audio>
 
 <script>
+// ===== بيانات السور مع عدد الآيات والجزء =====
+const surahDetails = [
+  {id:1,name:"الفاتحة",ayahCount:7,juz:1},{id:2,name:"البقرة",ayahCount:286,juz:1},
+  {id:3,name:"آل عمران",ayahCount:200,juz:3},{id:4,name:"النساء",ayahCount:176,juz:4},
+  {id:5,name:"المائدة",ayahCount:120,juz:6},{id:6,name:"الأنعام",ayahCount:165,juz:7},
+  {id:7,name:"الأعراف",ayahCount:206,juz:8},{id:8,name:"الأنفال",ayahCount:75,juz:9},
+  {id:9,name:"التوبة",ayahCount:129,juz:10},{id:10,name:"يونس",ayahCount:109,juz:11},
+  {id:11,name:"هود",ayahCount:123,juz:11},{id:12,name:"يوسف",ayahCount:111,juz:12},
+  {id:13,name:"الرعد",ayahCount:43,juz:13},{id:14,name:"إبراهيم",ayahCount:52,juz:13},
+  {id:15,name:"الحجر",ayahCount:99,juz:14},{id:16,name:"النحل",ayahCount:128,juz:14},
+  {id:17,name:"الإسراء",ayahCount:111,juz:15},{id:18,name:"الكهف",ayahCount:110,juz:15},
+  {id:19,name:"مريم",ayahCount:98,juz:16},{id:20,name:"طه",ayahCount:135,juz:16},
+  {id:21,name:"الأنبياء",ayahCount:112,juz:17},{id:22,name:"الحج",ayahCount:78,juz:17},
+  {id:23,name:"المؤمنون",ayahCount:118,juz:18},{id:24,name:"النور",ayahCount:64,juz:18},
+  {id:25,name:"الفرقان",ayahCount:77,juz:18},{id:26,name:"الشعراء",ayahCount:227,juz:19},
+  {id:27,name:"النمل",ayahCount:93,juz:19},{id:28,name:"القصص",ayahCount:88,juz:20},
+  {id:29,name:"العنكبوت",ayahCount:69,juz:20},{id:30,name:"الروم",ayahCount:60,juz:21},
+  {id:31,name:"لقمان",ayahCount:34,juz:21},{id:32,name:"السجدة",ayahCount:30,juz:21},
+  {id:33,name:"الأحزاب",ayahCount:73,juz:21},{id:34,name:"سبأ",ayahCount:54,juz:22},
+  {id:35,name:"فاطر",ayahCount:45,juz:22},{id:36,name:"يس",ayahCount:83,juz:22},
+  {id:37,name:"الصافات",ayahCount:182,juz:23},{id:38,name:"ص",ayahCount:88,juz:23},
+  {id:39,name:"الزمر",ayahCount:75,juz:23},{id:40,name:"غافر",ayahCount:85,juz:24},
+  {id:41,name:"فصلت",ayahCount:54,juz:24},{id:42,name:"الشورى",ayahCount:53,juz:25},
+  {id:43,name:"الزخرف",ayahCount:89,juz:25},{id:44,name:"الدخان",ayahCount:59,juz:25},
+  {id:45,name:"الجاثية",ayahCount:37,juz:25},{id:46,name:"الأحقاف",ayahCount:35,juz:26},
+  {id:47,name:"محمد",ayahCount:38,juz:26},{id:48,name:"الفتح",ayahCount:29,juz:26},
+  {id:49,name:"الحجرات",ayahCount:18,juz:26},{id:50,name:"ق",ayahCount:45,juz:26},
+  {id:51,name:"الذاريات",ayahCount:60,juz:26},{id:52,name:"الطور",ayahCount:49,juz:27},
+  {id:53,name:"النجم",ayahCount:62,juz:27},{id:54,name:"القمر",ayahCount:55,juz:27},
+  {id:55,name:"الرحمن",ayahCount:78,juz:27},{id:56,name:"الواقعة",ayahCount:96,juz:27},
+  {id:57,name:"الحديد",ayahCount:29,juz:27},{id:58,name:"المجادلة",ayahCount:22,juz:28},
+  {id:59,name:"الحشر",ayahCount:24,juz:28},{id:60,name:"الممتحنة",ayahCount:13,juz:28},
+  {id:61,name:"الصف",ayahCount:14,juz:28},{id:62,name:"الجمعة",ayahCount:11,juz:28},
+  {id:63,name:"المنافقون",ayahCount:11,juz:28},{id:64,name:"التغابن",ayahCount:18,juz:28},
+  {id:65,name:"الطلاق",ayahCount:12,juz:28},{id:66,name:"التحريم",ayahCount:12,juz:28},
+  {id:67,name:"الملك",ayahCount:30,juz:29},{id:68,name:"القلم",ayahCount:52,juz:29},
+  {id:69,name:"الحاقة",ayahCount:52,juz:29},{id:70,name:"المعارج",ayahCount:44,juz:29},
+  {id:71,name:"نوح",ayahCount:28,juz:29},{id:72,name:"الجن",ayahCount:28,juz:29},
+  {id:73,name:"المزمل",ayahCount:20,juz:29},{id:74,name:"المدثر",ayahCount:56,juz:29},
+  {id:75,name:"القيامة",ayahCount:40,juz:29},{id:76,name:"الإنسان",ayahCount:31,juz:29},
+  {id:77,name:"المرسلات",ayahCount:50,juz:29},{id:78,name:"النبأ",ayahCount:40,juz:30},
+  {id:79,name:"النازعات",ayahCount:46,juz:30},{id:80,name:"عبس",ayahCount:42,juz:30},
+  {id:81,name:"التكوير",ayahCount:29,juz:30},{id:82,name:"الانفطار",ayahCount:19,juz:30},
+  {id:83,name:"المطففين",ayahCount:36,juz:30},{id:84,name:"الانشقاق",ayahCount:25,juz:30},
+  {id:85,name:"البروج",ayahCount:22,juz:30},{id:86,name:"الطارق",ayahCount:17,juz:30},
+  {id:87,name:"الأعلى",ayahCount:19,juz:30},{id:88,name:"الغاشية",ayahCount:26,juz:30},
+  {id:89,name:"الفجر",ayahCount:30,juz:30},{id:90,name:"البلد",ayahCount:20,juz:30},
+  {id:91,name:"الشمس",ayahCount:15,juz:30},{id:92,name:"الليل",ayahCount:21,juz:30},
+  {id:93,name:"الضحى",ayahCount:11,juz:30},{id:94,name:"الشرح",ayahCount:8,juz:30},
+  {id:95,name:"التين",ayahCount:8,juz:30},{id:96,name:"العلق",ayahCount:19,juz:30},
+  {id:97,name:"القدر",ayahCount:5,juz:30},{id:98,name:"البينة",ayahCount:8,juz:30},
+  {id:99,name:"الزلزلة",ayahCount:8,juz:30},{id:100,name:"العاديات",ayahCount:11,juz:30},
+  {id:101,name:"القارعة",ayahCount:11,juz:30},{id:102,name:"التكاثر",ayahCount:8,juz:30},
+  {id:103,name:"العصر",ayahCount:3,juz:30},{id:104,name:"الهمزة",ayahCount:9,juz:30},
+  {id:105,name:"الفيل",ayahCount:5,juz:30},{id:106,name:"قريش",ayahCount:4,juz:30},
+  {id:107,name:"الماعون",ayahCount:7,juz:30},{id:108,name:"الكوثر",ayahCount:3,juz:30},
+  {id:109,name:"الكافرون",ayahCount:6,juz:30},{id:110,name:"النصر",ayahCount:3,juz:30},
+  {id:111,name:"المسد",ayahCount:5,juz:30},{id:112,name:"الإخلاص",ayahCount:4,juz:30},
+  {id:113,name:"الفلق",ayahCount:5,juz:30},{id:114,name:"الناس",ayahCount:6,juz:30}
+];
+
+const surahNames = surahDetails.map(s => s.name);
+
+// ===== ٥٠ صحابي كاملين =====
+const sahabaData = [
+  {id:1,name:"أبو بكر الصديق",title:"أول الخلفاء الراشدين",badge:"العشرة المبشرون",cat:"10",quote:"أينما كنتُ فإن الله معي",story:"أول من آمن بالنبي ﷺ وصاحبه في الهجرة، تولى الخلافة بعد النبي ﷺ وجمع القرآن الكريم"},
+  {id:2,name:"عمر بن الخطاب",title:"الفاروق",badge:"العشرة المبشرون",cat:"10",quote:"نحن قوم أعزنا الله بالإسلام",story:"ثاني الخلفاء الراشدين، فتح الأمصار ونشر العدل، أسلم في السنة السادسة من البعثة"},
+  {id:3,name:"عثمان بن عفان",title:"ذو النورين",badge:"العشرة المبشرون",cat:"10",quote:"ما زنيت في جاهلية ولا إسلام",story:"ثالث الخلفاء الراشدين، جمع القرآن في مصحف واحد، تزوج ابنتي النبي ﷺ"},
+  {id:4,name:"علي بن أبي طالب",title:"أسد الله",badge:"العشرة المبشرون",cat:"10",quote:"قيمة كل امرئ ما يُحسنه",story:"رابع الخلفاء الراشدين، ابن عم النبي ﷺ وزوج فاطمة، أول من أسلم من الصبيان"},
+  {id:5,name:"طلحة بن عبيدالله",title:"طلحة الخير",badge:"العشرة المبشرون",cat:"10",quote:"لا يزهدنك في المعروف كفر من كفره",story:"من السابقين الأولين، حمى النبي ﷺ في غزوة أحد، أحد العشرة المبشرين بالجنة"},
+  {id:6,name:"الزبير بن العوام",title:"حواري النبي",badge:"العشرة المبشرون",cat:"10",quote:"ما حملني على الإسلام إلا الحق",story:"أول من سل سيفه في سبيل الله، ابن عمة النبي ﷺ، أحد العشرة المبشرين"},
+  {id:7,name:"عبدالرحمن بن عوف",title:"تاجر الجنة",badge:"العشرة المبشرون",cat:"10",quote:"إني أخشى أن أكون عُجّلت طيباتي",story:"أحد العشرة المبشرين بالجنة، من أغنى الصحابة، أنفق ثروته في سبيل الله"},
+  {id:8,name:"سعد بن أبي وقاص",title:"فارس الإسلام",badge:"العشرة المبشرون",cat:"10",quote:"رميت بسهم في سبيل الله فكان أول سهم",story:"فاتح العراق وكاسر كسرى، أحد العشرة المبشرين، استجاب الله دعوته"},
+  {id:9,name:"سعيد بن زيد",title:"رضي الله عنه",badge:"العشرة المبشرون",cat:"10",quote:"اللهم إن كنت تعلم أني آذيتها ظلماً فأعمِ بصرها",story:"من المهاجرين الأولين، أحد العشرة المبشرين بالجنة، أسلم قبل دخول دار الأرقم"},
+  {id:10,name:"أبو عبيدة بن الجراح",title:"أمين الأمة",badge:"العشرة المبشرون",cat:"10",quote:"وددت أني كنت كبشاً",story:"فتح دمشق وكان أمين هذه الأمة، أحد العشرة المبشرين بالجنة"},
+  {id:11,name:"خالد بن الوليد",title:"سيف الله المسلول",badge:"القادة",cat:"leader",quote:"ما من ليلة يبلغني فيها الصباح إلا وأنا أريد الشهادة",story:"قائد عسكري عظيم، لم يُهزم في معركة قط، أسلم عام 8 هـ"},
+  {id:12,name:"بلال بن رباح",title:"مؤذن الإسلام",badge:"السابقون",cat:"early",quote:"أحد أحد",story:"أول مؤذن في الإسلام، كان عبداً للحارث بن كلدة، عذب في الله ثم اشتراه أبو بكر"},
+  {id:13,name:"عبدالله بن مسعود",title:"حامل سر النبي",badge:"السابقون",cat:"early",quote:"من أراد أن يقرأ القرآن غضاً فليقرأه على قراءة ابن أم عبد",story:"أول من جهر بالقرآن في مكة، من أصحاب النبي ﷺ الملازمين له"},
+  {id:14,name:"أنس بن مالك",title:"خادم النبي",badge:"السابقون",cat:"early",quote:"خدمت النبي ﷺ عشر سنين فما قال لي أف قط",story:"أكثر الصحابة رواية للحديث، خدم النبي ﷺ عشر سنين"},
+  {id:15,name:"خديجة بنت خويلد",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"كلّا والله لا يخزيك الله أبداً",story:"أول من آمن بالنبي ﷺ، وأولى زوجاته، كانت خير زوجة وأم لبناته"},
+  {id:16,name:"عائشة بنت أبي بكر",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"كان خلقه القرآن",story:"أكثر النساء رواية للحديث، بنت أبي بكر الصديق، توفيت سنة 57 هـ"},
+  {id:17,name:"حفصة بنت عمر",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"الصيام جنة",story:"ابنة عمر بن الخطاب، حافظة المصحف الأول، توفيت سنة 41 هـ"},
+  {id:18,name:"فاطمة الزهراء",title:"سيدة نساء الجنة",badge:"السابقون",cat:"early",quote:"من أذى فاطمة فقد آذاني",story:"ابنة النبي ﷺ وأم الحسن والحسين، سيدة نساء أهل الجنة"},
+  {id:19,name:"سلمان الفارسي",title:"باحث عن الحقيقة",badge:"السابقون",cat:"early",quote:"طلبت الحق فوجدته في الإسلام",story:"صاحب فكرة حفر الخندق، كان يبحث عن الدين الصحيح حتى وصل للإسلام"},
+  {id:20,name:"حمزة بن عبدالمطلب",title:"سيد الشهداء",badge:"السابقون",cat:"early",quote:"هل أنتم إلا أصابع دميت",story:"أسد الله وأسد رسوله، عم النبي ﷺ، استشهد في غزوة أحد"},
+  {id:21,name:"أبو ذر الغفاري",title:"الصديق الثاني",badge:"السابقون",cat:"early",quote:"الغنى الأكبر في القناعة",story:"رابع من أسلم، مشهور بالصدق والزهد، من المهاجرين الأولين"},
+  {id:22,name:"عمار بن ياسر",title:"الطيب المطيب",badge:"السابقون",cat:"early",quote:"قتلتني الفئة الباغية",story:"أول من بنى مسجداً، عذب في الله مع أهله، شهد بدراً والمشاهد كلها"},
+  {id:23,name:"مصعب بن عمير",title:"أول سفير في الإسلام",badge:"السابقون",cat:"early",quote:"إن أمي هي أعز نساء قريش",story:"أول من قدم المدينة معلماً للقرآن، استشهد في غزوة أحد"},
+  {id:24,name:"عبدالله بن عمر",title:"الفاضل ابن الفاضل",badge:"القادة",cat:"leader",quote:"كن في الدنيا كأنك غريب",story:"ابن عمر بن الخطاب، من كبار المحدثين والفقهاء، عاش بعد النبي ﷺ ٦٠ سنة"},
+  {id:25,name:"أبو هريرة",title:"حافظ الأمة",badge:"السابقون",cat:"early",quote:"لولا أبو هريرة ما عرف الناس حديث النبي",story:"أكثر الصحابة رواية للحديث، أسلم سنة 7 هـ، روى 5374 حديثاً"},
+  {id:26,name:"معاذ بن جبل",title:"أعلم الحلال والحرام",badge:"القادة",cat:"leader",quote:"أعلم أمتي بالحلال والحرام معاذ بن جبل",story:"قائد فتح اليمن، كان من أفقه الصحابة، نصحه النبي ﷺ"},
+  {id:27,name:"زيد بن ثابت",title:"كاتب الوحي",badge:"السابقون",cat:"early",quote:"جمع القرآن من الرقاع واللخاف",story:"كاتب الوحي، جمع القرآن في عهد أبي بكر، كان من أحسب الصحابة"},
+  {id:28,name:"عبدالله بن عباس",title:"حبر الأمة",badge:"السابقون",cat:"early",quote:"اللهم فقهه في الدين وعلمه التأويل",story:"ابن عم النبي ﷺ، من أعلم الصحابة بالتفسير، دعا له النبي بالعلم"},
+  {id:29,name:"جابر بن عبدالله",title:"كثير الحديث",badge:"السابقون",cat:"early",quote:"لو قد جئنا المدينة ذهب البر والفاجر",story:"شهد بيعة الرضوان، من المكثرين في الحديث، روى 1540 حديثاً"},
+  {id:30,name:"أبو موسى الأشعري",title:"حَكَم الأمة",badge:"القادة",cat:"leader",quote:"أوتيت مزماراً من مزامير آل داود",story:"قائد فتح الأهواز، كان من أحسن الصحابة صوتاً بالقرآن"},
+  {id:31,name:"أسامة بن زيد",title:"حِبُّ رسول الله",badge:"السابقون",cat:"early",quote:"إن أسامة حِبّي وابن حِبّي",story:"ابن زيد بن حارثة، كان النبي ﷺ يحبه حباً شديداً"},
+  {id:32,name:"البراء بن مالك",title:"البطل الشجاع",badge:"القادة",cat:"leader",quote:"اللهم إني أسألك الشهادة",story:"أخو أنس بن مالك، قاتل مسيلمة الكذاب واستشهد في المعركة"},
+  {id:33,name:"سعد بن معاذ",title:"سيد الأوس",badge:"السابقون",cat:"early",quote:"اهتز عرش الرحمن لموت سعد بن معاذ",story:"سيد قبيلة الأوس، أسلم على يد مصعب بن عمير، حكم في بني قريظة"},
+  {id:34,name:"أبو أيوب الأنصاري",title:"صاحب المنزل",badge:"السابقون",cat:"early",quote:"نزل النبي ﷺ في بيتي",story:"نزل عنده النبي ﷺ عندما قدم المدينة، شهد معركة القسطنطينية"},
+  {id:35,name:"أبو طلحة الأنصاري",title:"الرامي المجيد",badge:"السابقون",cat:"early",quote:"رمى بين يدي رسول الله ﷺ",story:"من النقباء ليلة العقبة، شهد المشاهد كلها مع النبي ﷺ"},
+  {id:36,name:"أبو الدرداء",title:"حكيم الأمة",badge:"السابقون",cat:"early",quote:"تعلموا العلم قبل أن يقبض",story:"قاضي دمشق، من العلماء العاملين، كان يوصي بالعلم"},
+  {id:37,name:"سلمان الفارسي",title:"الباحث عن الحق",badge:"السابقون",cat:"early",quote:"طلبت الحق فوجدته في الإسلام",story:"صاحب فكرة الخندق، كان يبحث عن الدين الصحيح"},
+  {id:38,name:"صهيب الرومي",title:"الصهيب الرومي",badge:"السابقون",cat:"early",quote:"أتاني جبريل فأخبرني أن لك أجر هجرتك",story:"من السابقين الأولين، اشترى نفسه من المشركين"},
+  {id:39,name:"عبدالله بن سلام",title:"الحبر الذي أسلم",badge:"السابقون",cat:"early",quote:"كنت عالماً في اليهود ثم أسلمت",story:"من أحبار اليهود، أسلم بعد الهجرة، شهد له النبي بالجنة"},
+  {id:40,name:"عمرو بن العاص",title:"دهية العرب",badge:"القادة",cat:"leader",quote:"أسلمت فاغفر لي ما تقدم من ذنبي",story:"فاتح مصر، أسلم عام 8 هـ، كان من أذكى العرب"},
+  {id:41,name:"عبدالله بن الزبير",title:"أول مولود في الإسلام",badge:"القادة",cat:"leader",quote:"لا أبايعكم حتى ترجعوا",story:"ابن الزبير بن العوام، أول مولود للمهاجرين في المدينة"},
+  {id:42,name:"الحسن بن علي",title:"سيد شباب أهل الجنة",badge:"السابقون",cat:"early",quote:"إن الحسن والحسين سيدا شباب أهل الجنة",story:"سبط رسول الله ﷺ، تنازل عن الخلافة حقناً للدماء"},
+  {id:43,name:"الحسين بن علي",title:"سيد الشهداء",badge:"السابقون",cat:"early",quote:"من أحبني فقد أحب الله",story:"سبط رسول الله ﷺ، استشهد في كربلاء سنة 61 هـ"},
+  {id:44,name:"عبدالله بن مسعود",title:"صاحب السواك",badge:"السابقون",cat:"early",quote:"كان لا يُرى مفشياً سره",story:"أول من جهر بالقرآن في مكة، من خواص الصحابة"},
+  {id:45,name:"أبو سعيد الخدري",title:"المكثر من الحديث",badge:"السابقون",cat:"early",quote:"كنا نعد على عهد رسول الله ﷺ",story:"من كبار المحدثين، شهد مع النبي ﷺ 12 غزوة"},
+  {id:46,name:"أمامة بنت أبي العاص",title:"حبيبة رسول الله",badge:"زوجات النبي",cat:"wives",quote:"كان النبي ﷺ يحملها في الصلاة",story:"حفيدة النبي ﷺ من زينب، كان يحملها وهو يصلي"},
+  {id:47,name:"زينب بنت خزيمة",title:"أم المساكين",badge:"زوجات النبي",cat:"wives",quote:"كانت كثيرة الصدقة على المساكين",story:"زوجة النبي ﷺ، توفيت بعد شهرين من زواجها"},
+  {id:48,name:"أم سلمة",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"اللهم أبدلني خيراً منها",story:"من أعقل نساء النبي ﷺ، توفيت سنة 59 هـ"},
+  {id:49,name:"ميمونة بنت الحارث",title:"آخر من تزوج النبي",badge:"زوجات النبي",cat:"wives",quote:"تزوجها النبي ﷺ في عمرة القضاء",story:"آخر من تزوج النبي ﷺ، توفيت سنة 51 هـ"},
+  {id:50,name:"صفية بنت حيي",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"كانت من سبي خيبر",story:"ابنة حيي بن أخطب، أسلمت وتزوجها النبي ﷺ"}
+];
+
 // ===== أدعية متجددة كل ساعة =====
 const dailyDuas = [
   { text: "اللَّهُمَّ أَحْسِنْ عَاقِبَتَنَا فِي الْأُمُورِ كُلِّهَا، وَأَجِرْنَا مِنْ خِزْيِ الدُّنْيَا وَعَذَابِ الْآخِرَةِ", source: "دعاء جامع" },
@@ -381,134 +526,38 @@ const dailyDuas = [
   { text: "اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا", source: "دعاء التفريج" },
   { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ", source: "التوبة 129" },
   { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ", source: "دعاء الكرب" },
-  { text: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً إِنَّكَ أَنتَ الْوَهَّابُ", source: "آل عمران 8" },
-  { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ حُبَّكَ وَحُبَّ مَنْ يُحِبُّكَ وَحُبَّ عَمَلٍ يُقَرِّبُنِي إِلَى حُبِّكَ", source: "دعاء المحبة" },
-  { text: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ", source: "آل عمران 147" },
-  { text: "اللَّهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي، وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي", source: "دعاء الرسول ﷺ" },
-  { text: "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ", source: "إبراهيم 40" },
-  { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ", source: "دعاء الجنة والنار" },
-  { text: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا", source: "الفرقان 74" },
-  { text: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا، وَقِنَا عَذَابَ النَّارِ", source: "دعاء البركة" },
-  { text: "رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ", source: "البقرة 127" },
-  { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا", source: "دعاء العلم والرزق" },
-  { text: "رَبِّ أَعُوذُ بِكَ مِنْ هَمَزَاتِ الشَّيَاطِينِ وَأَعُوذُ بِكَ رَبِّ أَن يَحْضُرُونِ", source: "المؤمنون 97-98" },
-  { text: "اللَّهُمَّ إِنَّا نَسْأَلُكَ مِنْ خَيْرِ مَا سَأَلَكَ مِنْهُ نَبِيُّكَ مُحَمَّدٌ ﷺ", source: "دعاء جامع" },
-  { text: "رَبَّنَا آمَنَّا بِمَا أَنزَلْتَ وَاتَّبَعْنَا الرَّسُولَ فَاكْتُبْنَا مَعَ الشَّاهِدِينَ", source: "آل عمران 53" },
-  { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الثَّبَاتَ فِي الْأَمْرِ، وَالْعَزِيمَةَ عَلَى الرُّشْدِ", source: "دعاء الاستقامة" },
-  { text: "رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ إِنَّ عَذَابَهَا كَانَ غَرَامًا", source: "الفرقان 65" },
-  { text: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا، وَأَصْلِحْ ذَاتَ بَيْنِنَا، وَاهْدِنَا سُبُلَ السَّلَامِ", source: "دعاء التأليف" },
-  { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَى وَالِدَيَّ", source: "الأحقاف 15" }
+  { text: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً إِنَّكَ أَنتَ الْوَهَّابُ", source: "آل عمران 8" }
 ];
 
 function updateDailyDua() {
   const now = new Date();
   const hour = now.getHours();
-  const minute = now.getMinutes();
-  
-  // اختيار دعاء بناءً على الساعة الحالية (يتغير كل ساعة)
   const duaIndex = hour % dailyDuas.length;
   const selectedDua = dailyDuas[duaIndex];
-  
-  // تنسيق الوقت
   const hour12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
   const period = hour < 12 ? "صباحاً" : hour >= 12 && hour < 18 ? "بعد الظهر" : "مساءً";
-  const timeText = `${hour12}:${minute.toString().padStart(2, '0')} ${period}`;
-  
+  const timeText = `${hour12}:${now.getMinutes().toString().padStart(2, '0')} ${period}`;
   document.getElementById('dailyDuaText').innerHTML = selectedDua.text;
   document.getElementById('dailyDuaTime').innerHTML = `⏰ ${timeText} | 📚 ${selectedDua.source}`;
-  
-  // حفظ آخر تحديث في localStorage
-  localStorage.setItem('lastDuaHour', hour);
-  localStorage.setItem('lastDuaText', selectedDua.text);
 }
 
-// تحديث الدعاء كل ساعة
 function startDuaTimer() {
   updateDailyDua();
-  // حساب الوقت المتبقي حتى نهاية الساعة الحالية
   const now = new Date();
   const msUntilNextHour = (60 - now.getMinutes()) * 60 * 1000 - now.getSeconds() * 1000;
-  
   setTimeout(() => {
     updateDailyDua();
-    // ثم تحديث كل ساعة
     setInterval(updateDailyDua, 60 * 60 * 1000);
   }, msUntilNextHour);
 }
-
-// ===== بيانات السور =====
-const surahNames = [
-  "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس",
-  "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", "النحل", "الإسراء", "الكهف", "مريم", "طه",
-  "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", "الشعراء", "النمل", "القصص", "العنكبوت", "الروم",
-  "لقمان", "السجدة", "الأحزاب", "سبأ", "فاطر", "يس", "الصافات", "ص", "الزمر", "غافر",
-  "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", "الأحقاف", "محمد", "الفتح", "الحجرات", "ق",
-  "الذاريات", "الطور", "النجم", "القمر", "الرحمن", "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة",
-  "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", "التحريم", "الملك", "القلم", "الحاقة", "المعارج",
-  "نوح", "الجن", "المزمل", "المدثر", "القيامة", "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس",
-  "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد",
-  "الشمس", "الليل", "الضحى", "الشرح", "التين", "العلق", "القدر", "البينة", "الزلزلة", "العاديات",
-  "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", "قريش", "الماعون", "الكوثر", "الكافرون", "النصر",
-  "المسد", "الإخلاص", "الفلق", "الناس"
-];
-
-// ===== بيانات الصحابة =====
-const sahabaData = [
-  {id:1,name:"أبو بكر الصديق",title:"أول الخلفاء الراشدين",badge:"العشرة المبشرون",cat:"10",quote:"أينما كنتُ فإن الله معي",story:"أول من آمن بالنبي ﷺ وصاحبه في الهجرة"},
-  {id:2,name:"عمر بن الخطاب",title:"الفاروق",badge:"العشرة المبشرون",cat:"10",quote:"نحن قوم أعزنا الله بالإسلام",story:"أسهم في نشر العدل وفتح الأمصار"},
-  {id:3,name:"عثمان بن عفان",title:"ذو النورين",badge:"العشرة المبشرون",cat:"10",quote:"ما زنيت في جاهلية ولا إسلام",story:"جمع القرآن الكريم في مصحف واحد"},
-  {id:4,name:"علي بن أبي طالب",title:"أسد الله",badge:"العشرة المبشرون",cat:"10",quote:"قيمة كل امرئ ما يُحسنه",story:"ابن عم النبي وزوج فاطمة"},
-  {id:5,name:"خالد بن الوليد",title:"سيف الله المسلول",badge:"القادة",cat:"leader",quote:"ما من ليلة يبلغني فيها الصباح إلا وأنا أريد الشهادة",story:"لم يُهزم في معركة قط"},
-  {id:6,name:"بلال بن رباح",title:"مؤذن الإسلام",badge:"السابقون",cat:"early",quote:"أحد أحد",story:"أول مؤذن في الإسلام"},
-  {id:7,name:"خديجة بنت خويلد",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"كلّا والله لا يخزيك الله أبداً",story:"أول من آمن بالنبي ﷺ"},
-  {id:8,name:"عائشة بنت أبي بكر",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"كان خلقه القرآن",story:"أكثر النساء رواية للحديث"},
-  {id:9,name:"سلمان الفارسي",title:"باحث عن الحقيقة",badge:"السابقون",cat:"early",quote:"طلبت الحق فوجدته في الإسلام",story:"صاحب فكرة حفر الخندق"},
-  {id:10,name:"حمزة بن عبدالمطلب",title:"سيد الشهداء",badge:"السابقون",cat:"early",quote:"هل أنتم إلا أصابع دميت",story:"أسد الله وأسد رسوله"}
-];
-
-// ===== بيانات الأذكار =====
-const athkar = {
-  morning: [
-    {t:"اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ",s:"رواه الترمذي",c:"١ مرة"},
-    {t:"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ",s:"رواه البخاري",c:"١ مرة"},
-    {t:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",s:"رواه مسلم",c:"١٠٠ مرة"},
-    {t:"﴿قُلْ هُوَ اللَّهُ أَحَدٌ﴾",s:"تعدل ثلث القرآن",c:"٣ مرات"}
-  ],
-  evening: [
-    {t:"اللَّهُمَّ بِكَ أَمْسَيْنَا وَبِكَ أَصْبَحْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ",s:"رواه الترمذي",c:"١ مرة"},
-    {t:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",s:"رواه مسلم",c:"٣ مرات"},
-    {t:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",s:"رواه مسلم",c:"١٠٠ مرة"}
-  ],
-  sleep: [
-    {t:"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",s:"رواه البخاري",c:"١ مرة"},
-    {t:"اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ",s:"رواه أبو داود",c:"٣ مرات"}
-  ]
-};
-
-// ===== بيانات الرقية الشرعية =====
-const ruqyahItems = [
-  {text:"﴿اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...﴾",source:"آية الكرسي - البقرة 255"},
-  {text:"﴿قُلْ هُوَ اللَّهُ أَحَدٌ * اللَّهُ الصَّمَدُ...﴾",source:"سورة الإخلاص"},
-  {text:"﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ...﴾",source:"سورة الفلق"},
-  {text:"﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ...﴾",source:"سورة الناس"},
-  {text:"بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ",source:"رواه أبو داود"},
-  {text:"اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَاسَ، اشْفِ أَنْتَ الشَّافِي",source:"رواه البخاري"}
-];
-
-// ===== المتغيرات العامة =====
-let selectedSurah = null;
-let curAyahs = [];
-let reader = 'Alafasy_128kbps';
-let audio = document.getElementById('audioEl');
-let playing = false;
-let curIdx = 0;
-let cnt = {};
 
 // ===== أوقات الصلاة =====
 const prayerTimesDB = {
   Riyadh: { fajr: "04:38", dhuhr: "11:48", asr: "15:08", maghrib: "17:42", isha: "19:12" },
   Mecca: { fajr: "04:55", dhuhr: "12:15", asr: "15:35", maghrib: "18:05", isha: "19:35" },
-  Medina: { fajr: "04:50", dhuhr: "12:20", asr: "15:40", maghrib: "18:10", isha: "19:40" }
+  Medina: { fajr: "04:50", dhuhr: "12:20", asr: "15:40", maghrib: "18:10", isha: "19:40" },
+  Jeddah: { fajr: "04:53", dhuhr: "12:13", asr: "15:33", maghrib: "18:03", isha: "19:33" },
+  Dammam: { fajr: "04:35", dhuhr: "11:45", asr: "15:05", maghrib: "17:39", isha: "19:09" }
 };
 
 function updatePrayerTimes(city) {
@@ -518,7 +567,28 @@ function updatePrayerTimes(city) {
   document.getElementById('p-asr').innerHTML = times.asr;
   document.getElementById('p-maghrib').innerHTML = times.maghrib;
   document.getElementById('p-isha').innerHTML = times.isha;
+  updateNextPrayer(times);
 }
+
+function updateNextPrayer(times) {
+  const now = new Date();
+  const currentHour = now.getHours();
+  const currentMinute = now.getMinutes();
+  const currentTime = currentHour * 60 + currentMinute;
+  const prayers = [
+    { name: "الفجر", time: timeToMinutes(times.fajr) },
+    { name: "الظهر", time: timeToMinutes(times.dhuhr) },
+    { name: "العصر", time: timeToMinutes(times.asr) },
+    { name: "المغرب", time: timeToMinutes(times.maghrib) },
+    { name: "العشاء", time: timeToMinutes(times.isha) }
+  ];
+  let next = prayers.find(p => p.time > currentTime);
+  if (!next) next = prayers[0];
+  document.getElementById('nextPrayerName').innerHTML = `${next.name} ${formatTime(next.time)}`;
+}
+
+function timeToMinutes(t) { const [h,m] = t.split(':'); return parseInt(h)*60 + parseInt(m); }
+function formatTime(m) { const h = Math.floor(m/60); const min = m%60; return `${h.toString().padStart(2,'0')}:${min.toString().padStart(2,'0')}`; }
 
 async function loadPrayer() {
   try {
@@ -529,15 +599,17 @@ async function loadPrayer() {
     const data = await res.json();
     if(data.data) {
       const t = data.data.timings;
-      document.getElementById('p-fajr').innerHTML = t.Fajr?.slice(0,5) || '--:--';
-      document.getElementById('p-dhuhr').innerHTML = t.Dhuhr?.slice(0,5) || '--:--';
-      document.getElementById('p-asr').innerHTML = t.Asr?.slice(0,5) || '--:--';
-      document.getElementById('p-maghrib').innerHTML = t.Maghrib?.slice(0,5) || '--:--';
-      document.getElementById('p-isha').innerHTML = t.Isha?.slice(0,5) || '--:--';
+      document.getElementById('p-fajr').innerHTML = t.Fajr?.slice(0,5) || '04:38';
+      document.getElementById('p-dhuhr').innerHTML = t.Dhuhr?.slice(0,5) || '11:48';
+      document.getElementById('p-asr').innerHTML = t.Asr?.slice(0,5) || '15:08';
+      document.getElementById('p-maghrib').innerHTML = t.Maghrib?.slice(0,5) || '17:42';
+      document.getElementById('p-isha').innerHTML = t.Isha?.slice(0,5) || '19:12';
+      updateNextPrayer({fajr:t.Fajr?.slice(0,5),dhuhr:t.Dhuhr?.slice(0,5),asr:t.Asr?.slice(0,5),maghrib:t.Maghrib?.slice(0,5),isha:t.Isha?.slice(0,5)});
     }
     document.getElementById('locationPermBox').style.display = 'none';
   } catch(e) {
     document.getElementById('locationPermBox').style.display = 'block';
+    updateNextPrayer(prayerTimesDB.Riyadh);
   }
 }
 
@@ -568,9 +640,24 @@ function renderSurahList() {
   const filtered = surahNames.filter((name, i) => name.includes(searchVal) || (i+1).toString().includes(searchVal));
   document.getElementById('surahGrid').innerHTML = filtered.map((name, idx) => {
     const originalIdx = surahNames.indexOf(name);
-    return `<div class="surah-card" onclick="openSurah(${originalIdx+1})"><div class="surah-num">${originalIdx+1}</div><div class="surah-name">${name}</div><div class="surah-english">سورة</div></div>`;
+    return `<div class="surah-card" onclick="openSurah(${originalIdx+1})"><div class="surah-num">${originalIdx+1}</div><div class="surah-name">${name}</div><div class="surah-info">${surahDetails[originalIdx].ayahCount} آية | الجزء ${surahDetails[originalIdx].juz}</div></div>`;
   }).join('');
 }
+
+// عرض معلومات السور
+function renderSurahsInfo() {
+  const searchVal = document.getElementById('surahInfoSearch')?.value || '';
+  const filtered = surahDetails.filter(s => s.name.includes(searchVal) || s.id.toString().includes(searchVal));
+  document.getElementById('surahsInfoGrid').innerHTML = filtered.map(s => `
+    <div class="surah-card" onclick="alert('سورة ${s.name}\\nعدد الآيات: ${s.ayahCount}\\nالجزء: ${s.juz}')">
+      <div class="surah-num">${s.id}</div>
+      <div class="surah-name">${s.name}</div>
+      <div class="surah-info">📖 ${s.ayahCount} آية | 📚 الجزء ${s.juz}</div>
+    </div>
+  `).join('');
+}
+
+function filterSurahsInfo() { renderSurahsInfo(); }
 
 async function openSurah(num) {
   selectedSurah = num;
@@ -578,7 +665,6 @@ async function openSurah(num) {
   document.getElementById('reader-view').style.display = 'block';
   document.getElementById('readerName').textContent = surahNames[num-1];
   document.getElementById('ayahWrap').innerHTML = '<div class="loading-wrap">جاري تحميل الآيات...</div>';
-  
   try {
     const res = await fetch(`https://api.alquran.cloud/v1/surah/${num}`);
     const data = await res.json();
@@ -613,7 +699,6 @@ async function toggleTafsir(e, surah, ayah, idx) {
   box.classList.add('open');
   btn.textContent = '▲ إخفاء التفسير';
   if(box.getAttribute('data-loaded') === '1') return;
-  
   try {
     const res = await fetch(`https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/ar.muyassar`);
     const data = await res.json();
@@ -633,11 +718,16 @@ function backToList() {
   document.getElementById('reader-view').style.display = 'none';
 }
 
-function filterSurahs() {
-  renderSurahList();
-}
+function filterSurahs() { renderSurahList(); }
 
 // ===== الصوت =====
+let selectedSurah = null;
+let curAyahs = [];
+let reader = 'Alafasy_128kbps';
+let audio = document.getElementById('audioEl');
+let playing = false;
+let curIdx = 0;
+
 function audioUrl(sNum, aNum) {
   return `https://everyayah.com/data/${reader}/${String(sNum).padStart(3,'0')}${String(aNum).padStart(3,'0')}.mp3`;
 }
@@ -662,17 +752,32 @@ function changeReader() {
   reader = document.getElementById('readerSelect').value;
 }
 
-// ===== الصحابة =====
+// ===== الصحابة مع عرض المزيد =====
 function renderSahaba(filter) {
   const list = filter === 'all' ? sahabaData : sahabaData.filter(s => s.cat === filter);
   document.getElementById('sahabaGrid').innerHTML = list.map(s => `
-    <div class="sahaba-card" onclick="alert('${s.name}\\n\\n${s.story}')">
+    <div class="sahaba-card">
       <div class="sahaba-name">${s.name}</div>
       <div class="sahaba-title" style="font-size:12px;color:var(--muted);">${s.title}</div>
       <div class="sahaba-quote">❝ ${s.quote} ❞</div>
       <div style="font-size:11px;color:var(--gold);margin-top:8px;">⭐ ${s.badge}</div>
+      <button class="more-info-btn" onclick="showMoreInfo('${s.name}', '${s.story}', '${s.quote}')">📖 عرض المزيد</button>
     </div>
   `).join('');
+}
+
+function showMoreInfo(name, story, quote) {
+  document.getElementById('modalTitle').innerHTML = name;
+  document.getElementById('modalContent').innerHTML = `
+    <strong>📝 القصة:</strong><br>${story}<br><br>
+    <strong>💬 من أقواله:</strong><br>"${quote}"
+  `;
+  document.getElementById('infoModal').style.display = 'flex';
+}
+
+function closeModal(e) {
+  if(e && e.target !== e.currentTarget && e.target.className !== 'modal-close') return;
+  document.getElementById('infoModal').style.display = 'none';
 }
 
 function filterSahaba(cat, btn) {
@@ -682,6 +787,26 @@ function filterSahaba(cat, btn) {
 }
 
 // ===== الأذكار =====
+const athkar = {
+  morning: [
+    {t:"اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ",s:"رواه الترمذي",c:"١ مرة"},
+    {t:"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ",s:"رواه البخاري",c:"١ مرة"},
+    {t:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",s:"رواه مسلم",c:"١٠٠ مرة"},
+    {t:"﴿قُلْ هُوَ اللَّهُ أَحَدٌ﴾",s:"تعدل ثلث القرآن",c:"٣ مرات"}
+  ],
+  evening: [
+    {t:"اللَّهُمَّ بِكَ أَمْسَيْنَا وَبِكَ أَصْبَحْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ",s:"رواه الترمذي",c:"١ مرة"},
+    {t:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",s:"رواه مسلم",c:"٣ مرات"},
+    {t:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",s:"رواه مسلم",c:"١٠٠ مرة"}
+  ],
+  sleep: [
+    {t:"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",s:"رواه البخاري",c:"١ مرة"},
+    {t:"اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ",s:"رواه أبو داود",c:"٣ مرات"}
+  ]
+};
+
+let cnt = {};
+
 function showAthkar(cat, btn) {
   document.querySelectorAll('.athkar-tab').forEach(t => t.classList.remove('active'));
   if(btn) btn.classList.add('active');
@@ -707,6 +832,15 @@ function inc(k) {
 }
 
 // ===== الرقية الشرعية =====
+const ruqyahItems = [
+  {text:"﴿اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...﴾",source:"آية الكرسي - البقرة 255"},
+  {text:"﴿قُلْ هُوَ اللَّهُ أَحَدٌ * اللَّهُ الصَّمَدُ...﴾",source:"سورة الإخلاص"},
+  {text:"﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ...﴾",source:"سورة الفلق"},
+  {text:"﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ...﴾",source:"سورة الناس"},
+  {text:"بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ",source:"رواه أبو داود"},
+  {text:"اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَاسَ، اشْفِ أَنْتَ الشَّافِي",source:"رواه البخاري"}
+];
+
 function showRuqyah() {
   document.getElementById('ruqyahContent').innerHTML = ruqyahItems.map((item, i) => {
     const key = `ruqyah_${i}`;
@@ -735,11 +869,12 @@ function toggleTheme() {
 // ===== التهيئة =====
 function init() {
   renderSurahList();
+  renderSurahsInfo();
   loadPrayer();
   showAthkar('morning', document.querySelector('.athkar-tab'));
   renderSahaba('all');
   showRuqyah();
-  startDuaTimer(); // بدء تحديث الدعاء كل ساعة
+  startDuaTimer();
   
   const savedTheme = localStorage.getItem('sakeena-theme');
   if(savedTheme === 'light') {
@@ -751,7 +886,7 @@ function init() {
   themeBtn.innerHTML = document.documentElement.getAttribute('data-theme') === 'light' ? '☀️ نهاري' : '🌙 ليلي';
   themeBtn.className = 'theme-fixed-btn';
   themeBtn.onclick = toggleTheme;
-  document.body.appendChildه(themeBtn);
+  document.body.appendChild(themeBtn);
   
   audio.onended = () => {
     if(curIdx < curAyahs.length - 1) {
