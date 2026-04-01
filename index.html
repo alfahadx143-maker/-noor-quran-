@@ -20,7 +20,7 @@
   --border:rgba(201,168,76,0.25);
 }
 
-/* الوضع النهاري - تحسين وضوح الخط */
+/* الوضع النهاري */
 [data-theme="light"] {
   --bg:#fef9e8;
   --bg2:#fff3e0;
@@ -33,8 +33,7 @@
 
 [data-theme="light"] .ayah-text,
 [data-theme="light"] .thikr-text,
-[data-theme="light"] .sahaba-quote,
-[data-theme="light"] .detail-section-body {
+[data-theme="light"] .sahaba-quote {
   color: #000000 !important;
   font-weight: 500;
 }
@@ -47,9 +46,14 @@
 
 [data-theme="light"] .surah-card,
 [data-theme="light"] .sahaba-card,
-[data-theme="light"] .thikr-card {
+[data-theme="light"] .thikr-card,
+[data-theme="light"] .daily-dua-card {
   background: #fff9f0 !important;
   border-color: rgba(139,105,20,0.3) !important;
+}
+
+[data-theme="light"] .daily-dua-card {
+  background: linear-gradient(135deg, #fff9f0, #fff5e6) !important;
 }
 
 [data-theme="light"] .prayer-item {
@@ -113,13 +117,75 @@ body{background-color:#050d1a !important;transition:all 0.3s ease;}
   color: #8b6914;
 }
 
-/* باقي الأنماط */
 .sidebar{width:100%;background:#060e1e;border-bottom:1px solid rgba(201,168,76,0.25);display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;padding:0;}
 [data-theme="light"] .sidebar{background:#fff5e6;}
 .main{flex:1;}
 .sidebar-header{padding:24px 20px;border-bottom:1px solid var(--border);text-align:center;}
 .logo-arabic{font-family:'Amiri',serif;font-size:36px;color:var(--gold);line-height:1;}
 .logo-sub{font-size:10px;color:var(--muted);letter-spacing:4px;margin-top:4px;}
+
+/* دعاء اليوم المتجدد */
+.daily-dua-section {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.02));
+}
+.daily-dua-card {
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.daily-dua-card::before {
+  content: "🤲";
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 60px;
+  opacity: 0.1;
+  pointer-events: none;
+}
+.daily-dua-label {
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  display: inline-block;
+  background: rgba(201,168,76,0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+.daily-dua-text {
+  font-family: 'Amiri', serif;
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--text);
+  margin: 12px 0;
+  text-align: center;
+}
+.daily-dua-time {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.daily-dua-refresh {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 10px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s;
+}
+.daily-dua-refresh:hover {
+  background: rgba(201,168,76,0.2);
+}
 
 /* أوقات الصلاة */
 .prayer-box{padding:10px 16px;border-bottom:1px solid var(--border);display:block;width:100%;}
@@ -130,14 +196,13 @@ body{background-color:#050d1a !important;transition:all 0.3s ease;}
 .prayer-time{font-size:13px;color:var(--gold);font-weight:700;}
 .next-prayer-banner{margin-top:8px;padding:7px 12px;background:linear-gradient(90deg,rgba(201,168,76,0.2),rgba(201,168,76,0.08));border:1px solid rgba(201,168,76,0.4);text-align:center;font-size:12px;color:#e8c97a;font-weight:600;border-radius:4px;}
 
-/* قائمة التنقل الجانبية */
 nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
 .nav-btn{width:100%;padding:11px 14px;background:transparent;border:none;border-right:3px solid transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:10px;font-size:13px;text-align:right;transition:all 0.2s;}
 .nav-btn:hover{background:rgba(201,168,76,0.08);color:var(--gold);}
 .nav-btn.active{background:rgba(201,168,76,0.12);color:var(--gold);}
 .nav-icon{font-size:18px;min-width:26px;}
 
-/* صفحة القرآن */
+/* صفحات */
 .page{display:none;}
 .page.active{display:block;}
 .surah-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;padding:12px 28px 28px;}
@@ -146,55 +211,20 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
 .surah-name{font-family:'Amiri',serif;font-size:22px;color:var(--gold);margin-bottom:2px;}
 .surah-num{width:32px;height:32px;border:1px solid var(--gold-dark);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;margin-bottom:8px;}
 
-/* الآيات */
 .ayah-wrap{max-width:860px;margin:0 auto;padding:24px 32px;}
 .ayah{padding:18px 0;border-bottom:1px solid rgba(201,168,76,0.07);cursor:pointer;transition:all 0.2s;}
 .ayah.playing{background:rgba(201,168,76,0.07);border-right:3px solid var(--gold);padding-right:12px;}
 .ayah-text{font-family:'Amiri Quran',serif;font-size:28px;line-height:2.5;text-align:right;direction:rtl;color:var(--text);}
 [data-theme="light"] .ayah-text{color:#000000 !important;font-weight:500;}
 
-/* التفسير */
-.tafsir-box {
-  display: none;
-  margin-top: 12px;
-  padding: 16px;
-  background: rgba(0,0,0,0.3);
-  border-radius: 12px;
-  border-right: 3px solid var(--gold);
-  font-family: 'Amiri', serif;
-  font-size: 16px;
-  line-height: 1.8;
-  color: #d4c9a8;
-}
-[data-theme="light"] .tafsir-box {
-  background: #fef4e2;
-  color: #2d4a3b;
-}
-.tafsir-box.open { display: block; }
-.tafsir-btn {
-  background: rgba(201,168,76,0.15);
-  border: 1px solid rgba(201,168,76,0.3);
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 11px;
-  color: var(--gold);
-  cursor: pointer;
-  font-family: 'Cairo', sans-serif;
-}
+.tafsir-box{display:none;margin-top:12px;padding:16px;background:rgba(0,0,0,0.3);border-radius:12px;border-right:3px solid var(--gold);font-family:'Amiri',serif;font-size:16px;line-height:1.8;color:#d4c9a8;}
+[data-theme="light"] .tafsir-box{background:#fef4e2;color:#2d4a3b;}
+.tafsir-box.open{display:block;}
+.tafsir-btn{background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);padding:6px 14px;border-radius:20px;font-size:11px;color:var(--gold);cursor:pointer;}
 
-/* الرقية الشرعية */
-.ruqyah-card {
-  background: rgba(201,168,76,0.08);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 16px;
-}
-[data-theme="light"] .ruqyah-card {
-  background: #fff9f0;
-}
+.ruqyah-card{background:rgba(201,168,76,0.08);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;}
+[data-theme="light"] .ruqyah-card{background:#fff9f0;}
 
-/* الصحابة */
 .sahaba-filter{padding:7px 16px;background:transparent;border:1px solid var(--border);color:var(--muted);cursor:pointer;font-size:12px;transition:all 0.2s;border-radius:20px;}
 .sahaba-filter:hover,.sahaba-filter.active{background:rgba(184,134,11,0.12);border-color:var(--gold);color:var(--gold);}
 .sahaba-card{padding:20px;background:#0a1628;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;border-radius:12px;margin-bottom:12px;}
@@ -202,7 +232,6 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
 .sahaba-name{font-family:'Amiri',serif;font-size:22px;color:var(--gold);margin-bottom:4px;}
 .sahaba-quote{font-family:'Amiri',serif;font-size:15px;color:var(--text);line-height:1.7;border-right:3px solid var(--gold);padding-right:10px;margin-bottom:10px;}
 
-/* الأذكار */
 .athkar-tabs{display:flex;gap:8px;padding:20px 28px 0;flex-wrap:wrap;}
 .athkar-tab{padding:9px 20px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);color:#c8d8e8;cursor:pointer;font-size:13px;transition:all 0.2s;border-radius:20px;}
 .athkar-tab.active{background:rgba(201,168,76,0.2);color:var(--gold);}
@@ -213,33 +242,20 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
 .counter-num{font-size:32px;color:var(--gold);font-weight:700;}
 .counter-btn{width:60px;height:60px;border-radius:50%;background:rgba(201,168,76,0.1);border:2px solid var(--gold-dark);color:var(--gold);font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:8px;}
 
-/* زر الوضع */
-.theme-fixed-btn {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  padding: 10px 16px;
-  background: rgba(201,168,76,0.2);
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  border-radius: 40px;
-  cursor: pointer;
-  z-index: 999;
-  font-family: 'Cairo', sans-serif;
-  backdrop-filter: blur(8px);
-}
+.theme-fixed-btn{position:fixed;bottom:20px;left:20px;padding:10px 16px;background:rgba(201,168,76,0.2);border:1px solid var(--gold);color:var(--gold);border-radius:40px;cursor:pointer;z-index:999;font-family:'Cairo',sans-serif;backdrop-filter:blur(8px);}
 
 @media(max-width:768px){
   .surah-grid{grid-template-columns:1fr;padding:12px 16px;}
   .ayah-text{font-size:22px;}
   .top-nav{padding:8px 10px;}
   .nav-btn-top{padding:6px 14px;font-size:0.8rem;}
+  .daily-dua-text{font-size:16px;}
 }
 </style>
 </head>
 <body>
 <div class="app">
-  <!-- القائمة العلوية القابلة للتمرير -->
+  <!-- القائمة العلوية -->
   <div class="top-nav" id="topNav">
     <button class="nav-btn-top active" onclick="showMainPage('quran',this)">📖 القرآن الكريم</button>
     <button class="nav-btn-top" onclick="showMainPage('sahaba',this)">🌟 الصحابة</button>
@@ -252,6 +268,16 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
       <div class="logo-arabic">سكينة</div>
       <div class="logo-sub">القرآن الكريم • الأذكار • الصحابة</div>
       <div style="font-size:10px;color:var(--muted);margin-top:8px;">Created by <span style="color:var(--gold);">Alfahad</span></div>
+    </div>
+
+    <!-- دعاء اليوم المتجدد كل ساعة -->
+    <div class="daily-dua-section">
+      <div class="daily-dua-card" id="dailyDuaCard">
+        <div class="daily-dua-label">🤲 دُعَاءُ هَذِهِ السَّاعَةِ</div>
+        <div class="daily-dua-text" id="dailyDuaText">جاري تحميل الدعاء...</div>
+        <div class="daily-dua-time" id="dailyDuaTime"></div>
+        <button class="daily-dua-refresh" onclick="updateDailyDua()">🔄 تحديث الدعاء</button>
+      </div>
     </div>
 
     <div class="prayer-box">
@@ -346,6 +372,70 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;}
 <audio id="audioEl"></audio>
 
 <script>
+// ===== أدعية متجددة كل ساعة =====
+const dailyDuas = [
+  { text: "اللَّهُمَّ أَحْسِنْ عَاقِبَتَنَا فِي الْأُمُورِ كُلِّهَا، وَأَجِرْنَا مِنْ خِزْيِ الدُّنْيَا وَعَذَابِ الْآخِرَةِ", source: "دعاء جامع" },
+  { text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", source: "البقرة 201" },
+  { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ", source: "دعاء الرسول ﷺ" },
+  { text: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي يَفْقَهُوا قَوْلِي", source: "طه 25-28" },
+  { text: "اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا", source: "دعاء التفريج" },
+  { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ", source: "التوبة 129" },
+  { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ", source: "دعاء الكرب" },
+  { text: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً إِنَّكَ أَنتَ الْوَهَّابُ", source: "آل عمران 8" },
+  { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ حُبَّكَ وَحُبَّ مَنْ يُحِبُّكَ وَحُبَّ عَمَلٍ يُقَرِّبُنِي إِلَى حُبِّكَ", source: "دعاء المحبة" },
+  { text: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ", source: "آل عمران 147" },
+  { text: "اللَّهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي، وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي", source: "دعاء الرسول ﷺ" },
+  { text: "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ", source: "إبراهيم 40" },
+  { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ", source: "دعاء الجنة والنار" },
+  { text: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا", source: "الفرقان 74" },
+  { text: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا، وَقِنَا عَذَابَ النَّارِ", source: "دعاء البركة" },
+  { text: "رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ", source: "البقرة 127" },
+  { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا", source: "دعاء العلم والرزق" },
+  { text: "رَبِّ أَعُوذُ بِكَ مِنْ هَمَزَاتِ الشَّيَاطِينِ وَأَعُوذُ بِكَ رَبِّ أَن يَحْضُرُونِ", source: "المؤمنون 97-98" },
+  { text: "اللَّهُمَّ إِنَّا نَسْأَلُكَ مِنْ خَيْرِ مَا سَأَلَكَ مِنْهُ نَبِيُّكَ مُحَمَّدٌ ﷺ", source: "دعاء جامع" },
+  { text: "رَبَّنَا آمَنَّا بِمَا أَنزَلْتَ وَاتَّبَعْنَا الرَّسُولَ فَاكْتُبْنَا مَعَ الشَّاهِدِينَ", source: "آل عمران 53" },
+  { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الثَّبَاتَ فِي الْأَمْرِ، وَالْعَزِيمَةَ عَلَى الرُّشْدِ", source: "دعاء الاستقامة" },
+  { text: "رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ إِنَّ عَذَابَهَا كَانَ غَرَامًا", source: "الفرقان 65" },
+  { text: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا، وَأَصْلِحْ ذَاتَ بَيْنِنَا، وَاهْدِنَا سُبُلَ السَّلَامِ", source: "دعاء التأليف" },
+  { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَى وَالِدَيَّ", source: "الأحقاف 15" }
+];
+
+function updateDailyDua() {
+  const now = new Date();
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+  
+  // اختيار دعاء بناءً على الساعة الحالية (يتغير كل ساعة)
+  const duaIndex = hour % dailyDuas.length;
+  const selectedDua = dailyDuas[duaIndex];
+  
+  // تنسيق الوقت
+  const hour12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+  const period = hour < 12 ? "صباحاً" : hour >= 12 && hour < 18 ? "بعد الظهر" : "مساءً";
+  const timeText = `${hour12}:${minute.toString().padStart(2, '0')} ${period}`;
+  
+  document.getElementById('dailyDuaText').innerHTML = selectedDua.text;
+  document.getElementById('dailyDuaTime').innerHTML = `⏰ ${timeText} | 📚 ${selectedDua.source}`;
+  
+  // حفظ آخر تحديث في localStorage
+  localStorage.setItem('lastDuaHour', hour);
+  localStorage.setItem('lastDuaText', selectedDua.text);
+}
+
+// تحديث الدعاء كل ساعة
+function startDuaTimer() {
+  updateDailyDua();
+  // حساب الوقت المتبقي حتى نهاية الساعة الحالية
+  const now = new Date();
+  const msUntilNextHour = (60 - now.getMinutes()) * 60 * 1000 - now.getSeconds() * 1000;
+  
+  setTimeout(() => {
+    updateDailyDua();
+    // ثم تحديث كل ساعة
+    setInterval(updateDailyDua, 60 * 60 * 1000);
+  }, msUntilNextHour);
+}
+
 // ===== بيانات السور =====
 const surahNames = [
   "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس",
@@ -368,60 +458,44 @@ const sahabaData = [
   {id:2,name:"عمر بن الخطاب",title:"الفاروق",badge:"العشرة المبشرون",cat:"10",quote:"نحن قوم أعزنا الله بالإسلام",story:"أسهم في نشر العدل وفتح الأمصار"},
   {id:3,name:"عثمان بن عفان",title:"ذو النورين",badge:"العشرة المبشرون",cat:"10",quote:"ما زنيت في جاهلية ولا إسلام",story:"جمع القرآن الكريم في مصحف واحد"},
   {id:4,name:"علي بن أبي طالب",title:"أسد الله",badge:"العشرة المبشرون",cat:"10",quote:"قيمة كل امرئ ما يُحسنه",story:"ابن عم النبي وزوج فاطمة"},
-  {id:5,name:"طلحة بن عبيدالله",title:"طلحة الخير",badge:"العشرة المبشرون",cat:"10",quote:"لا يزهدنك في المعروف كفر من كفره",story:"حمى النبي ﷺ بجسده في أحد"},
-  {id:6,name:"الزبير بن العوام",title:"حواري النبي",badge:"العشرة المبشرون",cat:"10",quote:"ما حملني على الإسلام إلا الحق",story:"أول من سل سيفه في سبيل الله"},
-  {id:7,name:"عبدالرحمن بن عوف",title:"تاجر الجنة",badge:"العشرة المبشرون",cat:"10",quote:"إني أخشى أن أكون عُجّلت طيباتي",story:"أنفق ثروته في سبيل الله"},
-  {id:8,name:"سعد بن أبي وقاص",title:"فارس الإسلام",badge:"العشرة المبشرون",cat:"10",quote:"رميت بسهم في سبيل الله فكان أول سهم",story:"فاتح العراق وكاسر كسرى"},
-  {id:9,name:"سعيد بن زيد",title:"رضي الله عنه",badge:"العشرة المبشرون",cat:"10",quote:"اللهم إن كنت تعلم أني آذيتها ظلماً فأعمِ بصرها",story:"من المهاجرين الأولين"},
-  {id:10,name:"أبو عبيدة بن الجراح",title:"أمين الأمة",badge:"العشرة المبشرون",cat:"10",quote:"وددت أني كنت كبشاً",story:"فتح دمشق وكان أمين هذه الأمة"},
-  {id:11,name:"خالد بن الوليد",title:"سيف الله المسلول",badge:"القادة",cat:"leader",quote:"ما من ليلة يبلغني فيها الصباح إلا وأنا أريد الشهادة",story:"لم يُهزم في معركة قط"},
-  {id:12,name:"بلال بن رباح",title:"مؤذن الإسلام",badge:"السابقون",cat:"early",quote:"أحد أحد",story:"أول مؤذن في الإسلام"},
-  {id:13,name:"عبدالله بن مسعود",title:"حامل سر النبي",badge:"السابقون",cat:"early",quote:"من أراد أن يقرأ القرآن غضاً فليقرأه على قراءة ابن أم عبد",story:"أول من جهر بالقرآن في مكة"},
-  {id:14,name:"أنس بن مالك",title:"خادم النبي",badge:"السابقون",cat:"early",quote:"خدمت النبي ﷺ عشر سنين فما قال لي أف قط",story:"أكثر الصحابة رواية للحديث"},
-  {id:15,name:"خديجة بنت خويلد",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"كلّا والله لا يخزيك الله أبداً",story:"أول من آمن بالنبي ﷺ"},
-  {id:16,name:"عائشة بنت أبي بكر",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"كان خلقه القرآن",story:"أكثر النساء رواية للحديث"},
-  {id:17,name:"حفصة بنت عمر",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"الصيام جنة",story:"حافظة المصحف الأول"},
-  {id:18,name:"فاطمة الزهراء",title:"سيدة نساء الجنة",badge:"السابقون",cat:"early",quote:"من أذى فاطمة فقد آذاني",story:"ابنة النبي ﷺ وأم الحسن والحسين"},
-  {id:19,name:"سلمان الفارسي",title:"باحث عن الحقيقة",badge:"السابقون",cat:"early",quote:"طلبت الحق فوجدته في الإسلام",story:"صاحب فكرة حفر الخندق"},
-  {id:20,name:"حمزة بن عبدالمطلب",title:"سيد الشهداء",badge:"السابقون",cat:"early",quote:"هل أنتم إلا أصابع دميت",story:"أسد الله وأسد رسوله"}
+  {id:5,name:"خالد بن الوليد",title:"سيف الله المسلول",badge:"القادة",cat:"leader",quote:"ما من ليلة يبلغني فيها الصباح إلا وأنا أريد الشهادة",story:"لم يُهزم في معركة قط"},
+  {id:6,name:"بلال بن رباح",title:"مؤذن الإسلام",badge:"السابقون",cat:"early",quote:"أحد أحد",story:"أول مؤذن في الإسلام"},
+  {id:7,name:"خديجة بنت خويلد",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"كلّا والله لا يخزيك الله أبداً",story:"أول من آمن بالنبي ﷺ"},
+  {id:8,name:"عائشة بنت أبي بكر",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"كان خلقه القرآن",story:"أكثر النساء رواية للحديث"},
+  {id:9,name:"سلمان الفارسي",title:"باحث عن الحقيقة",badge:"السابقون",cat:"early",quote:"طلبت الحق فوجدته في الإسلام",story:"صاحب فكرة حفر الخندق"},
+  {id:10,name:"حمزة بن عبدالمطلب",title:"سيد الشهداء",badge:"السابقون",cat:"early",quote:"هل أنتم إلا أصابع دميت",story:"أسد الله وأسد رسوله"}
 ];
 
 // ===== بيانات الأذكار =====
 const athkar = {
   morning: [
     {t:"اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ",s:"رواه الترمذي",c:"١ مرة"},
-    {t:"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ",s:"رواه البخاري — سيد الاستغفار",c:"١ مرة"},
+    {t:"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ",s:"رواه البخاري",c:"١ مرة"},
     {t:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",s:"رواه مسلم",c:"١٠٠ مرة"},
-    {t:"﴿قُلْ هُوَ اللَّهُ أَحَدٌ﴾",s:"تعدل ثلث القرآن",c:"٣ مرات"},
-    {t:"﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ﴾",s:"سورة الفلق",c:"٣ مرات"},
-    {t:"﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ﴾",s:"سورة الناس",c:"٣ مرات"}
+    {t:"﴿قُلْ هُوَ اللَّهُ أَحَدٌ﴾",s:"تعدل ثلث القرآن",c:"٣ مرات"}
   ],
   evening: [
     {t:"اللَّهُمَّ بِكَ أَمْسَيْنَا وَبِكَ أَصْبَحْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ",s:"رواه الترمذي",c:"١ مرة"},
-    {t:"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ",s:"رواه البخاري",c:"١ مرة"},
     {t:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",s:"رواه مسلم",c:"٣ مرات"},
     {t:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",s:"رواه مسلم",c:"١٠٠ مرة"}
   ],
   sleep: [
     {t:"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",s:"رواه البخاري",c:"١ مرة"},
-    {t:"اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ",s:"رواه أبو داود",c:"٣ مرات"},
-    {t:"اللَّهُمَّ أَسْلَمْتُ نَفْسِي إِلَيْكَ، وَفَوَّضْتُ أَمْرِي إِلَيْكَ",s:"رواه البخاري",c:"١ مرة"}
+    {t:"اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ",s:"رواه أبو داود",c:"٣ مرات"}
   ]
 };
 
 // ===== بيانات الرقية الشرعية =====
 const ruqyahItems = [
-  {text:"﴿اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ﴾",source:"آية الكرسي - البقرة 255"},
-  {text:"﴿قُلْ هُوَ اللَّهُ أَحَدٌ * اللَّهُ الصَّمَدُ * لَمْ يَلِدْ وَلَمْ يُولَدْ * وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾",source:"سورة الإخلاص"},
-  {text:"﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ * مِن شَرِّ مَا خَلَقَ * وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ * وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ * وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ﴾",source:"سورة الفلق"},
-  {text:"﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ * مَلِكِ النَّاسِ * إِلَهِ النَّاسِ * مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ * الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ * مِنَ الْجِنَّةِ وَالنَّاسِ﴾",source:"سورة الناس"},
-  {text:"بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",source:"رواه أبو داود والترمذي"},
-  {text:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",source:"رواه مسلم"},
-  {text:"اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَاسَ، اشْفِ أَنْتَ الشَّافِي، لَا شِفَاءَ إِلَّا شِفَاؤُكَ، شِفَاءً لَا يُغَادِرُ سَقَمًا",source:"رواه البخاري ومسلم"}
+  {text:"﴿اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...﴾",source:"آية الكرسي - البقرة 255"},
+  {text:"﴿قُلْ هُوَ اللَّهُ أَحَدٌ * اللَّهُ الصَّمَدُ...﴾",source:"سورة الإخلاص"},
+  {text:"﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ...﴾",source:"سورة الفلق"},
+  {text:"﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ...﴾",source:"سورة الناس"},
+  {text:"بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ",source:"رواه أبو داود"},
+  {text:"اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَاسَ، اشْفِ أَنْتَ الشَّافِي",source:"رواه البخاري"}
 ];
 
 // ===== المتغيرات العامة =====
-let surahs = [];
 let selectedSurah = null;
 let curAyahs = [];
 let reader = 'Alafasy_128kbps';
@@ -434,9 +508,7 @@ let cnt = {};
 const prayerTimesDB = {
   Riyadh: { fajr: "04:38", dhuhr: "11:48", asr: "15:08", maghrib: "17:42", isha: "19:12" },
   Mecca: { fajr: "04:55", dhuhr: "12:15", asr: "15:35", maghrib: "18:05", isha: "19:35" },
-  Medina: { fajr: "04:50", dhuhr: "12:20", asr: "15:40", maghrib: "18:10", isha: "19:40" },
-  Jeddah: { fajr: "04:58", dhuhr: "12:18", asr: "15:38", maghrib: "18:08", isha: "19:38" },
-  Dammam: { fajr: "04:25", dhuhr: "11:35", asr: "14:55", maghrib: "17:25", isha: "18:55" }
+  Medina: { fajr: "04:50", dhuhr: "12:20", asr: "15:40", maghrib: "18:10", isha: "19:40" }
 };
 
 function updatePrayerTimes(city) {
@@ -446,7 +518,6 @@ function updatePrayerTimes(city) {
   document.getElementById('p-asr').innerHTML = times.asr;
   document.getElementById('p-maghrib').innerHTML = times.maghrib;
   document.getElementById('p-isha').innerHTML = times.isha;
-  document.getElementById('nextPrayer').innerHTML = `🕌 موعد الصلاة القادمة`;
 }
 
 async function loadPrayer() {
@@ -463,12 +534,10 @@ async function loadPrayer() {
       document.getElementById('p-asr').innerHTML = t.Asr?.slice(0,5) || '--:--';
       document.getElementById('p-maghrib').innerHTML = t.Maghrib?.slice(0,5) || '--:--';
       document.getElementById('p-isha').innerHTML = t.Isha?.slice(0,5) || '--:--';
-      document.getElementById('nextPrayer').innerHTML = `🕌 تم تحديث الأوقات بنجاح`;
     }
     document.getElementById('locationPermBox').style.display = 'none';
   } catch(e) {
     document.getElementById('locationPermBox').style.display = 'block';
-    document.getElementById('nextPrayer').innerHTML = '📍 اختر مدينتك لعرض أوقات الصلاة';
   }
 }
 
@@ -527,9 +596,7 @@ async function renderAyahsWithTafsir() {
       <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
         <button class="tafsir-btn" onclick="toggleTafsir(event,${selectedSurah},${a.numberInSurah},${i})" id="tafsir-btn-${i}">📖 التفسير الميسر</button>
       </div>
-      <div class="tafsir-box" id="tafsir-box-${i}">
-        <div class="tafsir-loading">جاري تحميل التفسير...</div>
-      </div>
+      <div class="tafsir-box" id="tafsir-box-${i}"><div class="tafsir-loading">جاري تحميل التفسير...</div></div>
     </div>
   `).join('');
 }
@@ -553,8 +620,6 @@ async function toggleTafsir(e, surah, ayah, idx) {
     if(data.status === 'OK' && data.data) {
       box.innerHTML = `<div class="tafsir-text">${data.data.text}</div><div style="font-size:10px;margin-top:8px;">📚 التفسير الميسر</div>`;
       box.setAttribute('data-loaded', '1');
-    } else {
-      box.innerHTML = '<div class="tafsir-text">تعذر تحميل التفسير</div>';
     }
   } catch(e) {
     box.innerHTML = '<div class="tafsir-text">تعذر تحميل التفسير</div>';
@@ -587,23 +652,6 @@ function playAyah(i) {
   playing = true;
 }
 
-function togglePlay() {
-  if(playing) {
-    audio.pause();
-    playing = false;
-  } else if(curAyahs.length) {
-    playAyah(curIdx);
-  }
-}
-
-function onEnded() {
-  if(curIdx < curAyahs.length - 1) {
-    playAyah(curIdx + 1);
-  } else {
-    playing = false;
-  }
-}
-
 function stopAudio() {
   audio.pause();
   audio.src = '';
@@ -612,7 +660,6 @@ function stopAudio() {
 
 function changeReader() {
   reader = document.getElementById('readerSelect').value;
-  if(playing && curAyahs.length) playAyah(curIdx);
 }
 
 // ===== الصحابة =====
@@ -692,21 +739,27 @@ function init() {
   showAthkar('morning', document.querySelector('.athkar-tab'));
   renderSahaba('all');
   showRuqyah();
+  startDuaTimer(); // بدء تحديث الدعاء كل ساعة
   
   const savedTheme = localStorage.getItem('sakeena-theme');
   if(savedTheme === 'light') {
     document.documentElement.setAttribute('data-theme', 'light');
   }
   
-  // إضافة زر الوضع
   const themeBtn = document.createElement('button');
   themeBtn.id = 'themeBtn';
   themeBtn.innerHTML = document.documentElement.getAttribute('data-theme') === 'light' ? '☀️ نهاري' : '🌙 ليلي';
   themeBtn.className = 'theme-fixed-btn';
   themeBtn.onclick = toggleTheme;
-  document.body.appendChild(themeBtn);
+  document.body.appendChildه(themeBtn);
   
-  audio.onended = onEnded;
+  audio.onended = () => {
+    if(curIdx < curAyahs.length - 1) {
+      playAyah(curIdx + 1);
+    } else {
+      playing = false;
+    }
+  };
 }
 
 init();
