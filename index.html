@@ -332,7 +332,9 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
 
 .page{display:none;}
 .page.active{display:block;}
-.surah-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;padding:12px 28px 28px;}
+.surah-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:12px 28px 28px;}
+@media(max-width:900px){.surah-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:600px){.surah-grid{grid-template-columns:repeat(2,1fr);}}
 .surah-card{padding:16px;background:#0a1628;border:1px solid rgba(201,168,76,0.2);cursor:pointer;transition:all 0.2s;border-radius:12px;}
 [data-theme="light"] .surah-card{background:#fff9f0;}
 .surah-name{font-family:'Amiri',serif;font-size:22px;color:var(--gold);margin-bottom:2px;}
@@ -560,7 +562,7 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
   font-size: 14px;
 }
 @media(max-width:768px){
-  .surah-grid{grid-template-columns:1fr;padding:12px 16px;}
+  .surah-grid{padding:12px 16px;}
   .ayah-text{font-size:22px;}
   .top-nav{padding:8px 10px;}
   .nav-btn-top{padding:6px 14px;font-size:0.8rem;}
@@ -757,7 +759,7 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
 </div>
 
 <audio id="audioEl"></audio>
-<button class="whatsapp-share" onclick="shareWhatsApp()">📱 مشاركة الموقع</button>
+<button class="whatsapp-share" onclick="shareWhatsApp()">📱 مشاركة الرابط</button>
 
 <script>
 // التاريخ الهجري والميلادي - مكان مميز
@@ -1139,7 +1141,7 @@ function filterSurahs() {
 
 let selectedSurah = null;
 let curAyahs = [];
-let reader = "Ghamadi_40kbps"; // تم التغيير إلى سعد الغامدي افتراضياً
+let reader = "Ghamadi_40kbps";
 const audioEl = document.getElementById("audioEl");
 let curIdx = 0;
 
@@ -1253,7 +1255,6 @@ async function searchInQuran() {
 function playSearchAyah(surahNum, ayahNum) {
   const surahPad = String(surahNum).padStart(3,'0');
   const ayahPad = String(ayahNum).padStart(3,'0');
-  // استخدام صوت سعد الغامدي فقط
   audioEl.src = `https://everyayah.com/data/Ghamadi_40kbps/${surahPad}${ayahPad}.mp3`;
   audioEl.play();
 }
