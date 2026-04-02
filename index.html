@@ -1155,6 +1155,8 @@ async function renderAyahs() {
   }
 }
 
+// ========== التعديل الوحيد في الكود ==========
+// تم تعديل دالة التفسير لعرض التفسير كاملاً دون تقطيع
 async function toggleTafsir(event, idx, surahNum, ayahNum) {
   const box = document.getElementById(`tafsir-${idx}`);
   if (box.classList.contains("open")) {
@@ -1162,13 +1164,14 @@ async function toggleTafsir(event, idx, surahNum, ayahNum) {
     return;
   }
   box.classList.add("open");
-  if (box.innerHTML.trim() === "") {
+  if (box.innerHTML.trim() === "" || box.innerHTML === "جاري تحميل التفسير...") {
     box.innerHTML = "جاري تحميل التفسير...";
     try {
       const response = await fetch(`https://api.alquran.cloud/v1/ayah/${surahNum}:${ayahNum}/ar.ibnkathir`);
       const data = await response.json();
       if (data.code === 200 && data.data && data.data.text) {
-        box.innerHTML = data.data.text.substring(0, 500) + "...";
+        // عرض التفسير كاملاً دون اقتطاع
+        box.innerHTML = data.data.text;
       } else {
         box.innerHTML = "لا يوجد تفسير متاح لهذه الآية";
       }
@@ -1177,6 +1180,7 @@ async function toggleTafsir(event, idx, surahNum, ayahNum) {
     }
   }
 }
+// ========== نهاية التعديل ==========
 
 function backToList() {
   stopPlayback(); // إيقاف التشغيل عند الرجوع لقائمة السور
@@ -1313,7 +1317,7 @@ async function showSearchTafsir(surahNum, ayahNum) {
     const response = await fetch(`https://api.alquran.cloud/v1/ayah/${surahNum}:${ayahNum}/ar.ibnkathir`);
     const data = await response.json();
     if (data.code === 200 && data.data && data.data.text) {
-      modalContent.innerHTML = data.data.text.substring(0, 800) + (data.data.text.length > 800 ? "..." : "");
+      modalContent.innerHTML = data.data.text;
     } else {
       modalContent.innerHTML = "لا يوجد تفسير متاح لهذه الآية";
     }
