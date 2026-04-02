@@ -86,7 +86,7 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
 .surah-num{width:32px;height:32px;border:1px solid var(--gold-dark);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;margin-bottom:8px;}
 .surah-info{font-size:10px;color:var(--muted);margin-top:4px;}
 
-/* ====== عرض المصحف المتصل - التعديل الجديد ====== */
+/* ====== عرض المصحف المتصل ====== */
 .mushaf-page{max-width:720px;margin:0 auto;padding:32px 28px;}
 .mushaf-bismillah{font-family:'Amiri Quran','Amiri',serif;font-size:28px;text-align:center;color:var(--gold);margin-bottom:28px;padding-bottom:16px;border-bottom:2px solid rgba(201,168,76,0.2);}
 .mushaf-text{font-family:'Amiri Quran','Amiri',serif;font-size:28px;line-height:2.8;text-align:justify;direction:rtl;color:var(--text);word-spacing:3px;}
@@ -332,7 +332,8 @@ const surahInfoDetails={1:{ayahCount:7,juz:1,type:"مكية",order:5},2:{ayahCou
 
 const duasList=["رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ","رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً إِنَّكَ أَنتَ الْوَهَّابُ","رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ","اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ","اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى","اللَّهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي وَدُنْيَايَ الَّتِي فِيهَا مَعَاشِي وَآخِرَتِي الَّتِي إِلَيْهَا مَعَادِي","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ وَالْجُبْنِ وَالْبُخْلِ وَغَلَبَةِ الدَّيْنِ","رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ","رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا","اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ"];
 
-const sahabaData=[
+// ===== الصحابة الكاملون (تم إضافة جميع الصحابة الناقصين) =====
+const sahabaData = [
   {id:1,name:"أبو بكر الصديق",title:"أول الخلفاء الراشدين",badge:"العشرة المبشرون",cat:"10",quote:"أينما كنتُ فإن الله معي",story:"أول من آمن بالنبي ﷺ وصاحبه في الهجرة، تولى الخلافة وجمع القرآن الكريم"},
   {id:2,name:"عمر بن الخطاب",title:"الفاروق",badge:"العشرة المبشرون",cat:"10",quote:"نحن قوم أعزنا الله بالإسلام",story:"ثاني الخلفاء الراشدين، فتح الأمصار ونشر العدل"},
   {id:3,name:"عثمان بن عفان",title:"ذو النورين",badge:"العشرة المبشرون",cat:"10",quote:"ما زنيت في جاهلية ولا إسلام",story:"ثالث الخلفاء الراشدين، جمع القرآن في مصحف واحد"},
@@ -352,7 +353,54 @@ const sahabaData=[
   {id:17,name:"حفصة بنت عمر",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"الصيام جنة",story:"ابنة عمر بن الخطاب، حافظة المصحف الأول"},
   {id:18,name:"زينب بنت خزيمة",title:"أم المساكين",badge:"زوجات النبي",cat:"wives",quote:"كانت كثيرة الصدقة على المساكين",story:"توفيت بعد شهرين من زواجها"},
   {id:19,name:"أم سلمة",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"اللهم أبدلني خيراً منها",story:"من أعقل نساء النبي ﷺ"},
-  {id:20,name:"زينب بنت جحش",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"الحمد لله الذي زوجني من السماء",story:"تزوجها النبي ﷺ بأمر من الله"}
+  {id:20,name:"زينب بنت جحش",title:"أم المؤمنين",badge:"زوجات النبي",cat:"wives",quote:"الحمد لله الذي زوجني من السماء",story:"تزوجها النبي ﷺ بأمر من الله"},
+  // إضافة الصحابة الناقصين
+  {id:21,name:"أبو ذر الغفاري",title:"الصدّيق الثاني",badge:"السابقون",cat:"early",quote:"يا ابن آدم، لا تستحي من الحق",story:"من الرابعين في الإسلام، مشهور بزهده وورعه"},
+  {id:22,name:"سلمان الفارسي",title:"الباحث عن الحقيقة",badge:"السابقون",cat:"early",quote:"حب الوطن من الإيمان",story:"صحابي فارسي الأصل، طلب الحقيقة حتى وصل إلى النبي ﷺ"},
+  {id:23,name:"عمار بن ياسر",title:"الصبّار",badge:"السابقون",cat:"early",quote:"أُعطيت ثلاثاً لم يُعطهن أحد قبلي",story:"من أوائل المسلمين، عُذب بشدة وصبر"},
+  {id:24,name:"صهيب بن سنان",title:"الرومي",badge:"السابقون",cat:"early",quote:"لا يدخل الجنة إلا نفس مسلمة",story:"صحابي رومي الأصل، اشترى نفسه من الكفار وهاجر"},
+  {id:25,name:"مصعب بن عمير",title:"سفير الإسلام",badge:"السابقون",cat:"early",quote:"إن أمك أحق الناس بحسن صحبتك",story:"أول سفير في الإسلام، هاجر إلى الحبشة والمدينة"},
+  {id:26,name:"حمزة بن عبدالمطلب",title:"أسد الله",badge:"القادة",cat:"leader",quote:"هو الله ربي",story:"عم النبي ﷺ، استشهد في غزوة أحد"},
+  {id:27,name:"جعفر بن أبي طالب",title:"ذو الجناحين",badge:"القادة",cat:"leader",quote:"أحب الناس إليّ جعفر",story:"هاجر إلى الحبشة والحبشة، استشهد في غزوة مؤتة"},
+  {id:28,name:"معاذ بن جبل",title:"أعلم الأمة بالحلال والحرام",badge:"القادة",cat:"leader",quote:"اتق الله حيثما كنت",story:"قاضي اليمن، من فقهاء الصحابة"},
+  {id:29,name:"أبي بن كعب",title:"سيد القراء",badge:"السابقون",cat:"early",quote:"القرآن أنزل على سبعة أحرف",story:"كاتب الوحي، من أعلم الصحابة بالقرآن"},
+  {id:30,name:"زيد بن ثابت",title:"كاتب الوحي",badge:"السابقون",cat:"early",quote:"جمعت القرآن من الرقاع واللخاف",story:"جمع القرآن الكريم في مصحف واحد"},
+  {id:31,name:"حسان بن ثابت",title:"شاعر الرسول",badge:"السابقون",cat:"early",quote:"لولا رسول الله لم أهتدِ",story:"شاعر النبي ﷺ، هجا المشركين"},
+  {id:32,name:"عبدالله بن عباس",title:"ترجمان القرآن",badge:"السابقون",cat:"early",quote:"اللهم فقهه في الدين",story:"ابن عم النبي ﷺ، مفسر القرآن"},
+  {id:33,name:"عبدالله بن عمر",title:"الفقيہ",badge:"السابقون",cat:"early",quote:"كان يفعل كما يفعل النبي",story:"عالم بالحديث والفقه، عُرف بخشيته"},
+  {id:34,name:"أبو هريرة",title:"حافظ الأمة",badge:"السابقون",cat:"early",quote:"لولا أبو هريرة ما علم الناس",story:"أكثر الصحابة رواية للحديث"},
+  {id:35,name:"أسامة بن زيد",title:"حِبُّ رسول الله",badge:"السابقون",cat:"early",quote:"اللهم اغفر لأسامة",story:"أحب النبي ﷺ إليه، قاد جيشاً في صغره"},
+  {id:36,name:"البراء بن مالك",title:"البطل",badge:"القادة",cat:"leader",quote:"أنا البراء بن مالك لا أفر",story:"قاتل مسيلمة الكذاب ببسالة"},
+  {id:37,name:"أنس بن النضر",title:"الصابر",badge:"السابقون",cat:"early",quote:"واهاً لريح الجنة",story:"عم أنس بن مالك، استشهد في أحد"},
+  {id:38,name:"ثابت بن قيس",title:"خطيب الأنصار",badge:"السابقون",cat:"early",quote:"أنا ثابت بن قيس لا أفر",story:"خطيب الأنصار، استشهد في اليمامة"},
+  {id:39,name:"حذيفة بن اليمان",title:"صاحب سرّ النبي",badge:"السابقون",cat:"early",quote:"كان يعلم المنافقين",story:"صاحب سر النبي ﷺ في المنافقين"},
+  {id:40,name:"سعد بن معاذ",title:"سيد الأوس",badge:"القادة",cat:"leader",quote:"اهتز عرش الرحمن لموت سعد",story:"سيد الأوس، حكم في بني قريظة"},
+  {id:41,name:"عبدالله بن رواحة",title:"الشاعر المجاهد",badge:"القادة",cat:"leader",quote:"يا نفس إن لم تقتلي تموتي",story:"شاعر النبي ﷺ، استشهد في مؤتة"},
+  {id:42,name:"عتبة بن غزوان",title:"الزاهد",badge:"القادة",cat:"leader",quote:"الدنيا حلوة خضرة",story:"فاتح البصرة، من السابقين"},
+  {id:43,name:"عمران بن حصين",title:"الملك",badge:"السابقون",cat:"early",quote:"خيركم قرني",story:"صحابي جليل، عُرف بالعلم"},
+  {id:44,name:"فضالة بن عبيد",title:"الحكيم",badge:"السابقون",cat:"early",quote:"لأن أهدي رجلاً خير لي",story:"من فقهاء الصحابة"},
+  {id:45,name:"كعب بن مالك",title:"التائب",badge:"السابقون",cat:"early",quote:"ما أنعم الله عليَّ نعمة بعد الهداية",story:"تخلف عن غزوة تبوك ثم تاب الله عليه"},
+  {id:46,name:"محمود بن لبيد",title:"الفقيه",badge:"السابقون",cat:"early",quote:"كان يغزو مع النبي",story:"آخر من مات من أهل بدر"},
+  {id:47,name:"معاوية بن أبي سفيان",title:"كاتب الوحي",badge:"القادة",cat:"leader",quote:"إذا أردت أن تكتب فاستعن بالله",story:"كاتب الوحي، مؤسس الدولة الأموية"},
+  {id:48,name:"الوليد بن عقبة",title:"الأمير",badge:"القادة",cat:"leader",quote:"لا تسبوا أصحابي",story:"أمير الكوفة، صحابي جليل"},
+  {id:49,name:"أبو موسى الأشعري",title:"القاضي",badge:"السابقون",cat:"early",quote:"إنما الأعمال بالنيات",story:"قاضي البصرة، من فقهاء الصحابة"},
+  {id:50,name:"أبو سعيد الخدري",title:"الفقيه",badge:"السابقون",cat:"early",quote:"من رأى منكم منكراً فليغيره",story:"من كبار فقهاء الصحابة"},
+  {id:51,name:"جابر بن عبدالله",title:"الفقيه",badge:"السابقون",cat:"early",quote:"آخر من مات من أهل بدر",story:"روى الكثير من الأحاديث"},
+  {id:52,name:"زيد بن حارثة",title:"مولى رسول الله",badge:"السابقون",cat:"early",quote:"رضي الله عنه وأرضاه",story:"الوحيد الذي ذُكر اسمه في القرآن"},
+  {id:53,name:"أسيد بن حضير",title:"سيد بني عبدالأشهل",badge:"القادة",cat:"leader",quote:"نعم الرجل أسيد",story:"قائد من الأنصار، عُرف بالذكاء"},
+  {id:54,name:"العباس بن عبدالمطلب",title:"عم النبي",badge:"السابقون",cat:"early",quote:"اللهم اغفر للعباس",story:"عم النبي ﷺ، من أعمامه"},
+  {id:55,name:"أبو طلحة الأنصاري",title:"الرماح",badge:"القادة",cat:"leader",quote:"رمى يوم أحد مائة رمح",story:"قاتل مشركي قريش ببسالة"},
+  {id:56,name:"أبو أيوب الأنصاري",title:"صاحب المنزل",badge:"السابقون",cat:"early",quote:"نزل النبي في بيتي",story:"استضاف النبي ﷺ في المدينة"},
+  {id:57,name:"أبو الدرداء",title:"الحكيم",badge:"السابقون",cat:"early",quote:"إن أخشاكم الله",story:"قاضي دمشق، عُرف بالحكمة"},
+  {id:58,name:"عقبة بن عامر",title:"الجهني",badge:"السابقون",cat:"early",quote:"رحم الله امرأً قام من الليل",story:"صحابي جليل، عُرف بالعبادة"},
+  {id:59,name:"معقل بن يسار",title:"الفقيه",badge:"السابقون",cat:"early",quote:"اللهم صل على محمد",story:"من فقهاء الصحابة"},
+  {id:60,name:"النعمان بن بشير",title:"الخطيب",badge:"السابقون",cat:"early",quote:"إن الحلال بين وإن الحرام بين",story:"خطيب النبي ﷺ"},
+  {id:61,name:"واثلة بن الأسقع",title:"الفقيه",badge:"السابقون",cat:"early",quote:"لا تكذبوا عليَّ",story:"آخر من مات من الصحابة بالشام"},
+  {id:62,name:"أبو أمامة الباهلي",title:"الفقيه",badge:"السابقون",cat:"early",quote:"اقرأوا القرآن فإنه يأتي شفيعاً",story:"من كبار الصحابة"},
+  {id:63,name:"عبدالله بن سلام",title:"الحبر",badge:"السابقون",cat:"early",quote:"كنت يهودياً فأسلمت",story:"عالم يهودي أسلم"},
+  {id:64,name:"صفوان بن عسال",title:"الفقيه",badge:"السابقون",cat:"early",quote:"ما رأيت النبي قط يفطر",story:"صحابي جليل"},
+  {id:65,name:"أبو مسعود البدري",title:"الفقيه",badge:"السابقون",cat:"early",quote:"آية الكرسي أعظم آية",story:"من فقهاء الصحابة"},
+  {id:66,name:"عبدالله بن عمرو بن العاص",title:"الفقيه",badge:"السابقون",cat:"early",quote:"كنت أكتب كل ما أسمع من النبي",story:"صحابي عابد، عُرف بالعلم"}
 ];
 
 const athkar={
@@ -505,7 +553,7 @@ function stopPlayback(){
   document.querySelectorAll(".ayah-word").forEach(el=>{el.classList.remove("playing-word");});
 }
 
-// ====== التعديل 1: عرض المصحف المتصل ======
+// ====== عرض المصحف المتصل ======
 async function renderAyahs(){
   const wrap=document.getElementById("ayahWrap");
   wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gold);">جاري تحميل الآيات...</div>';
@@ -536,7 +584,7 @@ function playAyahMushaf(i){
     else document.querySelectorAll(".ayah-word").forEach(el=>el.classList.remove("playing-word"));
   };
 }
-// ====== نهاية التعديل 1 ======
+// ====== نهاية عرض المصحف ======
 
 function changeReader(){
   reader=document.getElementById("readerSelect").value;
@@ -602,7 +650,7 @@ function showRuqyah(){
   }).join("");
 }
 
-// ====== التعديل 2: البحث - التفسير قبل الاستماع ======
+// البحث في القرآن
 async function searchInQuran(){
   const keyword=document.getElementById("searchKeyword").value.trim();
   const exactMatch=document.getElementById("exactMatch").checked;
@@ -629,7 +677,6 @@ async function searchInQuran(){
     }else{resultsDiv.innerHTML='<div class="no-results">⚠️ حدث خطأ في البحث، حاول مرة أخرى</div>';}
   }catch(error){resultsDiv.innerHTML='<div class="no-results">⚠️ خطأ في الاتصال، تأكد من اتصالك بالإنترنت</div>';}
 }
-// ====== نهاية التعديل 2 ======
 
 function playSearchAyah(surahNum,ayahNum){
   const surahPad=String(surahNum).padStart(3,'0'),ayahPad=String(ayahNum).padStart(3,'0');
