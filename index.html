@@ -341,16 +341,99 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
 .surah-num{width:32px;height:32px;border:1px solid var(--gold-dark);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;margin-bottom:8px;}
 .surah-info{font-size:10px;color:var(--muted);margin-top:4px;}
 
-.ayah-wrap{max-width:860px;margin:0 auto;padding:24px 32px;}
-.ayah{padding:18px 0;border-bottom:1px solid rgba(201,168,76,0.07);cursor:pointer;transition:all 0.2s;}
-.ayah.playing{background:rgba(201,168,76,0.07);border-right:3px solid var(--gold);padding-right:12px;}
-.ayah-text{font-family:'Amiri Quran',serif;font-size:28px;line-height:2.5;text-align:right;direction:rtl;color:var(--text);}
-[data-theme="light"] .ayah-text{color:#000000 !important;font-weight:500;}
-
-.tafsir-box{display:none;margin-top:12px;padding:16px;background:rgba(0,0,0,0.3);border-radius:12px;border-right:3px solid var(--gold);font-family:'Amiri',serif;font-size:16px;line-height:1.8;color:#d4c9a8;}
-[data-theme="light"] .tafsir-box{background:#fef4e2;color:#2d4a3b;}
-.tafsir-box.open{display:block;}
-.tafsir-btn{background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);padding:6px 14px;border-radius:20px;font-size:11px;color:var(--gold);cursor:pointer;}
+/* ====== طريقة عرض الآيات الجديدة (مثل الصورة) ====== */
+.ayah-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 32px;
+}
+.ayah {
+  padding: 24px 20px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid rgba(201,168,76,0.15);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(201,168,76,0.03);
+  position: relative;
+}
+.ayah:hover {
+  background: rgba(201,168,76,0.08);
+  transform: translateX(-4px);
+}
+.ayah.playing {
+  background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+  border-right: 5px solid var(--gold);
+  border-left: 1px solid rgba(201,168,76,0.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.ayah-text {
+  font-family: 'Amiri Quran', 'Amiri', serif;
+  font-size: 28px;
+  line-height: 2.2;
+  text-align: right;
+  direction: rtl;
+  color: var(--text);
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+[data-theme="light"] .ayah-text {
+  color: #000000 !important;
+  font-weight: 500;
+}
+.ayah-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(201,168,76,0.2);
+}
+.ayah-number {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--gold);
+  background: rgba(201,168,76,0.15);
+  padding: 4px 12px;
+  border-radius: 30px;
+  display: inline-block;
+}
+.tafsir-btn {
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 6px 18px;
+  border-radius: 30px;
+  font-size: 12px;
+  color: var(--gold);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Cairo', sans-serif;
+}
+.tafsir-btn:hover {
+  background: rgba(201,168,76,0.25);
+  transform: scale(1.02);
+}
+.tafsir-box {
+  display: none;
+  margin-top: 16px;
+  padding: 18px;
+  background: rgba(0,0,0,0.35);
+  border-radius: 16px;
+  border-right: 4px solid var(--gold);
+  font-family: 'Amiri', serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #d4c9a8;
+}
+[data-theme="light"] .tafsir-box {
+  background: #fef4e2;
+  color: #2d4a3b;
+}
+.tafsir-box.open {
+  display: block;
+}
+/* ====== نهاية طريقة عرض الآيات الجديدة ====== */
 
 .ruqyah-card{background:rgba(201,168,76,0.08);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;}
 [data-theme="light"] .ruqyah-card{background:#fff9f0;}
@@ -476,7 +559,7 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
 }
 .search-option {
   display: flex;
--align-items: center;
+  align-items: center;
   gap: 8px;
   font-size: 13px;
   color: var(--muted);
@@ -563,7 +646,8 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
 }
 @media(max-width:768px){
   .surah-grid{padding:12px 16px;}
-  .ayah-text{font-size:22px;}
+  .ayah-text{font-size:22px; line-height:1.9;}
+  .ayah{padding:18px 12px;}
   .top-nav{padding:8px 10px;}
   .nav-btn-top{padding:6px 14px;font-size:0.8rem;}
   .daily-dua-text{font-size:16px;}
@@ -1170,9 +1254,9 @@ async function renderAyahs() {
       wrap.innerHTML = curAyahs.map((ayah, i) => `
         <div class="ayah" id="ayah-${i}" onclick="playAyah(${i})">
           <div class="ayah-text">${ayah.text}</div>
-          <div style="display:flex;justify-content:space-between;margin-top:5px;">
-            <span style="font-size:12px;color:var(--muted);">${i+1}</span>
-            <button class="tafsir-btn" onclick="event.stopPropagation();toggleTafsir(event, ${i}, ${selectedSurah}, ${i+1})">📖 تفسير</button>
+          <div class="ayah-meta">
+            <span class="ayah-number">🕌 الآية ${i+1}</span>
+            <button class="tafsir-btn" onclick="event.stopPropagation();toggleTafsir(event, ${i}, ${selectedSurah}, ${i+1})">📖 تفسير الآية</button>
           </div>
           <div class="tafsir-box" id="tafsir-${i}"></div>
         </div>
