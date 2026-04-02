@@ -1018,8 +1018,9 @@ function playAyah(i) {
     if (idx === i) el.classList.add("playing");
     else el.classList.remove("playing");
   });
-  const url = `https://cdn.islamic.network/quran/audio/128/${reader}/${selectedSurah}_${i+1}.mp3`;
-  audio.src = url;
+  const surahPad = String(selectedSurah).padStart(3,'0');
+  const ayahPad = String(i+1).padStart(3,'0');
+  audio.src = `https://everyayah.com/data/${reader}/${surahPad}${ayahPad}.mp3`;
   audio.play();
   audio.onended = () => {
     if (curIdx < curAyahs.length - 1) {
@@ -1037,7 +1038,9 @@ function changeReader() {
   if (audio && audio.src && curAyahs.length > 0 && selectedSurah) {
     const currentPlayingAyah = curIdx;
     if (currentPlayingAyah !== undefined) {
-      const newUrl = `https://cdn.islamic.network/quran/audio/128/${reader}/${selectedSurah}_${currentPlayingAyah + 1}.mp3`;
+      const surahPad = String(selectedSurah).padStart(3,'0');
+      const ayahPad = String(currentPlayingAyah + 1).padStart(3,'0');
+      const newUrl = `https://everyayah.com/data/${reader}/${surahPad}${ayahPad}.mp3`;
       const wasPlaying = !audio.paused;
       audio.src = newUrl;
       if (wasPlaying) {
