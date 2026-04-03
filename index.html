@@ -626,16 +626,19 @@ function showRuqyah(){
 }
 /* البحث في القرآن */
 let quranData=null;
-function removeHarakat(t){return t.replace(/[\u064B-\u065F\u0617-\u061A\u0670\u06D6-\u06ED]/g,'').replace(/أ|إ|آ/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');}
+function removeHarakat(t){
+  return t
+    .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g,'')
+    .replace(/[أإآا]/g,'ا')
+    .replace(/[ةه]/g,'ه')
+    .replace(/[يىئ]/g,'ي')
+    .replace(/[ؤو]/g,'و');
+}
 async function loadQuranData(){
   if(quranData)return quranData;
-  const res=await fetch('https://api.alquran.cloud/v1/quran/quran-simple-enhanced');
+  const res=await fetch('https://cdn.jsdelivr.net/npm/quran-json@3.1.2/data/quran.json');
   const data=await res.json();
-  if(data.code===200){quranData=data.data.surahs;return quranData;}
-  const res2=await fetch('https://api.alquran.cloud/v1/quran/en.transliteration');
-  const res3=await fetch('https://api.alquran.cloud/v1/quran/quran-simple');
-  const d=await res3.json();
-  quranData=d.data.surahs;
+  quranData=data;
   return quranData;
 }
 async function searchInQuran(){
@@ -645,13 +648,12 @@ async function searchInQuran(){
   if(!keyword){resultsDiv.innerHTML='<div class="search-info">✏️ الرجاء إدخال كلمة للبحث</div>';return;}
   resultsDiv.innerHTML='<div class="loading-search"><span class="searching-icon">🔍</span> جاري البحث في القرآن الكريم...</div>';
   try{
-    const surahs=await loadQuranData();
+    const quran=await loadQuranData();
     const matches=[];
-    for(const surah of surahs){
-      for(const ayah of surah.ayahs){
-        const clean=removeHarakat(ayah.text);
-        if(clean.includes(keyword)){
-          matches.push({surahNum:surah.number,surahName:surahNamesFull[surah.number-1],ayahNum:ayah.numberInSurah,text:ayah.text});
+    for(const surah of quran){
+      for(const ayah of surah.verses){
+        if(removeHarakat(ayah.text).includes(keyword)){
+          matches.push({surahNum:surah.id,surahName:surahNamesFull[surah.id-1],ayahNum:ayah.id,text:ayah.text});
         }
       }
     }
@@ -669,8 +671,40 @@ async function searchInQuran(){
         </div>
       </div>`).join('');
   }catch(error){
+    console.log(error);
     resultsDiv.innerHTML='<div class="no-results">⚠️ خطأ في الاتصال، تأكد من اتصالك بالإنترنت</div>';
   }
+}
+const battlesData=[
+  {name:"غزوة بدر الكبرى",year:"2 هـ",result:"انتصار",icon:"🏆",desc:"أول معركة كبرى في الإسلام، انتصر فيها المسلمون على قريش رغم قلة عددهم. المسلمون 313 مقاتل، قريش 950 مقاتل.",details:"قُتل من قريش 70 رجلاً وأُسر 70، واستشهد من المسلمين 14 رجلاً. قال النبي ﷺ: اللهم إن تهلك هذه العصابة لا تُعبد في الأرض."},
+  {name:"غزوة أحد",year:"3 هـ",result:"هزيمة جزئية",icon:"⚠️",desc:"خرج المسلمون بـ700 مقاتل لمواجهة 3000 من قريش. انتصر المسلمون أولاً ثم تحوّل الأمر بسبب مخالفة الرماة لأوامر النبي ﷺ.",details:"استُشهد 70 من الصحابة منهم حمزة بن عبدالمطلب عم النبي ﷺ. وجُرح النبي ﷺ في وجهه."},
+  {name:"غزوة الخندق",year:"5 هـ",result:"انتصار",icon:"🏆",desc:"حاصر الأحزاب المدينة بـ10,000 مقاتل. أشار سلمان الفارسي بحفر الخندق وكان حائلاً دون اختراقهم.",details:"استمر الحصار 27 يوماً ثم أرسل الله ريحاً وجنوداً فانسحب الأعداء. لم يُستشهد إلا عدد قليل."},
+  {name:"غزوة خيبر",year:"7 هـ",result:"انتصار",icon:"🏆",desc:"فتح حصون اليهود في خيبر. فتح علي بن أبي طالب الحصن الرئيسي بعد أن أعطاه النبي ﷺ الراية.",details:"غنم المسلمون أموالاً كثيرة وأراضي خيبر. وكانت فتحاً عظيماً للمسلمين."},
+  {name:"فتح مكة",year:"8 هـ",result:"انتصار",icon:"🏆",desc:"دخل النبي ﷺ مكة المكرمة فاتحاً بـ10,000 مقاتل دون قتال يُذكر. أعلن العفو العام عن أهل مكة.",details:"طاف النبي ﷺ بالكعبة وأزال الأصنام قائلاً: جاء الحق وزهق الباطل. وأسلم أهل مكة."},
+  {name:"غزوة حنين",year:"8 هـ",result:"انتصار",icon:"🏆",desc:"بعد فتح مكة واجه المسلمون هوازن وثقيف. بدأت بتراجع المسلمون ثم ثبت النبي ﷺ وعادوا للقتال.",details:"غنم المسلمون غنائم ضخمة جداً. وأسلم كثير من الأسرى بعد إطلاق سراحهم."},
+  {name:"غزوة تبوك",year:"9 هـ",result:"انتصار بلا قتال",icon:"🛡️",desc:"خرج النبي ﷺ بـ30,000 مقاتل نحو الروم. لم يلتقِ بالروم فانسحبوا، وصالح قبائل كثيرة على الجزية.",details:"سُميت بـ'غزوة العسرة' لشدة الحر وقلة الزاد. تخلف بعض المنافقين وكعب بن مالك وصاحباه ثم تابوا."},
+  {name:"غزوة بدر الثانية",year:"4 هـ",result:"انتصار",icon:"🏆",desc:"خرج المسلمون للقاء قريش التي وعدت بالعودة، لكن قريشاً لم تأتِ فرجع المسلمون منتصرين دون قتال.",details:"أظهرت قوة المسلمين بعد أحد وأرهبت قريشاً التي اعتذرت عن القتال."},
+  {name:"غزوة مؤتة",year:"8 هـ",result:"انسحاب تكتيكي",icon:"🛡️",desc:"أول مواجهة مع الروم. استشهد القادة الثلاثة: زيد بن حارثة، جعفر بن أبي طالب، عبدالله بن رواحة.",details:"تولى خالد بن الوليد القيادة وأنقذ الجيش بانسحاب منظم. سمّاه النبي ﷺ سيف الله المسلول."},
+  {name:"سرية عبدالله بن جحش",year:"2 هـ",result:"انتصار",icon:"🏆",desc:"أول سرية ناجحة في الإسلام. أسفرت عن غنائم وأسرى وكانت بداية الجهاد المسلح.",details:"أثارت جدلاً في بداية الأمر بسبب القتال في الشهر الحرام ثم نزل القرآن يوضح الحكم."},
+  {name:"غزوة بني قينقاع",year:"2 هـ",result:"انتصار",icon:"🏆",desc:"أول غزوة ضد اليهود الذين نقضوا العهد. حُوصروا 15 ليلة ثم استسلموا وأُجلوا من المدينة.",details:"أظهرت حزم النبي ﷺ في التعامل مع ناقضي العهود وحفظت أمن المدينة."},
+  {name:"غزوة بني النضير",year:"4 هـ",result:"انتصار",icon:"🏆",desc:"أُجلي يهود بني النضير الذين دبّروا مؤامرة لقتل النبي ﷺ. حوصروا في حصونهم ثم خرجوا بأموالهم.",details:"نزلت فيهم سورة الحشر. وغنم المسلمون أراضيهم وبساتينهم في المدينة."}
+];
+function renderBattles(){
+  const grid=document.getElementById("battlesGrid");
+  if(!grid)return;
+  grid.innerHTML=battlesData.map((b)=>{
+    const color=b.result==='انتصار'?'#4caf50':b.result==='هزيمة جزئية'?'#ff9800':'#2196f3';
+    return`<div class="sahaba-card" style="cursor:default;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div style="font-size:36px;">${b.icon}</div>
+        <div style="background:${color}22;border:1px solid ${color};color:${color};padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;">${b.result}</div>
+      </div>
+      <div class="sahaba-name" style="margin-bottom:4px;">${b.name}</div>
+      <div style="font-size:12px;color:var(--gold);margin-bottom:10px;font-weight:600;">📅 ${b.year}</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.8;border-right:3px solid var(--gold);padding-right:10px;margin-bottom:10px;">${b.desc}</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7;background:rgba(201,168,76,0.05);padding:10px;border-radius:8px;">${b.details}</div>
+    </div>`;
+  }).join("");
 }
 function playSearchAyah(surahNum,ayahNum){
   const surahPad=String(surahNum).padStart(3,'0'),ayahPad=String(ayahNum).padStart(3,'0');
@@ -716,6 +750,7 @@ async function init(){
   showAthkar("morning",document.querySelector(".athkar-tab"));
   renderSahaba("all");
   showRuqyah();
+  renderBattles();
   startDuaTimer();
   const savedTheme=localStorage.getItem("sakeena-theme");
   if(savedTheme==="light")document.documentElement.setAttribute("data-theme","light");
