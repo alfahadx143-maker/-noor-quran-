@@ -625,17 +625,17 @@ async function searchInQuran(){
   if(!keyword){resultsDiv.innerHTML='<div class="search-info">✏️ الرجاء إدخال كلمة للبحث</div>';return;}
   resultsDiv.innerHTML='<div class="loading-search"><span class="searching-icon">🔍</span> جاري البحث في القرآن الكريم...</div>';
   try{
-    const res=await fetch(`https://api.alquran.cloud/v1/search/${encodeURIComponent(keyword)}/all/quran-simple`);
+    const res=await fetch(`https://api.alquran.cloud/v1/search/${encodeURIComponent(keyword)}/all/quran-uthmani`);
     const data=await res.json();
     if(data.code===200&&data.data&&data.data.matches&&data.data.matches.length>0){
       const matches=data.data.matches;
       resultsDiv.innerHTML=`<div class="results-count">📊 تم العثور على ${matches.length} آية تحتوي على "${keyword}"</div>`+
-        matches.map(match=>`<div class="search-result-card">
-          <div class="result-surah">📖 سورة ${surahNamesFull[match.surah.number-1]} (${match.surah.number})</div>
-          <div class="result-ayah-num">🔢 الآية رقم: ${match.numberInSurah}</div>
-          <div class="result-ayah-text">${match.text}</div>
+        matches.map((match,idx)=>`<div class="search-result-card">
+          <div class="result-surah">📖 سورة ${surahNamesFull[match.surah.number-1]} — الآية ${match.numberInSurah}</div>
+          <div class="result-ayah-text" id="ayah-text-${idx}">${match.text}</div>
           <div class="result-actions">
             <button class="result-action-btn" onclick="playSearchAyah(${match.surah.number},${match.numberInSurah})">🎧 استماع</button>
+            <button class="result-action-btn" onclick="navigator.clipboard.writeText(document.getElementById('ayah-text-${idx}').innerText).then(()=>this.innerHTML='✅ تم النسخ')">📋 نسخ</button>
           </div>
         </div>`).join('');
     }else{
