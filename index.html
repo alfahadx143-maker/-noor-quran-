@@ -448,15 +448,18 @@ function shareWhatsApp(){
 }
 async function loadHijriDate(){
   try{
-    const res=await fetch('https://api.aladhan.com/v1/gToH?date='+new Date().toISOString().split('T')[0]);
+    const now=new Date();
+    const dd=String(now.getDate()).padStart(2,'0');
+    const mm=String(now.getMonth()+1).padStart(2,'0');
+    const yyyy=now.getFullYear();
+    const res=await fetch(`https://api.aladhan.com/v1/gToH/${dd}-${mm}-${yyyy}`);
     const data=await res.json();
+    const g=now.toLocaleDateString('ar-EG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
     if(data.code===200){
       const h=data.data.hijri;
-      const g=new Date().toLocaleDateString('ar-EG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-      document.getElementById('dateHijri').innerHTML=`🌙 ${h.day} ${h.month.ar} ${h.year} هـ`;
-      document.getElementById('dateGregorian').innerHTML=`✦ ${g} م`;
+      document.getElementById('dateHijri').innerHTML=`🌙 ${h.weekday.ar} ${h.day} ${h.month.ar} ${h.year} هـ`;
+      document.getElementById('dateGregorian').innerHTML=`📅 ${g} م`;
     }else{
-      const g=new Date().toLocaleDateString('ar-EG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
       document.getElementById('dateHijri').innerHTML=`🌙 التاريخ الهجري`;
       document.getElementById('dateGregorian').innerHTML=`📅 ${g} م`;
     }
@@ -622,13 +625,13 @@ async function searchInQuran(){
   if(!keyword){resultsDiv.innerHTML='<div class="search-info">✏️ الرجاء إدخال كلمة للبحث</div>';return;}
   resultsDiv.innerHTML='<div class="loading-search"><span class="searching-icon">🔍</span> جاري البحث في القرآن الكريم...</div>';
   try{
-    const res=await fetch(`https://api.alquran.cloud/v1/search/${encodeURIComponent(keyword)}/all/ar`);
+    const res=await fetch(`https://api.alquran.cloud/v1/search/${encodeURIComponent(keyword)}/all/quran-simple`);
     const data=await res.json();
     if(data.code===200&&data.data&&data.data.matches&&data.data.matches.length>0){
       const matches=data.data.matches;
       resultsDiv.innerHTML=`<div class="results-count">📊 تم العثور على ${matches.length} آية تحتوي على "${keyword}"</div>`+
         matches.map(match=>`<div class="search-result-card">
-          <div class="result-surah">📖 سورة ${match.surah.name} (${match.surah.number})</div>
+          <div class="result-surah">📖 سورة ${surahNamesFull[match.surah.number-1]} (${match.surah.number})</div>
           <div class="result-ayah-num">🔢 الآية رقم: ${match.numberInSurah}</div>
           <div class="result-ayah-text">${match.text}</div>
           <div class="result-actions">
