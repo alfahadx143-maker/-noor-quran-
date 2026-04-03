@@ -618,29 +618,40 @@ function showRuqyah(){
     return`<div class="ruqyah-card"><div class="thikr-text" style="font-family:'Amiri Quran',serif;font-size:20px;">${item.text}</div><div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;">📚 ${item.source}</div><div class="counter-wrap"><div class="counter-num" id="cn-${key}">${counters[key]}</div><button class="counter-btn" onclick="incrementCounter('${key}')">+</button></div></div>`;
   }).join("");
 }
-/* تعديل 2: البحث في القرآن باستخدام API البحث المباشر */
+/* تعديل 2: البحث في القرآن */
+let quranData=null;
+async function loadQuranData(){
+  if(quranData)return quranData;
+  const res=await fetch('https://api.alquran.cloud/v1/quran/quran-simple');
+  const data=await res.json();
+  quranData=data.data.surahs;
+  return quranData;
+}
 async function searchInQuran(){
   const keyword=document.getElementById("searchKeyword").value.trim();
   const resultsDiv=document.getElementById("searchResults");
   if(!keyword){resultsDiv.innerHTML='<div class="search-info">✏️ الرجاء إدخال كلمة للبحث</div>';return;}
   resultsDiv.innerHTML='<div class="loading-search"><span class="searching-icon">🔍</span> جاري البحث في القرآن الكريم...</div>';
   try{
-    const res=await fetch(`https://api.alquran.cloud/v1/search/${encodeURIComponent(keyword)}/all/quran-uthmani`);
-    const data=await res.json();
-    if(data.code===200&&data.data&&data.data.matches&&data.data.matches.length>0){
-      const matches=data.data.matches;
-      resultsDiv.innerHTML=`<div class="results-count">📊 تم العثور على ${matches.length} آية تحتوي على "${keyword}"</div>`+
-        matches.map((match,idx)=>`<div class="search-result-card">
-          <div class="result-surah">📖 سورة ${surahNamesFull[match.surah.number-1]} — الآية ${match.numberInSurah}</div>
-          <div class="result-ayah-text" id="ayah-text-${idx}">${match.text}</div>
-          <div class="result-actions">
-            <button class="result-action-btn" onclick="playSearchAyah(${match.surah.number},${match.numberInSurah})">🎧 استماع</button>
-            <button class="result-action-btn" onclick="navigator.clipboard.writeText(document.getElementById('ayah-text-${idx}').innerText).then(()=>this.innerHTML='✅ تم النسخ')">📋 نسخ</button>
-          </div>
-        </div>`).join('');
-    }else{
-      resultsDiv.innerHTML=`<div class="no-results">❌ لا توجد نتائج للكلمة "${keyword}"</div>`;
+    const surahs=await loadQuranData();
+    const matches=[];
+    for(const surah of surahs){
+      for(const ayah of surah.ayahs){
+        if(ayah.text.includes(keyword)){
+          matches.push({surahNum:surah.number,surahName:surahNamesFull[surah.number-1],ayahNum:ayah.numberInSurah,text:ayah.text});
+        }
+      }
     }
+    if(matches.length===0){resultsDiv.innerHTML=`<div class="no-results">❌ لا توجد نتائج للكلمة "${keyword}"</div>`;return;}
+    resultsDiv.innerHTML=`<div class="results-count">📊 تم العثور على ${matches.length} آية تحتوي على "${keyword}"</div>`+
+      matches.map((m,idx)=>`<div class="search-result-card">
+        <div class="result-surah">📖 سورة ${m.surahName} — الآية ${m.ayahNum}</div>
+        <div class="result-ayah-text" id="ayah-text-${idx}">${m.text}</div>
+        <div class="result-actions">
+          <button class="result-action-btn" onclick="playSearchAyah(${m.surahNum},${m.ayahNum})">🎧 استماع</button>
+          <button class="result-action-btn" onclick="navigator.clipboard.writeText(document.getElementById('ayah-text-${idx}').innerText).then(()=>this.innerHTML='✅ تم النسخ')">📋 نسخ</button>
+        </div>
+      </div>`).join('');
   }catch(error){
     resultsDiv.innerHTML='<div class="no-results">⚠️ خطأ في الاتصال، تأكد من اتصالك بالإنترنت</div>';
   }
