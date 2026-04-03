@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl" data-theme="dark">
 <head>
 <meta charset="UTF-8">
@@ -630,16 +629,15 @@ let quranData=null;
 function removeHarakat(t){
   return t
     .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g,'')
-    .replace(/[أإآا]/g,'ا')
-    .replace(/[ةه]/g,'ه')
-    .replace(/[يىئ]/g,'ي')
-    .replace(/[ؤو]/g,'و');
+    .replace(/[أإآ]/g,'ا')
+    .replace(/ة/g,'ه')
+    .replace(/ى/g,'ي');
 }
 async function loadQuranData(){
   if(quranData)return quranData;
-  const res=await fetch('https://cdn.jsdelivr.net/npm/quran-json@3.1.2/data/quran.json');
+  const res=await fetch('https://api.alquran.cloud/v1/quran/quran-simple');
   const data=await res.json();
-  quranData=data;
+  quranData=data.data.surahs;
   return quranData;
 }
 async function searchInQuran(){
@@ -647,14 +645,15 @@ async function searchInQuran(){
   const keyword=removeHarakat(raw);
   const resultsDiv=document.getElementById("searchResults");
   if(!keyword){resultsDiv.innerHTML='<div class="search-info">✏️ الرجاء إدخال كلمة للبحث</div>';return;}
-  resultsDiv.innerHTML='<div class="loading-search"><span class="searching-icon">🔍</span> جاري البحث في القرآن الكريم...</div>';
+  resultsDiv.innerHTML='<div class="loading-search"><span class="searching-icon">🔍</span> جاري تحميل القرآن والبحث...</div>';
   try{
-    const quran=await loadQuranData();
+    const surahs=await loadQuranData();
     const matches=[];
-    for(const surah of quran){
-      for(const ayah of surah.verses){
-        if(removeHarakat(ayah.text).includes(keyword)){
-          matches.push({surahNum:surah.id,surahName:surahNamesFull[surah.id-1],ayahNum:ayah.id,text:ayah.text});
+    for(const surah of surahs){
+      for(const ayah of surah.ayahs){
+        const clean=removeHarakat(ayah.text);
+        if(clean.includes(keyword)){
+          matches.push({surahNum:surah.number,surahName:surahNamesFull[surah.number-1],ayahNum:ayah.numberInSurah,text:ayah.text});
         }
       }
     }
@@ -672,6 +671,7 @@ async function searchInQuran(){
         </div>
       </div>`).join('');
   }catch(error){
+    quranData=null;
     console.log(error);
     resultsDiv.innerHTML='<div class="no-results">⚠️ خطأ في الاتصال، تأكد من اتصالك بالإنترنت</div>';
   }
