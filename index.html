@@ -620,6 +620,7 @@ function showRuqyah(){
 }
 /* تعديل 2: البحث في القرآن */
 let quranData=null;
+function removeHarakat(text){return text.replace(/[\u064B-\u065F\u0670]/g,'');}
 async function loadQuranData(){
   if(quranData)return quranData;
   const res=await fetch('https://api.alquran.cloud/v1/quran/quran-simple');
@@ -628,7 +629,7 @@ async function loadQuranData(){
   return quranData;
 }
 async function searchInQuran(){
-  const keyword=document.getElementById("searchKeyword").value.trim();
+  const keyword=removeHarakat(document.getElementById("searchKeyword").value.trim());
   const resultsDiv=document.getElementById("searchResults");
   if(!keyword){resultsDiv.innerHTML='<div class="search-info">✏️ الرجاء إدخال كلمة للبحث</div>';return;}
   resultsDiv.innerHTML='<div class="loading-search"><span class="searching-icon">🔍</span> جاري البحث في القرآن الكريم...</div>';
@@ -637,7 +638,7 @@ async function searchInQuran(){
     const matches=[];
     for(const surah of surahs){
       for(const ayah of surah.ayahs){
-        if(ayah.text.includes(keyword)){
+        if(removeHarakat(ayah.text).includes(keyword)){
           matches.push({surahNum:surah.number,surahName:surahNamesFull[surah.number-1],ayahNum:ayah.numberInSurah,text:ayah.text});
         }
       }
