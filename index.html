@@ -236,6 +236,13 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
         <div class="topbar" style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
           <div class="page-title">القرآن الكريم</div><div style="color:var(--muted);font-size:13px;">١١٤ سورة</div>
         </div>
+        <div id="continueReadingBanner" style="display:none;margin:12px 20px;padding:14px 18px;background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05));border:1px solid rgba(201,168,76,0.4);border-radius:12px;display:none;align-items:center;justify-content:space-between;gap:10px;">
+          <div>
+            <div style="font-size:12px;color:var(--muted);">📖 آخر ما قرأت</div>
+            <div id="continueText" style="font-size:14px;color:var(--gold);font-weight:600;margin-top:4px;"></div>
+          </div>
+          <button onclick="continueReading()" style="background:var(--gold);border:none;padding:8px 18px;border-radius:20px;color:#000;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;font-size:13px;white-space:nowrap;">أكمل القراءة ←</button>
+        </div>
         <div style="padding:14px 20px;">
           <input class="search-input" id="surahSearch" placeholder="ابحث عن سورة..." oninput="filterSurahs()" style="width:100%;padding:12px;background:rgba(201,168,76,0.05);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Cairo',sans-serif;font-size:14px;outline:none;"/>
         </div>
@@ -528,13 +535,47 @@ function filterSurahs(){
     return`<div class="surah-card" onclick="openSurah(${i})"><div class="surah-num">${i}</div><div class="surah-name">${name}</div><div class="surah-info">${surahInfoDetails[i]?.ayahCount||"?"} آية • ${surahInfoDetails[i]?.type||""}</div></div>`;
   }).join("");
 }
-function openSurah(num){
+function saveProgress(surahNum, ayahIdx){
+  localStorage.setItem('lastSurah', surahNum);
+  localStorage.setItem('lastAyah', ayahIdx);
+  localStorage.setItem('lastSurahName', surahNamesFull[surahNum-1]);
+  document.querySelectorAll('.ayah-bookmark').forEach(el=>el.remove());
+  const span=document.getElementById(`ayah-span-${ayahIdx}`);
+  if(span){
+    const mark=document.createElement('span');
+    mark.className='ayah-bookmark';
+    mark.innerHTML=' 🔖';
+    mark.style.cssText='font-size:16px;cursor:default;';
+    span.appendChild(mark);
+  }
+  const text=document.getElementById('continueText');
+  if(text)text.innerHTML=`سورة ${surahNamesFull[surahNum-1]} — الآية ${ayahIdx+1}`;
+}
+function loadProgress(){
+  const surah=localStorage.getItem('lastSurah');
+  const ayah=localStorage.getItem('lastAyah');
+  const name=localStorage.getItem('lastSurahName');
+  if(!surah)return;
+  const banner=document.getElementById('continueReadingBanner');
+  const text=document.getElementById('continueText');
+  if(banner&&text){
+    text.innerHTML=`سورة ${name} — الآية ${parseInt(ayah)+1}`;
+    banner.style.display='flex';
+  }
+}
+function continueReading(){
+  const surah=parseInt(localStorage.getItem('lastSurah'));
+  const ayah=parseInt(localStorage.getItem('lastAyah'));
+  if(!surah)return;
+  openSurah(surah, ayah);
+}
+function openSurah(num, startAyah=0){
   stopPlayback();
   selectedSurah=num;
   document.getElementById("list-view").style.display="none";
   document.getElementById("reader-view").style.display="block";
   document.getElementById("readerName").innerHTML=surahNamesFull[num-1];
-  renderAyahs();
+  renderAyahs(startAyah);
 }
 function backToList(){
   stopPlayback();
@@ -545,7 +586,7 @@ function stopPlayback(){
   if(audioEl){audioEl.pause();audioEl.src="";}
   document.querySelectorAll(".ayah-word").forEach(el=>{el.classList.remove("playing-word");});
 }
-async function renderAyahs(){
+async function renderAyahs(startAyah=0){
   const wrap=document.getElementById("ayahWrap");
   wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gold);">جاري تحميل الآيات...</div>';
   try{
@@ -555,15 +596,23 @@ async function renderAyahs(){
       curAyahs=data.data.ayahs;
       const bismillah=(selectedSurah!==9&&selectedSurah!==1)?`<div class="mushaf-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`:"";
       const connectedText=curAyahs.map((ayah,i)=>
-        `<span class="ayah-word" id="ayah-span-${i}" onclick="playAyahMushaf(${i})">${ayah.text} <span class="ayah-end-marker">﴿${toArabicNum(i+1)}﴾</span></span>`
+        `<span class="ayah-word" id="ayah-span-${i}" onclick="playAyahMushaf(${i});saveProgress(selectedSurah,${i})">${ayah.text} <span class="ayah-end-marker">﴿${toArabicNum(i+1)}﴾</span></span>`
       ).join(" ");
       wrap.innerHTML=`<div class="mushaf-page">${bismillah}<div class="mushaf-text" dir="rtl">${connectedText}</div><div class="mushaf-actions"><button class="tafsir-btn" onclick="playAyahMushaf(0)">🎧 استماع من البداية</button><button class="tafsir-btn" onclick="stopPlayback()">⏹ إيقاف</button></div></div>`;
+      if(startAyah>0){
+        setTimeout(()=>{
+          const span=document.getElementById(`ayah-span-${startAyah}`);
+          if(span)span.scrollIntoView({behavior:"smooth",block:"center"});
+        },400);
+      }
     }else{wrap.innerHTML='<div style="padding:40px;text-align:center;color:var(--muted);">حدث خطأ في تحميل الآيات</div>';}
   }catch(e){wrap.innerHTML='<div style="padding:40px;text-align:center;color:var(--muted);">خطأ في الاتصال</div>';}
+}
 }
 function playAyahMushaf(i){
   if(!curAyahs||curAyahs.length===0)return;
   curIdx=i;
+  saveProgress(selectedSurah, i);
   document.querySelectorAll(".ayah-word").forEach((el,idx)=>el.classList.toggle("playing-word",idx===i));
   const span=document.getElementById(`ayah-span-${i}`);
   if(span)span.scrollIntoView({behavior:"smooth",block:"center"});
@@ -624,35 +673,39 @@ function showRuqyah(){
     return`<div class="ruqyah-card"><div class="thikr-text" style="font-family:'Amiri Quran',serif;font-size:20px;">${item.text}</div><div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;">📚 ${item.source}</div><div class="counter-wrap"><div class="counter-num" id="cn-${key}">${counters[key]}</div><button class="counter-btn" onclick="incrementCounter('${key}')">+</button></div></div>`;
   }).join("");
 }
-/* البحث في القرآن */
+/* البحث في القرآن - حل نهائي */
 let quranData=null;
 function removeHarakat(t){
-  return t
-    .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g,'')
-    .replace(/[أإآ]/g,'ا')
-    .replace(/ة/g,'ه')
-    .replace(/ى/g,'ي');
+  return t.replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');
 }
 async function loadQuranData(){
   if(quranData)return quranData;
-  const res=await fetch('https://api.alquran.cloud/v1/quran/quran-simple');
-  const data=await res.json();
-  quranData=data.data.surahs;
-  return quranData;
+  const urls=[
+    'https://api.alquran.cloud/v1/quran/quran-simple',
+    'https://corsproxy.io/?https://api.alquran.cloud/v1/quran/quran-simple',
+    'https://api.alquran.cloud/v1/quran/ar'
+  ];
+  for(const url of urls){
+    try{
+      const res=await fetch(url);
+      const data=await res.json();
+      if(data.data&&data.data.surahs){quranData=data.data.surahs;return quranData;}
+    }catch(e){continue;}
+  }
+  throw new Error('فشل تحميل القرآن');
 }
 async function searchInQuran(){
   const raw=document.getElementById("searchKeyword").value.trim();
   const keyword=removeHarakat(raw);
   const resultsDiv=document.getElementById("searchResults");
   if(!keyword){resultsDiv.innerHTML='<div class="search-info">✏️ الرجاء إدخال كلمة للبحث</div>';return;}
-  resultsDiv.innerHTML='<div class="loading-search"><span class="searching-icon">🔍</span> جاري تحميل القرآن والبحث...</div>';
+  resultsDiv.innerHTML='<div class="loading-search"><span class="searching-icon">🔍</span> جاري تحميل القرآن والبحث... (قد يستغرق لحظة)</div>';
   try{
     const surahs=await loadQuranData();
     const matches=[];
     for(const surah of surahs){
       for(const ayah of surah.ayahs){
-        const clean=removeHarakat(ayah.text);
-        if(clean.includes(keyword)){
+        if(removeHarakat(ayah.text).includes(keyword)){
           matches.push({surahNum:surah.number,surahName:surahNamesFull[surah.number-1],ayahNum:ayah.numberInSurah,text:ayah.text});
         }
       }
@@ -672,8 +725,12 @@ async function searchInQuran(){
       </div>`).join('');
   }catch(error){
     quranData=null;
-    console.log(error);
-    resultsDiv.innerHTML='<div class="no-results">⚠️ خطأ في الاتصال، تأكد من اتصالك بالإنترنت</div>';
+    resultsDiv.innerHTML=`<div class="no-results" style="padding:30px;text-align:center;">
+      <div style="font-size:40px;margin-bottom:12px;">⚠️</div>
+      <div style="color:var(--gold);font-size:16px;margin-bottom:8px;">تعذّر الاتصال بالخادم</div>
+      <div style="color:var(--muted);font-size:13px;">تأكد من اتصالك بالإنترنت ثم اضغط ابحث مجدداً</div>
+      <button onclick="searchInQuran()" style="margin-top:16px;padding:10px 24px;background:rgba(201,168,76,0.2);border:1px solid var(--gold);color:var(--gold);border-radius:20px;cursor:pointer;font-family:'Cairo',sans-serif;">🔄 إعادة المحاولة</button>
+    </div>`;
   }
 }
 const battlesData=[
@@ -753,6 +810,7 @@ async function init(){
   showRuqyah();
   renderBattles();
   startDuaTimer();
+  loadProgress();
   const savedTheme=localStorage.getItem("sakeena-theme");
   if(savedTheme==="light")document.documentElement.setAttribute("data-theme","light");
   const themeBtn=document.createElement("button");
