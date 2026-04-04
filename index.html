@@ -90,6 +90,7 @@ nav{display:flex;flex-direction:row;padding:8px;gap:4px;flex:1;flex-wrap:wrap;ju
 [data-theme="light"] .mushaf-text{color:#1a1a1a!important;}
 .ayah-word{cursor:pointer;border-radius:4px;padding:2px 2px;transition:background 0.2s;display:inline;}
 .ayah-word:hover{background:rgba(201,168,76,0.18);}
+.ayah-word.bookmarked{background:rgba(201,168,76,0.2);border-radius:8px;border-bottom:2px solid var(--gold);padding:4px 6px;}
 .ayah-word.playing-word{background:rgba(201,168,76,0.35);border-radius:6px;box-shadow:0 0 8px rgba(201,168,76,0.3);}
 .ayah-end-marker{color:var(--gold);font-size:20px;font-family:'Amiri',serif;margin:0 3px;vertical-align:middle;cursor:pointer;}
 .mushaf-actions{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding-top:16px;border-top:1px solid rgba(201,168,76,0.2);}
@@ -539,17 +540,22 @@ function saveProgress(surahNum, ayahIdx){
   localStorage.setItem('lastSurah', surahNum);
   localStorage.setItem('lastAyah', ayahIdx);
   localStorage.setItem('lastSurahName', surahNamesFull[surahNum-1]);
+  // إزالة أي علامة سابقة
   document.querySelectorAll('.ayah-bookmark').forEach(el=>el.remove());
+  document.querySelectorAll('.ayah-word.bookmarked').forEach(el=>el.classList.remove('bookmarked'));
+  // إضافة علامة على الآية الجديدة
   const span=document.getElementById(`ayah-span-${ayahIdx}`);
   if(span){
+    span.classList.add('bookmarked');
     const mark=document.createElement('span');
     mark.className='ayah-bookmark';
-    mark.innerHTML=' 🔖';
-    mark.style.cssText='font-size:16px;cursor:default;';
+    mark.innerHTML=' <span style="background:var(--gold);color:#000;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;font-family:Cairo,sans-serif;vertical-align:middle;">وقفت هنا</span>';
     span.appendChild(mark);
   }
   const text=document.getElementById('continueText');
   if(text)text.innerHTML=`سورة ${surahNamesFull[surahNum-1]} — الآية ${ayahIdx+1}`;
+  const banner=document.getElementById('continueReadingBanner');
+  if(banner)banner.style.display='flex';
 }
 function loadProgress(){
   const surah=localStorage.getItem('lastSurah');
@@ -602,7 +608,16 @@ async function renderAyahs(startAyah=0){
       if(startAyah>0){
         setTimeout(()=>{
           const span=document.getElementById(`ayah-span-${startAyah}`);
-          if(span)span.scrollIntoView({behavior:"smooth",block:"center"});
+          if(span){
+            span.scrollIntoView({behavior:"smooth",block:"center"});
+            span.classList.add('bookmarked');
+            if(!span.querySelector('.ayah-bookmark')){
+              const mark=document.createElement('span');
+              mark.className='ayah-bookmark';
+              mark.innerHTML=' <span style="background:var(--gold);color:#000;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;font-family:Cairo,sans-serif;vertical-align:middle;">وقفت هنا</span>';
+              span.appendChild(mark);
+            }
+          }
         },400);
       }
     }else{wrap.innerHTML='<div style="padding:40px;text-align:center;color:var(--muted);">حدث خطأ في تحميل الآيات</div>';}
