@@ -608,7 +608,6 @@ async function renderAyahs(startAyah=0){
     }else{wrap.innerHTML='<div style="padding:40px;text-align:center;color:var(--muted);">حدث خطأ في تحميل الآيات</div>';}
   }catch(e){wrap.innerHTML='<div style="padding:40px;text-align:center;color:var(--muted);">خطأ في الاتصال</div>';}
 }
-}
 function playAyahMushaf(i){
   if(!curAyahs||curAyahs.length===0)return;
   curIdx=i;
