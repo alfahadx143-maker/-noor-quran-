@@ -1396,27 +1396,37 @@ if(isIOS&&!isStandalone&&!localStorage.getItem('ios-hint-shown')){
         position:fixed;bottom:0;left:0;right:0;
         background:linear-gradient(180deg,#0e1220,#06080f);
         border-top:2px solid rgba(212,168,67,.5);
-        padding:20px 20px 36px;z-index:9999;
+        padding:20px 20px 40px;z-index:9999;
         font-family:'Cairo',sans-serif;text-align:center;
         animation:slideUp .4s cubic-bezier(.34,1.2,.64,1);
         box-shadow:0 -8px 40px rgba(0,0,0,.6);
       ">
-        <div style="width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:4px;margin:0 auto 16px;"></div>
-        <div style="font-size:32px;margin-bottom:10px;">📲</div>
-        <div style="color:#d4a843;font-weight:900;font-size:18px;margin-bottom:12px;">ثبّت تطبيق سكينة على جهازك!</div>
+        <div style="width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:4px;margin:0 auto 18px;"></div>
+        <div style="font-size:34px;margin-bottom:10px;">📲</div>
+        <div style="color:#d4a843;font-weight:900;font-size:18px;margin-bottom:6px;">ثبّت تطبيق سكينة!</div>
+        <div style="color:#8a9ab5;font-size:12px;margin-bottom:18px;">أضفه لشاشتك الرئيسية واستخدمه مثل أي تطبيق</div>
 
-        <div style="display:flex;flex-direction:column;gap:10px;max-width:300px;margin:0 auto 16px;text-align:right;">
-          <div style="display:flex;align-items:center;gap:12px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.2);border-radius:12px;padding:10px 14px;">
-            <span style="font-size:22px;">1️⃣</span>
-            <span style="color:#e8dcc8;font-size:13px;">اضغط زر <strong style="color:#d4a843;">المشاركة</strong> <span style="font-size:16px;">⬆️</span> أسفل الشاشة</span>
+        <div style="display:flex;flex-direction:column;gap:10px;max-width:320px;margin:0 auto 20px;text-align:right;">
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.2);border-radius:14px;padding:12px 14px;">
+            <div style="width:32px;height:32px;background:rgba(212,168,67,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">⬆️</div>
+            <div>
+              <div style="color:#d4a843;font-size:11px;font-weight:700;margin-bottom:2px;">الخطوة الأولى</div>
+              <div style="color:#e8dcc8;font-size:13px;">اضغط زر <strong style="color:#d4a843;">المشاركة</strong> في أسفل Safari</div>
+            </div>
           </div>
-          <div style="display:flex;align-items:center;gap:12px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.2);border-radius:12px;padding:10px 14px;">
-            <span style="font-size:22px;">2️⃣</span>
-            <span style="color:#e8dcc8;font-size:13px;">اختر <strong style="color:#d4a843;">"Add to Home Screen"</strong></span>
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.2);border-radius:14px;padding:12px 14px;">
+            <div style="width:32px;height:32px;background:rgba(212,168,67,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">➕</div>
+            <div>
+              <div style="color:#d4a843;font-size:11px;font-weight:700;margin-bottom:2px;">الخطوة الثانية</div>
+              <div style="color:#e8dcc8;font-size:13px;">اختر <strong style="color:#d4a843;">"Add to Home Screen"</strong></div>
+            </div>
           </div>
-          <div style="display:flex;align-items:center;gap:12px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.2);border-radius:12px;padding:10px 14px;">
-            <span style="font-size:22px;">3️⃣</span>
-            <span style="color:#e8dcc8;font-size:13px;">اضغط <strong style="color:#d4a843;">"Add"</strong> من أعلى اليمين ✅</span>
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.2);border-radius:14px;padding:12px 14px;">
+            <div style="width:32px;height:32px;background:rgba(212,168,67,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">✅</div>
+            <div>
+              <div style="color:#d4a843;font-size:11px;font-weight:700;margin-bottom:2px;">الخطوة الثالثة</div>
+              <div style="color:#e8dcc8;font-size:13px;">اضغط <strong style="color:#d4a843;">"Add"</strong> من أعلى اليمين</div>
+            </div>
           </div>
         </div>
 
@@ -1424,14 +1434,15 @@ if(isIOS&&!isStandalone&&!localStorage.getItem('ios-hint-shown')){
           <button onclick="localStorage.setItem('ios-hint-shown','1');document.getElementById('iosHint').remove()" style="
             background:linear-gradient(135deg,#d4a843,#8a6010);
             border:none;color:#0a0800;
-            padding:10px 28px;border-radius:30px;
+            padding:12px 32px;border-radius:30px;
             font-family:'Cairo',sans-serif;font-weight:900;
             font-size:14px;cursor:pointer;
+            box-shadow:0 4px 16px rgba(212,168,67,.4);
           ">فهمت 👍</button>
           <button onclick="document.getElementById('iosHint').remove()" style="
             background:transparent;
-            border:1px solid rgba(212,168,67,.3);color:#9aa3b8;
-            padding:10px 20px;border-radius:30px;
+            border:1px solid rgba(212,168,67,.25);color:#8a9ab5;
+            padding:12px 20px;border-radius:30px;
             font-family:'Cairo',sans-serif;font-weight:700;
             font-size:13px;cursor:pointer;
           ">لاحقاً</button>
