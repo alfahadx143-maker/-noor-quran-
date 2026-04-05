@@ -12,6 +12,13 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>"/>
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a1628'/><text y='.85em' font-size='70' x='15'>📖</text></svg>"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="سكينة">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#06080f">
+<link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22%D8%B3%D9%83%D9%8A%D9%86%D8%A9%20%D9%84%D9%84%D9%82%D8%B1%D8%A2%D9%86%20%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85%22%2C%22short_name%22%3A%22%D8%B3%D9%83%D9%8A%D9%86%D8%A9%22%2C%22description%22%3A%22%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86%20%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85%20%D9%88%D8%A7%D9%84%D8%A3%D8%B0%D9%83%D8%A7%D8%B1%20%D9%88%D8%A7%D9%84%D8%B5%D8%AD%D8%A7%D8%A8%D8%A9%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2306080f%22%2C%22theme_color%22%3A%22%2306080f%22%2C%22orientation%22%3A%22portrait%22%2C%22lang%22%3A%22ar%22%2C%22dir%22%3A%22rtl%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20512%20512'%3E%3Crect%20width%3D'512'%20height%3D'512'%20rx%3D'80'%20fill%3D'%230a1628'%2F%3E%3Ctext%20y%3D'.85em'%20font-size%3D'380'%20x%3D'66'%3E%F0%9F%93%96%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
 <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
 /* ===================================================
@@ -1280,5 +1287,126 @@ function toggleTheme(){const html=document.documentElement,isLight=html.getAttri
 async function init(){loadHijriDate();updateFastingBanner();renderSurahList();renderSurahsInfo();const savedCity=localStorage.getItem("selectedCity");if(savedCity)document.getElementById("citySelect").value=savedCity;await loadPrayerByCity();showAthkar("morning",document.querySelector(".athkar-tab"));renderSahaba("all");showRuqyah();renderBattles();startDuaTimer();loadProgress();const savedTheme=localStorage.getItem("sakeena-theme");if(savedTheme==="light")document.documentElement.setAttribute("data-theme","light");const themeBtn=document.createElement("button");themeBtn.id="themeBtn";themeBtn.innerHTML=document.documentElement.getAttribute("data-theme")==="light"?"☀️ نهاري":"🌙 ليلي";themeBtn.className="theme-fixed-btn";themeBtn.onclick=toggleTheme;document.body.appendChild(themeBtn);}
 init();
 </script>
+
+<!-- ═══ PWA: Service Worker + Install Banner ═══ -->
+<script>
+/* ── Service Worker ── */
+if('serviceWorker' in navigator){
+  const swCode=`
+const CACHE='sakeena-v1';
+const ASSETS=['/'];
+self.addEventListener('install',e=>{
+  e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));
+});
+self.addEventListener('activate',e=>{
+  e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
+});
+self.addEventListener('fetch',e=>{
+  if(e.request.method!=='GET')return;
+  e.respondWith(
+    fetch(e.request).then(r=>{
+      const clone=r.clone();
+      caches.open(CACHE).then(c=>c.put(e.request,clone));
+      return r;
+    }).catch(()=>caches.match(e.request))
+  );
+});`;
+  const blob=new Blob([swCode],{type:'application/javascript'});
+  const url=URL.createObjectURL(blob);
+  navigator.serviceWorker.register(url).catch(()=>{});
+}
+
+/* ── Install Banner ── */
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  showInstallBanner();
+});
+
+function showInstallBanner(){
+  if(document.getElementById('installBanner'))return;
+  const banner=document.createElement('div');
+  banner.id='installBanner';
+  banner.innerHTML=`
+    <div style="
+      position:fixed;bottom:140px;right:16px;
+      background:linear-gradient(135deg,#d4a843,#8a6010);
+      color:#0a0800;border-radius:16px;
+      padding:14px 18px;z-index:9999;
+      box-shadow:0 8px 28px rgba(212,168,67,.5);
+      display:flex;align-items:center;gap:12px;
+      font-family:'Cairo',sans-serif;
+      max-width:280px;
+      animation:slideUp .4s cubic-bezier(.34,1.56,.64,1);
+    ">
+      <span style="font-size:28px;">📲</span>
+      <div style="flex:1">
+        <div style="font-weight:900;font-size:14px;">ثبّت التطبيق</div>
+        <div style="font-size:11px;opacity:.8;margin-top:2px;">أضف سكينة لشاشتك الرئيسية</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button onclick="installApp()" style="
+          background:#0a0800;color:#d4a843;border:none;
+          padding:6px 14px;border-radius:20px;
+          font-family:'Cairo',sans-serif;font-weight:700;
+          font-size:12px;cursor:pointer;white-space:nowrap;
+        ">تثبيت</button>
+        <button onclick="document.getElementById('installBanner').remove()" style="
+          background:transparent;color:#0a0800;border:none;
+          font-size:11px;cursor:pointer;font-family:'Cairo',sans-serif;
+          opacity:.7;
+        ">لاحقاً</button>
+      </div>
+    </div>`;
+  document.body.appendChild(banner);
+}
+
+async function installApp(){
+  if(!deferredPrompt)return;
+  deferredPrompt.prompt();
+  const{outcome}=await deferredPrompt.userChoice;
+  deferredPrompt=null;
+  document.getElementById('installBanner')?.remove();
+}
+
+/* iOS hint (Safari لا يدعم beforeinstallprompt) */
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone=window.navigator.standalone;
+if(isIOS&&!isStandalone&&!localStorage.getItem('ios-hint-shown')){
+  localStorage.setItem('ios-hint-shown','1');
+  setTimeout(()=>{
+    const hint=document.createElement('div');
+    hint.innerHTML=`
+      <div style="
+        position:fixed;bottom:0;left:0;right:0;
+        background:linear-gradient(135deg,#1a1f36,#0c0f1c);
+        border-top:1px solid rgba(212,168,67,.3);
+        padding:18px 20px 32px;z-index:9999;
+        font-family:'Cairo',sans-serif;text-align:center;
+        animation:slideUp .4s ease;
+      ">
+        <div style="font-size:22px;margin-bottom:8px;">📲</div>
+        <div style="color:#d4a843;font-weight:900;font-size:16px;margin-bottom:6px;">ثبّت تطبيق سكينة</div>
+        <div style="color:#9aa3b8;font-size:13px;line-height:1.7;">
+          اضغط <strong style="color:#d4a843;">□ مشاركة</strong> ثم اختر<br>
+          <strong style="color:#d4a843;">"إضافة إلى الشاشة الرئيسية"</strong>
+        </div>
+        <button onclick="this.parentElement.parentElement.remove()" style="
+          margin-top:14px;background:rgba(212,168,67,.15);
+          border:1px solid rgba(212,168,67,.3);color:#d4a843;
+          padding:8px 24px;border-radius:30px;
+          font-family:'Cairo',sans-serif;font-weight:700;
+          font-size:13px;cursor:pointer;
+        ">فهمت</button>
+      </div>`;
+    document.body.appendChild(hint);
+    setTimeout(()=>hint.remove(),12000);
+  },3000);
+}
+</script>
+<style>
+@keyframes slideUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+</style>
 </body>
 </html>
